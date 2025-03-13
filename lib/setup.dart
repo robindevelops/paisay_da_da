@@ -1,1 +1,5 @@
-Future<void> setup() async {}
+import 'package:flutter/material.dart';
+
+Future<void> setup() async {
+  WidgetsFlutterBinding.ensureInitialized();
+}

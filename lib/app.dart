@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:paisay_da_da/core/multi_provider.dart';
 import 'package:paisay_da_da/presentation/ui/welcome/welcome_screen.dart';
 
 class MyApp extends StatefulWidget {
@@ -11,8 +12,11 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: WelcomeScreen(),
+    return MultiProviders(
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: WelcomeScreen(),
+      ),
     );
   }
 }
