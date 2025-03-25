@@ -52,7 +52,7 @@ class DashboardScreen extends StatelessWidget {
                 icon: Icon(Icons.group, size: 30),
               ),
               BottomNavigationBarItem(
-                // backgroundColor: Colors.white,
+                backgroundColor: Colors.white,
                 label: "Friends",
                 icon: Icon(Icons.groups_2, size: 30),
               ),

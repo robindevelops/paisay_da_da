@@ -20,7 +20,16 @@ class _GroupScreenState extends State<GroupScreen> {
         backgroundColor: Colors.white,
         actions: [
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return CreategroupScreen();
+                  },
+                ),
+              );
+            },
             child: Text(
               "Add Group",
               style: TextStyle(color: Colors.black),
@@ -35,31 +44,65 @@ class _GroupScreenState extends State<GroupScreen> {
           children: [
             Expanded(
               child: ListView.builder(
-                itemCount: 4,
+                // scrollDirection: Axis.horizontal,
+                itemCount: 2,
                 itemBuilder: (context, index) {
                   return ListTile(
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                     onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) {
-                            return DetailScreen();
+                            return const DetailScreen();
                           },
                         ),
                       );
                     },
-                    leading: CircleAvatar(
-                      child: Image.asset(Constants.stickman1),
+                    leading: Stack(
+                      children: [
+                        CircleAvatar(
+                          backgroundImage: AssetImage(Constants.stickman1),
+                          radius: 15,
+                        ),
+                        CircleAvatar(
+                          backgroundImage: AssetImage(Constants.stickman2),
+                          radius: 15,
+                        ),
+                      ],
                     ),
-                    title: Text("Group Name"),
-                    subtitle: Text("data"),
-                    trailing: Text("no expense"),
+                    title: const Text("Shareef Log"),
+                    subtitle: const Text("5 members"),
+                    trailing: const Text("No expense"),
                   );
                 },
               ),
             ),
+            // Expanded(
+            //     child: GridView.builder(
+            //   gridDelegate:
+            //       SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+            //   itemBuilder: (context, index) {
+            //     return Container(
+            //       margin: EdgeInsets.all(20),
+            //       width: 50,
+            //       height: 100,
+            //       decoration: BoxDecoration(
+            //         border: Border.all(color: Colors.grey[350]!),
+            //         borderRadius: BorderRadius.circular(20),
+            //         color: Colors.grey[100]!,
+            //       ),
+            //       child: Padding(
+            //         padding: const EdgeInsets.all(8.0),
+            //         child: Column(
+            //           crossAxisAlignment: CrossAxisAlignment.start,
+            //           children: [
+            //             Text("Group Name"),
+            //           ],
+            //         ),
+            //       ),
+            //     );
+            //   },
+            // ))
 
             // const Text(
             //   "Jitne marzi dost add kar lo…\npaisay wapas nahi milnay waalay!",

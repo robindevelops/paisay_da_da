@@ -61,7 +61,7 @@ class _CreategroupScreenState extends State<CreategroupScreen> {
 
             // Create Group Button
             AppElevatedButton(
-              text: "Create Group 🎉",
+              text: "Create Group",
               onPressed: () {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
@@ -77,13 +77,11 @@ class _CreategroupScreenState extends State<CreategroupScreen> {
             const SizedBox(height: 20),
 
             // Another Funny Caption
-            const Text(
-              "Pro Tip: Doston se udhaar maangna asaan hai,\nwapas lena impossible hai! 😂",
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 12, color: Colors.grey),
-            ),
-
-            Text("ty")
+            // const Text(
+            //   "Pro Tip: Doston se udhaar maangna asaan hai,\nwapas lena impossible hai! 😂",
+            //   textAlign: TextAlign.center,
+            //   style: TextStyle(fontSize: 12, color: Colors.grey),
+            // ),
           ],
         ),
       ),

@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/dashboard_screen.dart';
@@ -13,11 +12,11 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
-  TextEditingController firstName = TextEditingController();
-  TextEditingController lastName = TextEditingController();
-
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  final TextEditingController firstName = TextEditingController();
+  final TextEditingController lastName = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -28,119 +27,114 @@ class _SignupScreenState extends State<SignupScreen> {
         child: Center(
           child: SafeArea(
             child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text("Signup", style: GoogleFonts.aBeeZee(fontSize: 30)),
-                  SizedBox(height: 30),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: CustomTextField(
-                          hintText: "First Name",
-                          icon: Icons.person,
-                          controller: firstName,
-                        ),
-                      ),
-                      SizedBox(width: 10),
-                      Expanded(
-                        child: CustomTextField(
-                          hintText: "Last Name",
-                          icon: Icons.person,
-                          controller: lastName,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 15), // Space between fields
-                  CustomTextField(
-                    hintText: "Email",
-                    icon: Icons.email,
-                    controller: emailController,
-                  ),
-                  SizedBox(height: 15),
-                  CustomTextField(
-                    hintText: "Password",
-                    icon: Icons.lock,
-                    isPassword: true,
-                    controller: passwordController, // Hide password
-                  ),
-                  SizedBox(height: 25),
-                  AppElevatedButton(
-                    text: "Register",
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return DashboardScreen();
-                          },
-                        ),
-                      );
-                    },
-                  ),
-                  SizedBox(height: 5),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Already have an account?",
-                        style: GoogleFonts.aBeeZee(
-                          fontSize: 16,
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () {},
-                        child: Text(
-                          "Signin",
-                          style: GoogleFonts.aBeeZee(
-                            fontSize: 16,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text("Signup", style: GoogleFonts.aBeeZee(fontSize: 30)),
+                    const SizedBox(height: 30),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: CustomTextField(
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "First name is required";
+                              }
+                              return null;
+                            },
+                            hintText: "First Name",
+                            icon: Icons.person,
+                            controller: firstName,
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-
-                  // RichText(
-                  //   textAlign: TextAlign.center,
-                  //   text: TextSpan(
-                  //     text: 'Joining our app means you agree with our ',
-                  //     style: TextStyle(
-                  //       color: Colors.grey[700],
-                  //       fontSize: 13,
-                  //       fontWeight: FontWeight.w500,
-                  //     ),
-                  //     children: [
-                  //       TextSpan(
-                  //         text: 'Terms of Use',
-                  //         style: TextStyle(
-                  //           decoration: TextDecoration.underline,
-                  //           color: Colors.black,
-                  //           fontWeight: FontWeight.bold,
-                  //         ),
-                  //         recognizer: TapGestureRecognizer()
-                  //           ..onTap = _onTermsOfUseTapped,
-                  //       ),
-                  //       TextSpan(
-                  //         text: ' and ',
-                  //       ),
-                  //       TextSpan(
-                  //         text: 'Privacy Policy',
-                  //         style: TextStyle(
-                  //           decoration: TextDecoration.underline,
-                  //           color: Colors.black,
-                  //           fontWeight: FontWeight.bold,
-                  //         ),
-                  //         recognizer: TapGestureRecognizer()
-                  //           ..onTap = _onPrivacyPolicyTapped,
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
-                ],
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: CustomTextField(
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "Last name is required";
+                              }
+                              return null;
+                            },
+                            hintText: "Last Name",
+                            icon: Icons.person,
+                            controller: lastName,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 15), // Space between fields
+                    CustomTextField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Email is required";
+                        } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+')
+                            .hasMatch(value)) {
+                          return "Enter a valid email";
+                        }
+                        return null;
+                      },
+                      hintText: "Email",
+                      icon: Icons.email,
+                      controller: emailController,
+                    ),
+                    const SizedBox(height: 15),
+                    CustomTextField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Password is required";
+                        } else if (value.length < 6) {
+                          return "Password must be at least 6 characters";
+                        }
+                        return null;
+                      },
+                      hintText: "Password",
+                      icon: Icons.lock,
+                      isPassword: true,
+                      controller: passwordController,
+                    ),
+                    const SizedBox(height: 25),
+                    AppElevatedButton(
+                      text: "Register",
+                      onPressed: () {
+                        // if (_formKey.currentState!.validate()) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return DashboardScreen();
+                            },
+                          ),
+                        );
+                        // }
+                      },
+                    ),
+                    const SizedBox(height: 5),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Already have an account?",
+                          style: GoogleFonts.aBeeZee(fontSize: 16),
+                        ),
+                        TextButton(
+                          onPressed: () {},
+                          child: Text(
+                            "Signin",
+                            style: GoogleFonts.aBeeZee(
+                              fontSize: 16,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
