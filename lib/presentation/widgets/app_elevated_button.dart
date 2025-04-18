@@ -16,7 +16,7 @@ class _AppElevatedButtonState extends State<AppElevatedButton> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      padding: const EdgeInsets.symmetric(horizontal: 100.0),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           minimumSize: Size(double.infinity, 50),
@@ -31,9 +31,11 @@ class _AppElevatedButtonState extends State<AppElevatedButton> {
           widget.text,
           style: GoogleFonts.poppins(
             color: Colors.white,
-            fontSize: 18,
+            fontSize: 15,
             fontWeight: FontWeight.w600,
           ),
+          textAlign: TextAlign.center,
+          overflow: TextOverflow.ellipsis,
         ),
       ),
     );

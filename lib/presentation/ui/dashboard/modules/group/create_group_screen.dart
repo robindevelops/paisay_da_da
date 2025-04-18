@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:paisay_da_da/core/base_helper.dart';
+import 'package:paisay_da_da/data/local/hive.dart';
+import 'package:paisay_da_da/presentation/notifier/group.notifier.dart';
 import 'package:paisay_da_da/presentation/widgets/app_elevated_button.dart';
 import 'package:paisay_da_da/presentation/widgets/app_textfield.dart';
+import 'package:provider/provider.dart';
 
 class CreategroupScreen extends StatefulWidget {
   const CreategroupScreen({super.key});
@@ -13,6 +17,9 @@ class _CreategroupScreenState extends State<CreategroupScreen> {
   TextEditingController groupName = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final groupProvider = Provider.of<GroupNotifier>(context);
+    final _formKey = GlobalKey<FormState>();
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -24,65 +31,85 @@ class _CreategroupScreenState extends State<CreategroupScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const SizedBox(height: 30),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(height: 30),
 
-            // Group Icon (Funny Placeholder)
-            Container(
-              height: 80,
-              width: 80,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(color: Colors.grey, width: 2),
-                color: Colors.grey[200],
-              ),
-              child: const Center(
-                child: Icon(
-                  Icons.person,
-                  color: Colors.black,
-                  size: 40,
+              // Group Icon (Funny Placeholder)
+              Container(
+                height: 80,
+                width: 80,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(color: Colors.grey, width: 2),
+                  color: Colors.grey[200],
+                ),
+                child: const Center(
+                  child: Icon(
+                    Icons.person,
+                    color: Colors.black,
+                    size: 40,
+                  ),
                 ),
               ),
-            ),
-            // const SizedBox(height: 10),
+              // const SizedBox(height: 10),
 
-            const SizedBox(height: 30),
+              const SizedBox(height: 30),
 
-            // Group Name Field
-            CustomTextField(
-              hintText: "Group Name",
-              icon: Icons.group,
-              controller: groupName,
-            ),
+              // Group Name Field
+              CustomTextField(
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return "Field required";
+                  }
+                  return null;
+                },
+                hintText: "Group Name",
+                icon: Icons.group,
+                controller: groupName,
+              ),
 
-            const SizedBox(height: 20),
+              const SizedBox(height: 20),
 
-            // Create Group Button
-            AppElevatedButton(
-              text: "Create Group",
-              onPressed: () {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text(
-                      "Group Created! Now convince them to pay! 😜",
+              groupProvider.isLoading
+                  ? const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : AppElevatedButton(
+                      text: "Create Group",
+                      onPressed: () {
+                        var value = HiveDatabase.getValue(HiveDatabase.userKey);
+
+                        if (_formKey.currentState!.validate()) {
+                          groupProvider.groupRepository.createGroup(
+                            createdBy: value,
+                            groupName: groupName.text,
+                            members: [],
+                          );
+                          BaseHelper.showSnackBar(
+                            context,
+                            "Group Created Successfully",
+                            Colors.green,
+                          );
+                        }
+                        groupProvider.getGroups(email: value);
+                        Navigator.pop(context);
+                      },
                     ),
-                    duration: Duration(seconds: 2),
-                  ),
-                );
-              },
-            ),
 
-            const SizedBox(height: 20),
+              const SizedBox(height: 20),
 
-            // Another Funny Caption
-            // const Text(
-            //   "Pro Tip: Doston se udhaar maangna asaan hai,\nwapas lena impossible hai! 😂",
-            //   textAlign: TextAlign.center,
-            //   style: TextStyle(fontSize: 12, color: Colors.grey),
-            // ),
-          ],
+              // Another Funny Caption
+              // const Text(
+              //   "Pro Tip: Doston se udhaar maangna asaan hai,\nwapas lena impossible hai! 😂",
+              //   textAlign: TextAlign.center,
+              //   style: TextStyle(fontSize: 12, color: Colors.grey),
+              // ),
+            ],
+          ),
         ),
       ),
     );

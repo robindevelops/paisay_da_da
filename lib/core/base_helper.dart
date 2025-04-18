@@ -1,9 +1,95 @@
+import 'package:awesome_top_snackbar/awesome_top_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:paisay_da_da/data/local/hive.dart';
+import 'package:paisay_da_da/presentation/ui/welcome/welcome_screen.dart';
 import 'package:paisay_da_da/presentation/widgets/app_elevated_button.dart';
 import 'package:paisay_da_da/presentation/widgets/app_textfield.dart';
 
 class BaseHelper {
+  static void showLogoutBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      backgroundColor: Colors.white,
+      builder: (BuildContext context) {
+        return Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.logout, size: 40, color: Colors.red),
+              SizedBox(height: 10),
+              Text(
+                "Are you sure you want to logout?",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 20),
+              Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: Text("Cancel"),
+                    ),
+                  ),
+                  SizedBox(width: 10),
+                  Expanded(
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red,
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                        HiveDatabase.storelogin(false);
+                        HiveDatabase.clearAll();
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const WelcomeScreen(),
+                          ),
+                        );
+                        BaseHelper.showSnackBar(
+                          context,
+                          "Logout Successfully",
+                          Colors.green,
+                        );
+                      },
+                      child: Text(
+                        "Logout",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  static void showSnackBar(context, String message, Color color) {
+    awesomeTopSnackbar(
+      backgroundColor: color,
+      context,
+      message,
+      iconWithDecoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(),
+        color: Colors.white,
+      ),
+      icon: Icon(
+        Icons.done,
+        color: Colors.black,
+      ),
+    );
+  }
+
   static final List<String> splitOptions = [
     "Paid by me, split equally",
     "I owed full",

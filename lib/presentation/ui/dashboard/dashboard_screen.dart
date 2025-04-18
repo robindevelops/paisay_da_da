@@ -1,11 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:paisay_da_da/data/local/hive.dart';
+import 'package:paisay_da_da/presentation/notifier/group.notifier.dart';
+import 'package:paisay_da_da/presentation/notifier/load.notifier.dart';
 import 'package:paisay_da_da/presentation/notifier/rootVm.notifier.dart';
-import 'package:paisay_da_da/presentation/widgets/app_elevated_button.dart';
 
 import 'package:provider/provider.dart';
 
-class DashboardScreen extends StatelessWidget {
+class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
+
+  @override
+  State<DashboardScreen> createState() => _DashboardScreenState();
+}
+
+class _DashboardScreenState extends State<DashboardScreen> {
+  @override
+  void initState() {
+    LoaderNotifier loaderNotifier = context.read<LoaderNotifier>();
+
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      loaderNotifier.setLoading(true);
+
+      final groupProvider = Provider.of<GroupNotifier>(context, listen: false);
+
+      await groupProvider.getGroups(
+        email: HiveDatabase.getValue(HiveDatabase.userKey),
+      );
+
+      loaderNotifier.setLoading(false);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +85,6 @@ class DashboardScreen extends StatelessWidget {
                 label: "Profile",
                 icon: Icon(Icons.account_circle, size: 30),
               ),
-
               // BottomNavigationBarItem(
               //   label: "Profile",
               //   icon: Icon(Icons.person, size: 30),

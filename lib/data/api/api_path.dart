@@ -1,0 +1,19 @@
+class ApiPaths {
+  static String liveBaseURL = 'http://10.0.2.2:4000/api/v1/';
+  static String baseURL = liveBaseURL;
+
+  // ==> Authentication ==>
+  static String signup = "${baseURL}auth/signup";
+  static String signin = "${baseURL}auth/signin";
+
+  // ==> AddFriend ==>
+  static String getAllFriend = "${baseURL}friendRequest/getFriends";
+  static String addFriend = "${baseURL}friendRequest/addFriend";
+  static String accept = "${baseURL}friendRequest/accept";
+  static String reject = "${baseURL}friendRequest/reject";
+
+  //==== Groups ====>
+
+  static String createGroup = "${baseURL}group/createGroup";
+  static String getGroup = "${baseURL}group/getGroup";
+}

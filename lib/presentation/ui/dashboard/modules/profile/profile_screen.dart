@@ -1,5 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:paisay_da_da/core/base_helper.dart';
+import 'package:paisay_da_da/data/local/hive.dart';
+import 'package:paisay_da_da/presentation/ui/auth/signup_screen.dart';
+import 'package:paisay_da_da/presentation/ui/splash/splash_screen.dart';
+import 'package:paisay_da_da/presentation/ui/welcome/welcome_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -86,7 +91,10 @@ class ProfileScreen extends StatelessWidget {
                 ProfileListTile(
                   icon: "assets/icons/logout.svg",
                   title: "Logout",
-                  onTap: () {},
+                  onTap: () {
+                    BaseHelper.showLogoutBottomSheet(context);
+                   
+                  },
                 ),
                 const SizedBox(height: 24),
               ],

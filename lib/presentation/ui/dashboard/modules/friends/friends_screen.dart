@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:paisay_da_da/core/constants.dart';
+import 'package:paisay_da_da/domain/models/generalmodel/user.model.dart';
+import 'package:paisay_da_da/presentation/notifier/auth.notifier.dart';
+import 'package:paisay_da_da/presentation/notifier/friend.notifier.dart';
+import 'package:provider/provider.dart';
 
 class FriendScreen extends StatefulWidget {
   @override
@@ -75,6 +79,9 @@ class _FriendsState extends State<Friends> {
   var _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    final friendProvider = Provider.of<FriendNotifier>(context);
+    TextEditingController emailController = TextEditingController();
+
     return Form(
       key: _formKey,
       child: Padding(
@@ -84,6 +91,7 @@ class _FriendsState extends State<Friends> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             TextFormField(
+              controller: emailController,
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return "Email is required";
@@ -100,16 +108,19 @@ class _FriendsState extends State<Friends> {
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       print("object");
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text("Friend request send"),
-                          backgroundColor: Colors.green,
-                        ),
+                      friendProvider.addFriend(
+                        senderEmail: "alyan@gmail.com",
+                        receiverEmail: emailController.text,
+                        context: context,
                       );
                     }
+
                     ;
                   },
-                  icon: Icon(Icons.send),
+                  icon: Icon(
+                    Icons.send,
+                    color: Colors.black,
+                  ),
                 ),
               ),
             ),
