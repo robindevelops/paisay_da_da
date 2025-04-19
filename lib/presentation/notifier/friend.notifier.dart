@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:paisay_da_da/core/base_helper.dart';
-import 'package:paisay_da_da/data/repository/friend.service.repository.dart';
 import 'package:paisay_da_da/domain/repository/friend.repository.dart';
 
 class FriendNotifier extends ChangeNotifier {
@@ -9,6 +8,7 @@ class FriendNotifier extends ChangeNotifier {
   FriendNotifier({required this.friendsRepository});
 
   List _friendList = [];
+
   List get friendList => _friendList;
 
   Future<void> addFriend({
@@ -40,6 +40,9 @@ class FriendNotifier extends ChangeNotifier {
             'You cannot send a friend request to yourself.') {
           BaseHelper.showSnackBar(
               context, 'Nice try, lonely legend 🤡', Colors.red);
+        } else if (failure.message == 'You are already friends.') {
+          BaseHelper.showSnackBar(
+              context, 'You are already friends', Colors.red);
         }
       },
     );
@@ -53,18 +56,14 @@ class FriendNotifier extends ChangeNotifier {
 
     response.fold(
       (success) {
-        _friendList = success.friends;
-
-        if (_friendList.isEmpty) {
-          BaseHelper.showSnackBar(context, 'No friends found 😕', Colors.red);
-        } else {
-          BaseHelper.showSnackBar(context, 'Friends loaded 🎉', Colors.green);
-        }
-        notifyListeners();
+        _friendList = success.friends!;
       },
       (failure) {
         BaseHelper.showSnackBar(
-            context, 'Error: ${failure.message}', Colors.red);
+          context,
+          'Error: ${failure.message}',
+          Colors.red,
+        );
       },
     );
   }

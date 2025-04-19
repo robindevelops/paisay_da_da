@@ -2,7 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:paisay_da_da/core/base_helper.dart';
 import 'package:paisay_da_da/domain/models/groupmodel/group.model.dart';
+import 'package:paisay_da_da/presentation/ui/dashboard/modules/friends/friends_screen.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/modules/group/group_setting_screen.dart';
 import 'package:paisay_da_da/presentation/widgets/app_elevated_button.dart';
 
@@ -215,7 +217,9 @@ class NoGroupWidget extends StatelessWidget {
         const SizedBox(height: 20),
         AppElevatedButton(
           text: "Add People",
-          onPressed: () {},
+          onPressed: () {
+            BaseHelper.showFriendsBottomSheet(context);
+          },
         )
       ],
     );

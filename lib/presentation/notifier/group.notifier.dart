@@ -21,11 +21,6 @@ class GroupNotifier extends ChangeNotifier {
     required List<String> members,
     required BuildContext context,
   }) async {
-    _isLoading = true;
-    notifyListeners();
-
-    await Future.delayed(Duration(seconds: 10));
-
     var response = await groupRepository.createGroup(
       groupName: groupName,
       members: members,
@@ -52,8 +47,6 @@ class GroupNotifier extends ChangeNotifier {
             backgroundColor: Colors.red,
           ),
         );
-        _isLoading = false;
-        notifyListeners();
       },
     );
   }

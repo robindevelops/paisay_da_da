@@ -69,17 +69,22 @@ class _DashboardScreenState extends State<DashboardScreen> {
             elevation: 0,
             items: [
               BottomNavigationBarItem(
-                label: "Home",
-                icon: Icon(Icons.home, size: 30),
+                label: "Friends",
+                icon: Icon(Icons.person, size: 30),
               ),
               BottomNavigationBarItem(
                 label: "Groups",
                 icon: Icon(Icons.group, size: 30),
               ),
+              // BottomNavigationBarItem(
+              //   backgroundColor: Colors.white,
+              //   label: "",
+              //   icon: Icon(Icons.add_box, size: 40),
+              // ),
               BottomNavigationBarItem(
                 backgroundColor: Colors.white,
-                label: "Friends",
-                icon: Icon(Icons.groups_2, size: 30),
+                label: "Requests",
+                icon: Icon(Icons.add_reaction_rounded, size: 30),
               ),
               BottomNavigationBarItem(
                 label: "Profile",

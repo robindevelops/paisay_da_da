@@ -58,6 +58,11 @@ class _GroupScreenState extends State<GroupScreen> {
                       itemCount: groups.length,
                       itemBuilder: (context, index) {
                         final group = groups[index];
+                        final userEmails = group.members
+                            ?.map((member) => member.email)
+                            .toList()
+                            .cast<String>();
+                        final createdBy = group.createdBy?.email;
 
                         return ListTile(
                           contentPadding: const EdgeInsets.symmetric(
@@ -65,12 +70,6 @@ class _GroupScreenState extends State<GroupScreen> {
                             vertical: 10,
                           ),
                           onTap: () {
-                            // Safely extract emails from members
-                            final userEmails = group.members
-                                ?.map((member) => member.email)
-                                .toList()
-                                .cast<String>();
-                            final createdBy = group.createdBy?.email;
                             print(userEmails);
                             print(createdBy);
 

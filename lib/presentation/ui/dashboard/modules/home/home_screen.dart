@@ -8,6 +8,7 @@ import 'package:paisay_da_da/presentation/notifier/friend.notifier.dart';
 import 'package:paisay_da_da/presentation/notifier/group.notifier.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/modules/detail/detail_screen.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/modules/expense/add_expense.dart';
+import 'package:paisay_da_da/presentation/ui/dashboard/modules/friends/friends_screen.dart';
 import 'package:paisay_da_da/presentation/widgets/app_elevated_button.dart';
 import 'package:provider/provider.dart';
 
@@ -73,9 +74,16 @@ class _HomeScreenState extends State<HomeScreen>
         backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
         actions: [
-          IconButton(
+          TextButton(
             onPressed: () {},
-            icon: const Icon(Icons.notifications, color: Colors.black),
+            child: Text(
+              "Add friend",
+              style: GoogleFonts.aBeeZee(
+                fontSize: 16,
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
         ],
       ),
@@ -227,7 +235,14 @@ class NoFriendsWidget extends StatelessWidget {
           const SizedBox(height: 20),
           AppElevatedButton(
             text: "Add Friend",
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AddFriendScreen(),
+                ),
+              );
+            },
           ),
         ],
       ),

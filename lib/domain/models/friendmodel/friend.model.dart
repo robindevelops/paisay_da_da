@@ -1,23 +1,50 @@
 class FriendModel {
-  final bool? message;
-  final List<dynamic> friends;
+  bool? status;
+  String? message;
+  List<Friends>? friends;
 
-  FriendModel({
-    this.message,
-    required this.friends,
-  });
+  FriendModel({this.status, this.message, this.friends});
 
-  factory FriendModel.fromJson(Map<String, dynamic> json) {
-    return FriendModel(
-      message: json['message'],
-      friends: json['friends'] ?? [],
-    );
+  FriendModel.fromJson(Map<String, dynamic> json) {
+    status = json['status'];
+    message = json['message'];
+    if (json['friends'] != null) {
+      friends = <Friends>[];
+      json['friends'].forEach((v) {
+        friends!.add(new Friends.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'message': message,
-      'friends': friends,
-    };
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['status'] = this.status;
+    data['message'] = this.message;
+    if (this.friends != null) {
+      data['friends'] = this.friends!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class Friends {
+  String? sId;
+  String? name;
+  String? email;
+
+  Friends({this.sId, this.name, this.email});
+
+  Friends.fromJson(Map<String, dynamic> json) {
+    sId = json['_id'];
+    name = json['name'];
+    email = json['email'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['_id'] = this.sId;
+    data['name'] = this.name;
+    data['email'] = this.email;
+    return data;
   }
 }

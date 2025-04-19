@@ -154,7 +154,7 @@ class BaseHelper {
       ),
       builder: (context) {
         return FractionallySizedBox(
-          heightFactor: 0.7,
+          heightFactor: 0.6,
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
             child: Column(
@@ -168,10 +168,12 @@ class BaseHelper {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: 20),
                 Text(
                   "Add People",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                  style: GoogleFonts.aBeeZee(
+                    fontSize: 18,
+                  ),
                 ),
                 SizedBox(height: 16),
                 // CustomTextField(
@@ -182,11 +184,12 @@ class BaseHelper {
 
                 Expanded(
                   child: ListView.builder(
-                    itemCount: 12,
+                    itemCount: 15,
                     itemBuilder: (context, index) {
                       return ListTile(
                         onTap: () {},
                         trailing: Checkbox(
+                          activeColor: Colors.black,
                           value: true,
                           onChanged: (value) {},
                         ),
@@ -202,11 +205,12 @@ class BaseHelper {
                     },
                   ),
                 ),
+                SizedBox(height: 25),
                 AppElevatedButton(
                   text: "Add",
                   onPressed: () {},
                 ),
-                SizedBox(height: 16),
+                SizedBox(height: 10),
               ],
             ),
           ),

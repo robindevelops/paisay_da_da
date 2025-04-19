@@ -2,15 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:paisay_da_da/core/base_helper.dart';
 import 'package:paisay_da_da/data/local/hive.dart';
-import 'package:paisay_da_da/presentation/ui/auth/signup_screen.dart';
-import 'package:paisay_da_da/presentation/ui/splash/splash_screen.dart';
-import 'package:paisay_da_da/presentation/ui/welcome/welcome_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    var userName = HiveDatabase.getValue(HiveDatabase.userKey);
     const screenBackgroundColor = Colors.white;
     const primaryColor = Colors.blue;
 
@@ -33,7 +31,7 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  "Muhammad Abdullah",
+                  userName,
                   style: TextStyle(
                     color: primaryColor,
                     fontWeight: FontWeight.bold,
@@ -93,7 +91,6 @@ class ProfileScreen extends StatelessWidget {
                   title: "Logout",
                   onTap: () {
                     BaseHelper.showLogoutBottomSheet(context);
-                   
                   },
                 ),
                 const SizedBox(height: 24),

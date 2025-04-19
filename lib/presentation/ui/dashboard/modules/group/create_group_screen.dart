@@ -63,7 +63,7 @@ class _CreategroupScreenState extends State<CreategroupScreen> {
               CustomTextField(
                 validator: (value) {
                   if (value!.isEmpty) {
-                    return "Field required";
+                    return "required";
                   }
                   return null;
                 },
@@ -94,9 +94,9 @@ class _CreategroupScreenState extends State<CreategroupScreen> {
                             "Group Created Successfully",
                             Colors.green,
                           );
+                          groupProvider.getGroups(email: value);
+                          Navigator.pop(context);
                         }
-                        groupProvider.getGroups(email: value);
-                        Navigator.pop(context);
                       },
                     ),
 

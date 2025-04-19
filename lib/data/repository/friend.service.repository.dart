@@ -5,7 +5,6 @@ import 'package:paisay_da_da/data/api/api_path.dart';
 import 'package:paisay_da_da/data/api/api_service.dart';
 import 'package:paisay_da_da/domain/models/friendmodel/friend.model.dart';
 import 'package:paisay_da_da/domain/models/generalmodel/failture.model.dart';
-import 'package:paisay_da_da/domain/models/generalmodel/authentication.model.dart';
 import 'package:paisay_da_da/domain/repository/friend.repository.dart';
 
 class FriendServiceRepository implements FriendRepository {
@@ -21,7 +20,7 @@ class FriendServiceRepository implements FriendRepository {
           });
 
       if (response != null) {
-        if (response['success'] == true) {
+        if (response['status'] == true) {
           return left(FriendModel.fromJson(response));
         } else {
           return right(FailtureModel.fromJson(response, String: null));
@@ -46,7 +45,7 @@ class FriendServiceRepository implements FriendRepository {
         method: RequestMethod.get,
       );
       if (response != null) {
-        if (response['message'] == true) {
+        if (response['status'] == true) {
           return left(FriendModel.fromJson(response));
         } else {
           return right(FailtureModel.fromJson(response, String: null));

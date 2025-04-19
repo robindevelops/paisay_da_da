@@ -20,6 +20,8 @@ class _AppBuilderState extends State<AppBuilder> {
         widget.widget,
         if (loaderNotifier.isLoading)
           Container(
+            width: double.infinity,
+            height: double.infinity,
             color: Colors.black.withOpacity(0.3),
             child: const Center(
               child: CircularProgressIndicator(),

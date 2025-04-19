@@ -16,7 +16,7 @@ class Rootvm extends ChangeNotifier {
   List<Widget> _screens = [
     HomeScreen(),
     GroupScreen(),
-    FriendScreen(),
+    FriendRequest(),
     ProfileScreen(),
   ];
 
