@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:paisay_da_da/data/local/hive.dart';
 import 'package:paisay_da_da/presentation/notifier/group.notifier.dart';
-import 'package:paisay_da_da/presentation/notifier/load.notifier.dart';
+import 'package:paisay_da_da/presentation/notifier/loader.notifier.dart';
 import 'package:paisay_da_da/presentation/notifier/rootVm.notifier.dart';
 
 import 'package:provider/provider.dart';

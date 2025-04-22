@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:paisay_da_da/core/constants.dart';
+import 'package:paisay_da_da/core/base_helper.dart';
+import 'package:paisay_da_da/data/local/hive.dart';
+import 'package:paisay_da_da/presentation/notifier/friend.notifier.dart';
+import 'package:paisay_da_da/presentation/widgets/app_textfield.dart';
+import 'package:provider/provider.dart';
 
 class FriendRequest extends StatefulWidget {
   const FriendRequest({super.key});
@@ -13,6 +17,7 @@ class _FriendRequestState extends State<FriendRequest> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text("Friend Request"),
         centerTitle: true,
         backgroundColor: Colors.transparent,
@@ -20,6 +25,7 @@ class _FriendRequestState extends State<FriendRequest> {
       ),
       backgroundColor: Colors.white,
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Container(
@@ -41,42 +47,42 @@ class _FriendRequestState extends State<FriendRequest> {
           //   ),
           // ),
           const SizedBox(height: 20),
-          // NoFriendRequestsFound(),
-          Expanded(
-            child: ListView.builder(
-              itemCount: 2,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  onTap: () {},
-                  leading: CircleAvatar(
-                    child: Image.asset(
-                      Constants.stickman1,
-                    ),
-                  ),
-                  title: const Text("Furqan abid"),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.done,
-                          color: Colors.green,
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.cancel_rounded,
-                          color: Colors.red,
-                        ),
-                      )
-                    ],
-                  ),
-                );
-              },
-            ),
-          ),
+          NoFriendRequestsFound(),
+          // Expanded(
+          //   child: ListView.builder(
+          //     itemCount: 2,
+          //     itemBuilder: (context, index) {
+          //       return ListTile(
+          //         onTap: () {},
+          //         leading: CircleAvatar(
+          //           child: Image.asset(
+          //             Constants.stickman1,
+          //           ),
+          //         ),
+          //         title: const Text("Furqan abid"),
+          //         trailing: Row(
+          //           mainAxisSize: MainAxisSize.min,
+          //           children: [
+          //             IconButton(
+          //               onPressed: () {},
+          //               icon: Icon(
+          //                 Icons.done,
+          //                 color: Colors.green,
+          //               ),
+          //             ),
+          //             IconButton(
+          //               onPressed: () {},
+          //               icon: Icon(
+          //                 Icons.cancel_rounded,
+          //                 color: Colors.red,
+          //               ),
+          //             )
+          //           ],
+          //         ),
+          //       );
+          //     },
+          //   ),
+          // ),
         ],
       ),
     );
@@ -91,26 +97,67 @@ class AddFriendScreen extends StatefulWidget {
 }
 
 class _AddFriendScreenState extends State<AddFriendScreen> {
+  final TextEditingController _emailController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    TextEditingController _emailController = TextEditingController();
+    final senderEmail = HiveDatabase.getValue(HiveDatabase.userKey);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text("Add Friends"),
+        title: const Text(
+          "Add Friend",
+          style: TextStyle(color: Colors.black),
+        ),
         centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
-        actions: [TextButton(onPressed: () {}, child: Text("Add"))],
+        actions: [
+          TextButton(
+            onPressed: () {
+              if (_emailController.text.isEmpty) {
+                BaseHelper.showSnackBar(context, "Email required", Colors.red);
+                return;
+              }
+            },
+            child: const Text(
+              "Send",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+                fontSize: 16,
+              ),
+            ),
+          ),
+        ],
+        iconTheme: const IconThemeData(color: Colors.black),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Enter email"),
-            TextFormField(
-              decoration: InputDecoration(),
+            const Text(
+              "Email",
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 16,
+              ),
             ),
+            const SizedBox(height: 12),
+            CustomTextField(
+              hintText: 'Enter email address',
+              icon: Icons.email,
+              controller: _emailController,
+            ),
+            const SizedBox(height: 20),
           ],
         ),
       ),
@@ -127,12 +174,12 @@ class NoFriendRequestsFound extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          Icon(
-            Icons.person_off,
-            size: 80,
-            color: Colors.grey[400],
-          ),
-          const SizedBox(height: 20),
+          // Icon(
+          //   Icons.person_off,
+          //   size: 80,
+          //   color: Colors.grey[400],
+          // ),
+          // const SizedBox(height: 20),
           const Text(
             "No Friend Requests Found",
             style: TextStyle(

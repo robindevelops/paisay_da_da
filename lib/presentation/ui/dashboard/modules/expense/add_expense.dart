@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:paisay_da_da/core/base_helper.dart';
-import 'package:paisay_da_da/presentation/widgets/app_elevated_button.dart';
-import 'package:paisay_da_da/presentation/widgets/app_textfield.dart';
+import 'package:simple_animated_button/bouncing_button.dart';
+import 'package:simple_animated_button/elevated_layer_button.dart';
 
 class AddExpenseScreen extends StatefulWidget {
   const AddExpenseScreen({super.key});
@@ -12,164 +12,166 @@ class AddExpenseScreen extends StatefulWidget {
 }
 
 class _AddExpenseScreenState extends State<AddExpenseScreen> {
-  TextEditingController descriptionController = TextEditingController();
-  TextEditingController amountController = TextEditingController();
-  TextEditingController memberController = TextEditingController();
-
-  final List<Map<String, String>> members = [
-    {"name": "Muhammad Ahmad Cheema", "avatar": "assets/avatar1.png"},
-    {"name": "Ali Khan", "avatar": "assets/avatar2.png"},
-    {"name": "Zain Malik", "avatar": "assets/avatar3.png"}
-  ];
-  final List<String> selectedMembers = [];
-
-  void _toggleMemberSelection(String member) {
-    setState(() {
-      if (selectedMembers.contains(member)) {
-        selectedMembers.remove(member);
-      } else {
-        selectedMembers.add(member);
-      }
-    });
-  }
+  final TextEditingController descriptionController = TextEditingController();
+  final TextEditingController amountController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text("Add an Expense", style: GoogleFonts.poppins()),
+        title: Text(
+          "Add an expense",
+          style: GoogleFonts.poppins(),
+        ),
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
-        leading: IconButton(
-          onPressed: () => Navigator.pop(context),
-          icon: const Icon(Icons.close),
-        ),
         centerTitle: true,
+        leading: IconButton(
+          icon: const Icon(Icons.close),
+          onPressed: () => Navigator.pop(context),
+        ),
         actions: [
           TextButton(
-            onPressed: () {}, // Add save functionality
-            child: const Text("Save", style: TextStyle(color: Colors.white)),
+            onPressed: () {}, // Implement save logic
+            child: const Text(
+              "Save",
+              style: TextStyle(color: Colors.white, fontSize: 16),
+            ),
           )
         ],
       ),
-      backgroundColor: Colors.white,
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Expense Title
-              Text("Split Money",
-                  style: GoogleFonts.aBeeZee(
-                      fontSize: 18, fontWeight: FontWeight.bold)),
-              const SizedBox(height: 20),
-
-              // Expense Details Input
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: Column(
-                  children: [
-                    CustomTextField(
-                      hintText: "Enter Description",
-                      icon: Icons.title,
-                      controller: descriptionController,
-                    ),
-                    const SizedBox(height: 20),
-                    CustomTextField(
-                      keyboardType: TextInputType.number,
-                      hintText: "0.00",
-                      icon: Icons.attach_money_outlined,
-                      controller: amountController,
-                    ),
-                  ],
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 40),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildInputField(
+              controller: descriptionController,
+              hintText: "Enter Description",
+              icon: Icons.description_outlined,
+            ),
+            const SizedBox(height: 20),
+            _buildInputField(
+              controller: amountController,
+              hintText: "0.00",
+              icon: Icons.attach_money_outlined,
+              keyboardType: TextInputType.number,
+            ),
+            const SizedBox(height: 30),
+            Text(
+              "Add members",
+              style: GoogleFonts.poppins(
+                fontSize: 16,
+                color: Colors.black,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            const SizedBox(height: 15),
+            GestureDetector(
+              onTap: () => BaseHelper.showFriendsBottomSheet(context),
+              child: Container(
+                width: 70,
+                height: 50,
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(10),
                 ),
-              ),
-              const SizedBox(height: 20),
-
-              Text(
-                "Members Involved",
-                style: GoogleFonts.aBeeZee(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 10),
-
-              // Members List
-              Wrap(
-                children: selectedMembers
-                    .map(
-                      (member) => Padding(
-                        padding: const EdgeInsets.all(5),
-                        child: Chip(
-                          backgroundColor: Colors.grey.shade100,
-                          side: BorderSide(color: Colors.grey.shade300),
-                          avatar: CircleAvatar(),
-                          label: Text(member),
-                          deleteIcon: Icon(Icons.close, size: 16),
-                          onDeleted: () => _toggleMemberSelection(member),
-                        ),
-                      ),
-                    )
-                    .toList(),
-              ),
-
-              // Add Member Button
-              GestureDetector(
-                onTap: () {
-                  // showModalBottomSheet(
-                  //   context: context,
-                  //   builder: (context) {
-                  //     return Column(
-                  //       mainAxisSize: MainAxisSize.min,
-                  //       children: members
-                  //           .map((member) => ListTile(
-                  //                 leading: CircleAvatar(
-                  //                     backgroundImage:
-                  //                         AssetImage(member["avatar"]!)),
-                  //                 title: Text(member["name"]!),
-                  //                 trailing: Checkbox(
-                  //                   value: selectedMembers
-                  //                       .contains(member["name"]),
-                  //                   onChanged: (bool? value) {
-                  //                     _toggleMemberSelection(member["name"]!);
-                  //                     Navigator.pop(context);
-                  //                   },
-                  //                 ),
-                  //               ))
-                  //           .toList(),
-                  //     );
-                  //   },
-                  // );
-                },
-                child: Container(
-                  width: 100,
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(12)),
-                  child: Row(
-                    children: [
-                      const Icon(Icons.add, color: Colors.black),
-                      Text(
-                        " Add",
-                        style: GoogleFonts.poppins(),
-                      ),
-                    ],
+                child: Center(
+                  child: Text(
+                    "+Add",
+                    style: GoogleFonts.poppins(),
                   ),
                 ),
               ),
+            ),
+            const SizedBox(height: 30),
+            // Text(
+            //   "Paid by you split equally",
+            //   style: GoogleFonts.poppins(
+            //     fontSize: 16,
+            //     color: Colors.black,
+            //   ),
+            // ),
 
-              const SizedBox(height: 30),
-
-              // Split Button
-              AppElevatedButton(
-                text: "Paid by you split equally",
-                onPressed: () => BaseHelper.showSplitOptions(context),
+            Center(
+              child: Transform.rotate(
+                angle: -0.04,
+                child: Container(
+                  color: const Color(0xFFCFFF00),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                  child: Text(
+                    "Paid by me split equally",
+                    style: GoogleFonts.poppins(
+                      color: Colors.black,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
               ),
-            ],
-          ),
+            ),
+            const SizedBox(height: 40),
+            Center(
+              child: ElevatedLayerButton(
+                onClick: () => BaseHelper.showSplitOptions(context),
+                buttonHeight: 60,
+                buttonWidth: 270,
+                animationDuration: const Duration(milliseconds: 200),
+                animationCurve: Curves.ease,
+                topDecoration: BoxDecoration(
+                  color: Colors.black,
+                  border: Border.all(),
+                ),
+                topLayerChild: Text(
+                  "Split Option",
+                  style: GoogleFonts.poppins(
+                    fontSize: 16,
+                    color: Colors.white,
+                  ),
+                ),
+                baseDecoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(),
+                ),
+              ),
+            ),
+            const SizedBox(height: 40),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildInputField({
+    required TextEditingController controller,
+    required String hintText,
+    required IconData icon,
+    TextInputType keyboardType = TextInputType.text,
+  }) {
+    return TextFormField(
+      controller: controller,
+      keyboardType: keyboardType,
+      style: GoogleFonts.poppins(fontSize: 16),
+      decoration: InputDecoration(
+        hintText: hintText,
+        prefixIcon: Icon(icon),
+        filled: true,
+        fillColor: Colors.grey[100],
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+        border: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.grey.shade300),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.grey.shade300),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: Colors.black),
+          borderRadius: BorderRadius.circular(12),
         ),
       ),
     );

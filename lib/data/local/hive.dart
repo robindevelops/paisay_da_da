@@ -6,13 +6,9 @@ class HiveDatabase {
   static final HiveDatabase _instance = HiveDatabase._();
   factory HiveDatabase() => _instance;
 
-  static const String _tokenBoxName = 'tokenBox';
-  static const String _userBoxName = 'userBox';
   static const String _loginBoxName = 'loginBox';
   static const String _instanceBoxName = 'instanceBox';
 
-  static late Box _tokenBox;
-  static late Box _userBox;
   static late Box _loginBox;
   static late Box _instanceBox;
 
@@ -30,8 +26,6 @@ class HiveDatabase {
       // Hive.registerAdapter(UserAdapter()); // Uncomment and add your custom adapter for User
       // Hive.registerAdapter(TokenAdapter()); // Uncomment and add your custom adapter for Token
 
-      _tokenBox = await Hive.openBox(_tokenBoxName);
-      _userBox = await Hive.openBox(_userBoxName);
       _loginBox = await Hive.openBox(_loginBoxName);
       _instanceBox = await Hive.openBox(_instanceBoxName);
 

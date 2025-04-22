@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:paisay_da_da/core/constants.dart';
 import 'dart:async';
 import 'package:paisay_da_da/data/local/hive.dart';
@@ -40,7 +39,7 @@ class _SplashScreenState extends State<SplashScreen> {
         context,
         MaterialPageRoute(
           builder: (context) => WelcomeScreen(),
-        ), // Replace with your Signup screen
+        ),
       );
     }
   }
@@ -48,32 +47,18 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white, // or your app theme
+      backgroundColor: Colors.white,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // App icon
-
-            const SizedBox(height: 20),
-
-            // App name
             SizedBox(
-              height: 300,
+              height: 500,
               child: Image.asset(
-                Constants.logoImg,
+                Constants.splashImg,
                 fit: BoxFit.cover,
               ),
             ),
-            // Text(
-            //   "Split It",
-            //   style: GoogleFonts.aBeeZee(
-            //     fontSize: 28,
-            //     fontWeight: FontWeight.bold,
-            //     color: Colors.black,
-            //     letterSpacing: 1.2,
-            //   ),
-            // ),
           ],
         ),
       ),

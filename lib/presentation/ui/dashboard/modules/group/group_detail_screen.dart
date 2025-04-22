@@ -205,23 +205,47 @@ class NoGroupWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(
-          "You are the only one in this group",
-          style: GoogleFonts.aBeeZee(
-            color: Colors.black,
-            fontSize: 15,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 40.0),
+      child: Column(
+        children: [
+          Text(
+            "You are the only one in this group",
+            style: GoogleFonts.aBeeZee(
+              color: Colors.black,
+              fontSize: 15,
+            ),
           ),
-        ),
-        const SizedBox(height: 20),
-        AppElevatedButton(
-          text: "Add People",
-          onPressed: () {
-            BaseHelper.showFriendsBottomSheet(context);
-          },
-        )
-      ],
+          const SizedBox(height: 20),
+          // AppElevatedButton(
+          //   text: "Add People",
+          //   onPressed: () {
+          //     BaseHelper.showFriendsBottomSheet(context);
+          //   },
+          // )
+
+          const SizedBox(height: 10),
+
+          // Already have an account
+          Container(
+            width: 280,
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            decoration: BoxDecoration(
+              color: const Color(0xFFBFFF60),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Text(
+              "Add People",
+              textAlign: TextAlign.center,
+              style: GoogleFonts.aBeeZee(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

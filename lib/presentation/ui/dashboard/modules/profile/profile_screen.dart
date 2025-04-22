@@ -31,7 +31,7 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  userName,
+                  userName ?? "User Name",
                   style: TextStyle(
                     color: primaryColor,
                     fontWeight: FontWeight.bold,
@@ -84,7 +84,9 @@ class ProfileScreen extends StatelessWidget {
                 ProfileListTile(
                   icon: "assets/icons/delete.svg",
                   title: "Delete Account",
-                  onTap: () {},
+                  onTap: () {
+                    // BaseHelper.showDeleteAccountBottomSheet(context);
+                  },
                 ),
                 ProfileListTile(
                   icon: "assets/icons/logout.svg",

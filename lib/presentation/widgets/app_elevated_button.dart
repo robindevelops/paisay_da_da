@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:paisay_da_da/core/themes.dart';
 
 class AppElevatedButton extends StatefulWidget {
   String text;
@@ -16,12 +17,12 @@ class _AppElevatedButtonState extends State<AppElevatedButton> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 100.0),
+      padding: const EdgeInsets.symmetric(horizontal: 10.0),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           minimumSize: Size(double.infinity, 50),
           // backgroundColor: Color(0xFFFF9500),
-          backgroundColor: Colors.black,
+          backgroundColor: AppThemes.primaryButton,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),

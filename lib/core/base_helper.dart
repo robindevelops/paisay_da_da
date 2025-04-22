@@ -1,12 +1,114 @@
 import 'package:awesome_top_snackbar/awesome_top_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:paisay_da_da/core/themes.dart';
 import 'package:paisay_da_da/data/local/hive.dart';
 import 'package:paisay_da_da/presentation/ui/welcome/welcome_screen.dart';
 import 'package:paisay_da_da/presentation/widgets/app_elevated_button.dart';
-import 'package:paisay_da_da/presentation/widgets/app_textfield.dart';
 
 class BaseHelper {
+  /// Function to show a bottom sheet for logout confirmation
+
+  static void showDeleteAccountBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(25),
+          topRight: Radius.circular(25),
+        ),
+      ),
+      builder: (context) => Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // Humorous Title
+            Text(
+              "Are You Sure You Want To Delete Your Account?",
+              style: GoogleFonts.aBeeZee(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 15),
+
+            // Fun Emoji and Humor Text
+            Icon(
+              Icons.delete_forever,
+              size: 60,
+              color: Colors.red,
+            ),
+            const SizedBox(height: 10),
+            Text(
+              "Deleting your account means you'll miss us... 😢",
+              style: GoogleFonts.patrickHand(
+                fontSize: 18,
+                color: Colors.black.withOpacity(0.7),
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 10),
+            Text(
+              "Are you sure you want to go? We’ll be sad!",
+              style: GoogleFonts.aBeeZee(
+                fontSize: 16,
+                color: Colors.black.withOpacity(0.7),
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 20),
+
+            // Confirmation Button
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.grey,
+                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context); // Close the bottom sheet
+                  },
+                  child: Text(
+                    "Nah, I’m Staying!",
+                    style: GoogleFonts.aBeeZee(fontSize: 16),
+                  ),
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.redAccent,
+                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  onPressed: () {
+                    // Perform deletion action here
+                    Navigator.pop(context);
+                    // Show a message or proceed with account deletion
+                  },
+                  child: Text(
+                    "Yes, Delete It! 💀",
+                    style: GoogleFonts.aBeeZee(fontSize: 16),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   static void showLogoutBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -20,7 +122,7 @@ class BaseHelper {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(Icons.logout, size: 40, color: Colors.red),
+              Icon(Icons.logout, size: 40, color: Colors.black),
               SizedBox(height: 10),
               Text(
                 "Are you sure you want to logout?",
@@ -33,14 +135,17 @@ class BaseHelper {
                   Expanded(
                     child: OutlinedButton(
                       onPressed: () => Navigator.pop(context),
-                      child: Text("Cancel"),
+                      child: Text(
+                        "Cancel",
+                        style: TextStyle(color: Colors.black),
+                      ),
                     ),
                   ),
                   SizedBox(width: 10),
                   Expanded(
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.red,
+                        backgroundColor: AppThemes.splitGreen,
                       ),
                       onPressed: () {
                         Navigator.pop(context);
@@ -60,7 +165,7 @@ class BaseHelper {
                       },
                       child: Text(
                         "Logout",
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: Colors.black),
                       ),
                     ),
                   ),
@@ -72,6 +177,8 @@ class BaseHelper {
       },
     );
   }
+
+  /// Function to show a snackbar with a message
 
   static void showSnackBar(context, String message, Color color) {
     awesomeTopSnackbar(
@@ -89,6 +196,8 @@ class BaseHelper {
       ),
     );
   }
+
+  /// Function to show a bottom sheet with split options
 
   static final List<String> splitOptions = [
     "Paid by me, split equally",
@@ -143,6 +252,8 @@ class BaseHelper {
       },
     );
   }
+
+  /// Function to show a bottom sheet for adding friends
 
   static void showFriendsBottomSheet(BuildContext context) {
     showModalBottomSheet(

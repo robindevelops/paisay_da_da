@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:paisay_da_da/presentation/notifier/load.notifier.dart';
+import 'package:paisay_da_da/presentation/notifier/loader.notifier.dart';
 import 'package:provider/provider.dart';
 
 class AppBuilder extends StatefulWidget {

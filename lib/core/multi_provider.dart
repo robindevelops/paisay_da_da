@@ -5,7 +5,7 @@ import 'package:paisay_da_da/presentation/notifier/auth.notifier.dart';
 import 'package:paisay_da_da/presentation/notifier/connection.notifier.dart';
 import 'package:paisay_da_da/presentation/notifier/friend.notifier.dart';
 import 'package:paisay_da_da/presentation/notifier/group.notifier.dart';
-import 'package:paisay_da_da/presentation/notifier/load.notifier.dart';
+import 'package:paisay_da_da/presentation/notifier/loader.notifier.dart';
 import 'package:paisay_da_da/presentation/notifier/rootVm.notifier.dart';
 import 'package:provider/provider.dart';
 
@@ -32,13 +32,6 @@ class MultiProviders extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) {
-            return FriendNotifier(
-              friendsRepository: ServiceLocator.getIt(),
-            );
-          },
-        ),
-        ChangeNotifierProvider(
-          create: (context) {
             return ConnectionNotifier();
           },
         ),
@@ -50,6 +43,11 @@ class MultiProviders extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) {
             return LoaderNotifier();
+          },
+        ),
+        ChangeNotifierProvider(
+          create: (context) {
+            return ConnectionNotifier();
           },
         ),
       ],

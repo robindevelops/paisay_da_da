@@ -38,7 +38,10 @@ class _SignupScreenState extends State<SignupScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text("Signup", style: GoogleFonts.aBeeZee(fontSize: 30)),
+                    Text(
+                      "Signup",
+                      style: GoogleFonts.poppins(fontSize: 30),
+                    ),
                     const SizedBox(height: 30),
                     Row(
                       children: [

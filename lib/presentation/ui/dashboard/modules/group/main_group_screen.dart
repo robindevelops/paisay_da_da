@@ -58,6 +58,7 @@ class _GroupScreenState extends State<GroupScreen> {
                       itemCount: groups.length,
                       itemBuilder: (context, index) {
                         final group = groups[index];
+                        final id = group.sId;
                         final userEmails = group.members
                             ?.map((member) => member.email)
                             .toList()
@@ -70,6 +71,7 @@ class _GroupScreenState extends State<GroupScreen> {
                             vertical: 10,
                           ),
                           onTap: () {
+                            print(id);
                             print(userEmails);
                             print(createdBy);
 
@@ -117,29 +119,32 @@ class NoGroupWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(
-          "Jitne marzi dost add kar lo…\npaisay wapas nahi milnay waalay!",
-          style: TextStyle(
-            fontSize: 16,
-            color: Colors.black,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 50),
+      child: Column(
+        children: [
+          Text(
+            "Jitne marzi dost add kar lo…\npaisay wapas nahi milnay waalay!",
+            style: TextStyle(
+              fontSize: 16,
+              color: Colors.black,
+            ),
+            textAlign: TextAlign.center,
           ),
-          textAlign: TextAlign.center,
-        ),
-        const SizedBox(height: 30),
-        AppElevatedButton(
-          text: "Start a Group",
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => CreategroupScreen(),
-              ),
-            );
-          },
-        )
-      ],
+          const SizedBox(height: 30),
+          AppElevatedButton(
+            text: "Start a Group",
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CreategroupScreen(),
+                ),
+              );
+            },
+          )
+        ],
+      ),
     );
   }
 }
