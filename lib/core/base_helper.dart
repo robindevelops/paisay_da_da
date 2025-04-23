@@ -27,7 +27,7 @@ class BaseHelper {
           children: [
             // Humorous Title
             Text(
-              "Are You Sure You Want To Delete Your Account?",
+              "Are you sure to delete your account?",
               style: GoogleFonts.aBeeZee(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
@@ -35,32 +35,17 @@ class BaseHelper {
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 15),
 
-            // Fun Emoji and Humor Text
-            Icon(
-              Icons.delete_forever,
-              size: 60,
-              color: Colors.red,
-            ),
             const SizedBox(height: 10),
             Text(
-              "Deleting your account means you'll miss us... 😢",
-              style: GoogleFonts.patrickHand(
-                fontSize: 18,
-                color: Colors.black.withOpacity(0.7),
-              ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 10),
-            Text(
-              "Are you sure you want to go? We’ll be sad!",
+              "Mat jao... chai bhi nahi pi abhi tak! ☕😭",
               style: GoogleFonts.aBeeZee(
                 fontSize: 16,
                 color: Colors.black.withOpacity(0.7),
               ),
               textAlign: TextAlign.center,
             ),
+
             const SizedBox(height: 20),
 
             // Confirmation Button
@@ -69,7 +54,7 @@ class BaseHelper {
               children: [
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.grey,
+                    backgroundColor: Colors.black,
                     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
@@ -80,7 +65,10 @@ class BaseHelper {
                   },
                   child: Text(
                     "Nah, I’m Staying!",
-                    style: GoogleFonts.aBeeZee(fontSize: 16),
+                    style: GoogleFonts.aBeeZee(
+                      fontSize: 16,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
                 ElevatedButton(
@@ -97,8 +85,9 @@ class BaseHelper {
                     // Show a message or proceed with account deletion
                   },
                   child: Text(
-                    "Yes, Delete It! 💀",
-                    style: GoogleFonts.aBeeZee(fontSize: 16),
+                    "Yes, Delete It",
+                    style:
+                        GoogleFonts.aBeeZee(fontSize: 16, color: Colors.white),
                   ),
                 ),
               ],

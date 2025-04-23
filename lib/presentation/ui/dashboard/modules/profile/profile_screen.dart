@@ -84,9 +84,7 @@ class ProfileScreen extends StatelessWidget {
                 ProfileListTile(
                   icon: "assets/icons/delete.svg",
                   title: "Delete Account",
-                  onTap: () {
-                    // BaseHelper.showDeleteAccountBottomSheet(context);
-                  },
+                  onTap: () {},
                 ),
                 ProfileListTile(
                   icon: "assets/icons/logout.svg",

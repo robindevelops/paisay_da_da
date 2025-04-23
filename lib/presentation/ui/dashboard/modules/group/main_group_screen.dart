@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:paisay_da_da/core/constants.dart';
+import 'package:paisay_da_da/core/log.dart';
 import 'package:paisay_da_da/presentation/notifier/group.notifier.dart';
-import 'package:paisay_da_da/presentation/ui/dashboard/modules/detail/detail_screen.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/modules/group/group_detail_screen.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/modules/group/create_group_screen.dart';
 import 'package:paisay_da_da/presentation/widgets/app_elevated_button.dart';
@@ -58,7 +58,7 @@ class _GroupScreenState extends State<GroupScreen> {
                       itemCount: groups.length,
                       itemBuilder: (context, index) {
                         final group = groups[index];
-                        final id = group.sId;
+                        final groupId = group.sId;
                         final userEmails = group.members
                             ?.map((member) => member.email)
                             .toList()
@@ -71,9 +71,10 @@ class _GroupScreenState extends State<GroupScreen> {
                             vertical: 10,
                           ),
                           onTap: () {
-                            print(id);
-                            print(userEmails);
-                            print(createdBy);
+                            Log.d(
+                              "Group Name: ${group.name.toString()}\n",
+                              "Group ID: $groupId\nUsers in group: $userEmails\nCreated By: $createdBy:",
+                            );
 
                             Navigator.push(
                               context,
@@ -82,6 +83,7 @@ class _GroupScreenState extends State<GroupScreen> {
                                   groupName: group.name.toString(),
                                   groupMembers: userEmails,
                                   createdBy: createdBy,
+                                  groupId: groupId,
                                 ),
                               ),
                             );

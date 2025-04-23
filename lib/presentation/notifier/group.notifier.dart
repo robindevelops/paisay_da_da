@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:paisay_da_da/core/base_helper.dart';
 import 'package:paisay_da_da/domain/models/groupmodel/group.model.dart';
 import 'package:paisay_da_da/domain/repository/group.repository.dart';
 
@@ -64,6 +65,30 @@ class GroupNotifier extends ChangeNotifier {
         print("No group Found: ${_groupModel.groups}");
         notifyListeners();
       },
+    );
+  }
+
+  Future<void> deleteGroup({required String groupId, context}) async {
+    final response = await groupRepository.deleteGroup(groupId: groupId);
+
+    response.fold(
+      (success) {
+        BaseHelper.showSnackBar(context, "Group deleted", Colors.green);
+      },
+      (failure) {},
+    );
+  }
+
+  Future<void> leaveGroup(
+      {required String groupId, required String userEmail, context}) async {
+    final response = await groupRepository.leaveGroup(
+        groupId: groupId, userEmail: userEmail);
+
+    response.fold(
+      (success) {
+        BaseHelper.showSnackBar(context, "You leave the group", Colors.green);
+      },
+      (failure) {},
     );
   }
 }

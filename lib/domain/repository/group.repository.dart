@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:paisay_da_da/domain/models/generalmodel/authentication.model.dart';
 import 'package:paisay_da_da/domain/models/generalmodel/failture.model.dart';
+import 'package:paisay_da_da/domain/models/generalmodel/success.model.dart';
 import 'package:paisay_da_da/domain/models/groupmodel/group.model.dart';
 
 abstract class GroupRepository {
@@ -13,6 +14,16 @@ abstract class GroupRepository {
   Future<Either<GroupModel, FailtureModel>> getGroups({
     required String useremail,
   });
+
+  Future<Either<SuccessModel, FailtureModel>> deleteGroup({
+    required String groupId,
+  });
+
+  Future<Either<SuccessModel, FailtureModel>> leaveGroup({
+    required String groupId,
+    required String userEmail,
+  });
+
   // Future<Either<AuthenticationModel, FailtureModel>> getGroup({
   //   required String groupId,
   // });
@@ -21,9 +32,5 @@ abstract class GroupRepository {
   //   required String groupId,
   //   required String groupName,
   //   required String groupDescription,
-  // });
-
-  // Future<Either<AuthenticationModel, FailtureModel>> deleteGroup({
-  //   required String groupId,
   // });
 }

@@ -208,15 +208,15 @@ class _HomeScreenState extends State<HomeScreen>
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: _navigateToAddExpenseScreen,
-        backgroundColor: AppThemes.highlightGreen,
-        icon: const Icon(Icons.add, color: Colors.black),
-        label: const Text(
-          "Split Money",
-          style: TextStyle(color: Colors.black),
-        ),
-      ),
+      // floatingActionButton: FloatingActionButton.extended(
+      //   onPressed: _navigateToAddExpenseScreen,
+      //   backgroundColor: AppThemes.highlightGreen,
+      //   icon: const Icon(Icons.add, color: Colors.black),
+      //   label: const Text(
+      //     "Split Money",
+      //     style: TextStyle(color: Colors.black),
+      //   ),
+      // ),
     );
   }
 }

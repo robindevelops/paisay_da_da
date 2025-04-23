@@ -9,6 +9,7 @@ import 'package:paisay_da_da/presentation/ui/dashboard/modules/group/group_setti
 import 'package:paisay_da_da/presentation/widgets/app_elevated_button.dart';
 
 class GroupDetailScreen extends StatefulWidget {
+  String? groupId;
   String? groupName;
   String? createdBy;
   List<String>? groupMembers;
@@ -17,6 +18,7 @@ class GroupDetailScreen extends StatefulWidget {
     required this.groupName,
     required this.groupMembers,
     required this.createdBy,
+    required this.groupId,
   });
 
   @override
@@ -80,6 +82,7 @@ class _GroupDetailScreenState extends State<GroupDetailScreen> {
                     return GroupSettingScreen(
                       groupMembers: widget.groupMembers,
                       createdBy: widget.createdBy,
+                      groupId: widget.groupId,
                     );
                   },
                 ),
@@ -97,7 +100,7 @@ class _GroupDetailScreenState extends State<GroupDetailScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              widget.groupMembers!.isEmpty
+              widget.groupMembers!.length == 1
                   ? NoGroupWidget()
                   : Text("No Expenses Yet in this group"),
 
@@ -183,7 +186,7 @@ class _GroupDetailScreenState extends State<GroupDetailScreen> {
           ),
         ),
       ),
-      floatingActionButton: widget.groupMembers!.isEmpty
+      floatingActionButton: widget.groupMembers!.length == 1
           ? SizedBox.shrink()
           : FloatingActionButton.extended(
               onPressed: () {},

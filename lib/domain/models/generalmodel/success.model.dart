@@ -4,7 +4,9 @@ class SuccessModel {
 
   SuccessModel({this.success, this.message});
 
-  SuccessModel.fromJson(Map<String, dynamic> json, {required String}) {
+  SuccessModel.fromJson(
+    Map<String, dynamic> json,
+  ) {
     success = json['success'];
     message = json['message'];
   }

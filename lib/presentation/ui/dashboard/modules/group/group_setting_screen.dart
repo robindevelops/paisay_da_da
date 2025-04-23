@@ -1,14 +1,24 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:paisay_da_da/core/themes.dart';
 import 'package:paisay_da_da/data/local/hive.dart';
+import 'package:paisay_da_da/presentation/notifier/group.notifier.dart';
+import 'package:paisay_da_da/presentation/ui/dashboard/dashboard_screen.dart';
+import 'package:paisay_da_da/presentation/ui/dashboard/modules/group/main_group_screen.dart';
+import 'package:provider/provider.dart';
 
 class GroupSettingScreen extends StatefulWidget {
   List<String>? groupMembers;
   String? createdBy;
-
-  GroupSettingScreen(
-      {super.key, required this.groupMembers, required this.createdBy});
+  String? groupId;
+  GroupSettingScreen({
+    super.key,
+    required this.groupMembers,
+    required this.createdBy,
+    required this.groupId,
+  });
 
   @override
   State<GroupSettingScreen> createState() => _GroupSettingScreenState();
@@ -17,8 +27,9 @@ class GroupSettingScreen extends StatefulWidget {
 class _GroupSettingScreenState extends State<GroupSettingScreen> {
   @override
   Widget build(BuildContext context) {
-    var currentUserEmail = HiveDatabase.getValue(HiveDatabase.userKey);
-    final isGroupCreator = currentUserEmail == widget.createdBy;
+    var UserEmail = HiveDatabase.getValue(HiveDatabase.userKey);
+    final isGroupCreator = UserEmail == widget.createdBy;
+    GroupNotifier groupProvider = Provider.of<GroupNotifier>(context);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -37,19 +48,35 @@ class _GroupSettingScreenState extends State<GroupSettingScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                "Created by",
-                style: TextStyle(),
-              ),
-              const SizedBox(height: 12),
-              ListTile(
-                onTap: () {},
-                leading: const Icon(Icons.person),
-                title: Text(widget.createdBy.toString()),
-              ),
-              const SizedBox(height: 12),
-              const Text(
-                "Group Members",
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Group Members",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  Container(
+                    width: 20,
+                    height: 20,
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Center(
+                      child: Text(
+                        widget.groupMembers!.length.toString(),
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(height: 12),
               widget.groupMembers!.isEmpty
@@ -65,15 +92,41 @@ class _GroupSettingScreenState extends State<GroupSettingScreen> {
                         final memberEmail = widget.groupMembers![index];
                         return ListTile(
                           onTap: () {},
-                          leading: const Icon(Icons.person),
+                          leading: CircleAvatar(
+                            backgroundColor: Colors.black,
+                          ),
                           title: Text(memberEmail),
+                          trailing: memberEmail == widget.createdBy
+                              ? Text(
+                                  "Admin",
+                                  style: GoogleFonts.aBeeZee(
+                                    color: Colors.black,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                )
+                              : SizedBox.shrink(),
                         );
                       },
                     ),
               const SizedBox(height: 30),
               isGroupCreator
                   ? ListTile(
-                      onTap: () {},
+                      onTap: () async {
+                        await groupProvider.deleteGroup(
+                          groupId: widget.groupId.toString(),
+                          context: context,
+                        );
+
+                        groupProvider.getGroups(email: UserEmail);
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DashboardScreen(),
+                          ),
+                          (Route<dynamic> route) => false,
+                        );
+                      },
                       title: const Text(
                         "Delete Group",
                         style: TextStyle(
@@ -84,9 +137,24 @@ class _GroupSettingScreenState extends State<GroupSettingScreen> {
                     )
                   : SizedBox.shrink(),
               ListTile(
-                onTap: () {},
+                onTap: () async {
+                  await groupProvider.leaveGroup(
+                    groupId: widget.groupId.toString(),
+                    userEmail: UserEmail,
+                    context: context,
+                  );
+
+                  groupProvider.getGroups(email: UserEmail);
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DashboardScreen(),
+                    ),
+                    (Route<dynamic> route) => false,
+                  );
+                },
                 title: const Text(
-                  "Leave Group",
+                  "Exit Group",
                   style: TextStyle(
                     color: Colors.red,
                   ),

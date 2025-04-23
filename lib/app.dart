@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:paisay_da_da/core/app_builder.dart';
 import 'package:paisay_da_da/core/multi_provider.dart';
-import 'package:paisay_da_da/presentation/ui/dashboard/dashboard_screen.dart';
+import 'package:paisay_da_da/presentation/ui/splash/splash_screen.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -19,7 +19,7 @@ class _MyAppState extends State<MyApp> {
         builder: (context, child) {
           return AppBuilder(widget: child!);
         },
-        home: DashboardScreen(),
+        home: SplashScreen(),
       ),
     );
   }
