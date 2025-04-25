@@ -5,6 +5,7 @@ import 'package:paisay_da_da/core/themes.dart';
 import 'package:paisay_da_da/data/local/hive.dart';
 import 'package:paisay_da_da/presentation/ui/welcome/welcome_screen.dart';
 import 'package:paisay_da_da/presentation/widgets/app_elevated_button.dart';
+import 'package:paisay_da_da/presentation/widgets/app_textfield.dart';
 
 class BaseHelper {
   /// Function to show a bottom sheet for logout confirmation
@@ -98,7 +99,13 @@ class BaseHelper {
     );
   }
 
-  static void showLogoutBottomSheet(BuildContext context) {
+  static void showDBottomSheet(
+    BuildContext context, {
+    required String title,
+    required String message,
+    required Color buttoncolor,
+    TextStyle style = const TextStyle(),
+  }) {
     showModalBottomSheet(
       context: context,
       shape: RoundedRectangleBorder(
@@ -114,7 +121,7 @@ class BaseHelper {
               Icon(Icons.logout, size: 40, color: Colors.black),
               SizedBox(height: 10),
               Text(
-                "Are you sure you want to logout?",
+                title,
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                 textAlign: TextAlign.center,
               ),
@@ -134,8 +141,7 @@ class BaseHelper {
                   Expanded(
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: AppThemes.splitGreen,
-                      ),
+                          backgroundColor: buttoncolor),
                       onPressed: () {
                         Navigator.pop(context);
                         HiveDatabase.storelogin(false);
@@ -153,7 +159,7 @@ class BaseHelper {
                         );
                       },
                       child: Text(
-                        "Logout",
+                        message,
                         style: TextStyle(color: Colors.black),
                       ),
                     ),
@@ -254,9 +260,9 @@ class BaseHelper {
       ),
       builder: (context) {
         return FractionallySizedBox(
-          heightFactor: 0.6,
+          heightFactor: 0.7,
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -269,19 +275,12 @@ class BaseHelper {
                   ),
                 ),
                 SizedBox(height: 20),
-                Text(
-                  "Add People",
-                  style: GoogleFonts.aBeeZee(
-                    fontSize: 18,
-                  ),
+                CustomTextField(
+                  hintText: "Search Members",
+                  icon: Icons.search,
+                  controller: TextEditingController(),
                 ),
                 SizedBox(height: 16),
-                // CustomTextField(
-                //   hintText: "Enter name",
-                //   icon: Icons.person,
-                //   controller: ,
-                // ),
-
                 Expanded(
                   child: ListView.builder(
                     itemCount: 15,
@@ -296,7 +295,15 @@ class BaseHelper {
                         title: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            CircleAvatar(),
+                            CircleAvatar(
+                              maxRadius: 20,
+                              backgroundColor: Colors.grey[200],
+                              child: Icon(
+                                Icons.person,
+                                color: Colors.black,
+                                size: 25,
+                              ),
+                            ),
                             SizedBox(width: 10),
                             const Text("Furqan abid"),
                           ],

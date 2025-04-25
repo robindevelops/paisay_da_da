@@ -1,9 +1,11 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:paisay_da_da/core/base_helper.dart';
 import 'package:paisay_da_da/domain/models/groupmodel/group.model.dart';
+import 'package:paisay_da_da/presentation/ui/dashboard/modules/detail/total_bill.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/modules/friends/friends_screen.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/modules/group/group_setting_screen.dart';
 import 'package:paisay_da_da/presentation/widgets/app_elevated_button.dart';
@@ -98,7 +100,7 @@ class _GroupDetailScreenState extends State<GroupDetailScreen> {
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               widget.groupMembers!.length == 1
                   ? NoGroupWidget()
@@ -107,11 +109,14 @@ class _GroupDetailScreenState extends State<GroupDetailScreen> {
               // Text("No expense here yet"),
               // Text("Tap the button to split money"),
 
-              // const Text(
+              // Text(
               //   "Expenses",
-              //   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              //   style: GoogleFonts.aBeeZee(
+              //     fontSize: 20,
+              //     fontWeight: FontWeight.bold,
+              //   ),
               // ),
-              // SizedBox(height: 20),
+              SizedBox(height: 20),
 
               // Expanded(
               //   child: ListView.builder(
@@ -238,7 +243,7 @@ class NoGroupWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
             ),
             child: Text(
-              "Add People",
+              "Add Members",
               textAlign: TextAlign.center,
               style: GoogleFonts.aBeeZee(
                 color: Colors.black,

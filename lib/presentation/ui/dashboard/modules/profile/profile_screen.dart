@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:paisay_da_da/core/base_helper.dart';
+import 'package:paisay_da_da/core/themes.dart';
 import 'package:paisay_da_da/data/local/hive.dart';
+import 'package:paisay_da_da/presentation/ui/dashboard/modules/profile/about.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -13,58 +16,58 @@ class ProfileScreen extends StatelessWidget {
     const primaryColor = Colors.blue;
 
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: screenBackgroundColor,
+        title: const Text("Profile"),
+        centerTitle: true,
+        scrolledUnderElevation: 0,
+      ),
       backgroundColor: screenBackgroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.symmetric(horizontal: 30.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const SizedBox(height: 8),
-                CircleAvatar(
-                  radius: 50,
-                  backgroundColor: screenBackgroundColor,
-                  backgroundImage: const NetworkImage(
-                    "https://avatar.iran.liara.run/public",
-                  ),
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  userName ?? "User Name",
-                  style: TextStyle(
-                    color: primaryColor,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                _sectionTitle("Account"),
+                // const SizedBox(height: 8),
+                // CircleAvatar(
+                //   radius: 50,
+                //   backgroundColor: screenBackgroundColor,
+                //   backgroundImage: const NetworkImage(
+                //     "https://avatar.iran.liara.run/public",
+                //   ),
+                // ),
+                // const SizedBox(height: 16),
+                // Text(
+                //   userName,
+                //   style: TextStyle(
+                //     color: primaryColor,
+                //     fontWeight: FontWeight.bold,
+                //     fontSize: 18,
+                //   ),
+                // ),
+                const SizedBox(height: 10),
+                _sectionTitle("Account", Icons.account_circle),
                 ProfileListTile(
                   icon: "assets/icons/profile.svg",
-                  title: "Profile",
+                  title: "Edit Profile",
                   onTap: () {},
                 ),
-                ProfileListTile(
-                  icon: "assets/icons/lock.svg",
-                  title: "Change Password",
-                  onTap: () {},
+                _sectionTitle(
+                  "Notifications",
+                  Icons.notifications_none_rounded,
                 ),
-                ProfileListTile(
-                  icon: "assets/icons/notification.svg",
-                  title: "Notification Setting",
-                  onTap: () {},
-                ),
-                _sectionTitle("More"),
                 ProfileListTile(
                   icon: "assets/icons/privacy.svg",
-                  title: "Privacy Policy",
+                  title: "Notification",
                   onTap: () {},
                 ),
-                ProfileListTile(
-                  icon: "assets/icons/language.svg",
-                  title: "Language",
-                  onTap: () {},
+
+                _sectionTitle(
+                  "More",
+                  Icons.collections_bookmark,
                 ),
                 ProfileListTile(
                   icon: "assets/icons/language.svg",
@@ -73,24 +76,39 @@ class ProfileScreen extends StatelessWidget {
                 ),
                 ProfileListTile(
                   icon: "assets/icons/terms.svg",
-                  title: "Terms & Conditions",
-                  onTap: () {},
+                  title: "About Us",
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AboutUsScreen(),
+                      ),
+                    );
+                  },
                 ),
-                ProfileListTile(
-                  icon: "assets/icons/help.svg",
-                  title: "Help",
-                  onTap: () {},
-                ),
+
                 ProfileListTile(
                   icon: "assets/icons/delete.svg",
                   title: "Delete Account",
-                  onTap: () {},
+                  onTap: () {
+                    BaseHelper.showDBottomSheet(
+                      context,
+                      title: "Are you sure you want to delete your account?",
+                      message: "Delete Account",
+                      buttoncolor: Colors.red,
+                    );
+                  },
                 ),
                 ProfileListTile(
                   icon: "assets/icons/logout.svg",
                   title: "Logout",
                   onTap: () {
-                    BaseHelper.showLogoutBottomSheet(context);
+                    BaseHelper.showDBottomSheet(
+                      context,
+                      title: "Are you sure you want to logout?",
+                      message: "logout",
+                      buttoncolor: AppThemes.splitGreen,
+                    );
                   },
                 ),
                 const SizedBox(height: 24),
@@ -102,17 +120,28 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _sectionTitle(String title) {
+  Widget _sectionTitle(String title, IconData icon) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: Align(
         alignment: Alignment.centerLeft,
-        child: Text(
-          title,
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
+        child: Row(
+          children: [
+            Icon(
+              size: 25,
+              icon,
+              color: Colors.black,
+            ),
+            const SizedBox(width: 20),
+            Text(
+              title,
+              style: GoogleFonts.aBeeZee(
+                color: Colors.black,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -137,11 +166,11 @@ class ProfileListTile extends StatelessWidget {
       contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
       title: Text(
         title,
-        style: const TextStyle(fontSize: 16),
+        style: GoogleFonts.poppins(fontSize: 16),
       ),
       onTap: onTap,
       trailing: const Icon(
-        CupertinoIcons.right_chevron,
+        CupertinoIcons.chevron_compact_right,
         color: Colors.black,
       ),
     );

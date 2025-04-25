@@ -71,6 +71,7 @@ class _HomeScreenState extends State<HomeScreen>
 
     return Scaffold(
       appBar: AppBar(
+        scrolledUnderElevation: 0,
         backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
         actions: [
@@ -98,12 +99,45 @@ class _HomeScreenState extends State<HomeScreen>
             await groupNotifier.getGroups(email: userEmail);
           },
           child: ListView(
-            padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
             physics: const AlwaysScrollableScrollPhysics(
               parent: BouncingScrollPhysics(),
             ),
             children: [
               const NoFriendsWidget()
+
+              // Row(
+              //   mainAxisSize: MainAxisSize.min,
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     Text(
+              //       "You owed \$0.00",
+              //       style: GoogleFonts.aBeeZee(
+              //         fontWeight: FontWeight.bold,
+              //         color: Colors.orange,
+              //         fontSize: 16,
+              //       ),
+              //     ),
+              //     const SizedBox(width: 16),
+              //     Container(
+              //       height: 20,
+              //       width: 1,
+              //       color: Colors.black.withOpacity(0.6),
+              //     ),
+              //     const SizedBox(width: 16),
+              //     Text(
+              //       "You are owed \$0.00",
+              //       style: GoogleFonts.aBeeZee(
+              //         fontWeight: FontWeight.bold,
+              //         color: Colors.green,
+              //         fontSize: 16,
+              //       ),
+              //     ),
+              //   ],
+              // ),
+
+              // const SizedBox(height: 25),
+
               // Column(
               //   crossAxisAlignment: CrossAxisAlignment.start,
               //   children: [
@@ -153,21 +187,20 @@ class _HomeScreenState extends State<HomeScreen>
               //     fontWeight: FontWeight.bold,
               //   ),
               // ),
-              // const SizedBox(height: 10),
+              // const SizedBox(height: 20),
               // Container(
               //   height: 90,
-              //   padding:
-              //       const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              //   padding: const EdgeInsets.symmetric(
+              //     horizontal: 16,
+              //     vertical: 12,
+              //   ),
               //   decoration: BoxDecoration(
-              //     color: Colors.black,
+              //     border: Border.all(
+              //       color: Colors.black,
+              //       width: 1,
+              //     ),
+              //     color: Colors.grey[100],
               //     borderRadius: BorderRadius.circular(16),
-              //     boxShadow: [
-              //       BoxShadow(
-              //         color: Colors.black.withOpacity(0.2),
-              //         blurRadius: 10,
-              //         offset: const Offset(0, 4),
-              //       ),
-              //     ],
               //   ),
               //   child: Row(
               //     children: [
@@ -187,7 +220,7 @@ class _HomeScreenState extends State<HomeScreen>
               //               style: TextStyle(
               //                 fontSize: 16,
               //                 fontWeight: FontWeight.w600,
-              //                 color: Colors.white,
+              //                 color: Colors.black,
               //               ),
               //             ),
               //             const SizedBox(height: 6),
@@ -195,7 +228,7 @@ class _HomeScreenState extends State<HomeScreen>
               //               "\$120.00 due by Aug 25",
               //               style: GoogleFonts.aBeeZee(
               //                 fontSize: 14,
-              //                 color: Colors.white.withOpacity(0.9),
+              //                 color: Colors.black,
               //               ),
               //             ),
               //           ],
@@ -208,15 +241,15 @@ class _HomeScreenState extends State<HomeScreen>
           ),
         ),
       ),
-      // floatingActionButton: FloatingActionButton.extended(
-      //   onPressed: _navigateToAddExpenseScreen,
-      //   backgroundColor: AppThemes.highlightGreen,
-      //   icon: const Icon(Icons.add, color: Colors.black),
-      //   label: const Text(
-      //     "Split Money",
-      //     style: TextStyle(color: Colors.black),
-      //   ),
-      // ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: _navigateToAddExpenseScreen,
+        backgroundColor: AppThemes.highlightGreen,
+        icon: const Icon(Icons.add, color: Colors.black),
+        label: const Text(
+          "Split Money",
+          style: TextStyle(color: Colors.black),
+        ),
+      ),
     );
   }
 }
@@ -233,15 +266,15 @@ class NoFriendsWidget extends StatelessWidget {
           children: [
             const Icon(Icons.person_2_rounded, size: 50, color: Colors.black),
             const SizedBox(height: 20),
-            Text(
-              "Friends!",
-              style: GoogleFonts.dancingScript(
-                fontSize: 34,
-                fontWeight: FontWeight.bold,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 10),
+            // Text(
+            //   "Friends!",
+            //   style: GoogleFonts.dancingScript(
+            //     fontSize: 25,
+            //     // fontWeight: FontWeight.bold,
+            //   ),
+            //   textAlign: TextAlign.center,
+            // ),
+            // const SizedBox(height: 10),
             Text(
               "Add karo, warna app ki feeling off ho jayegi!",
               style: GoogleFonts.patrickHand(

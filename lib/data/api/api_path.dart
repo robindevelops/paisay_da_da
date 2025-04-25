@@ -1,5 +1,5 @@
 class ApiPaths {
-  static String liveBaseURL = 'http://10.0.2.2:4000/api/v1/';
+  static String liveBaseURL = 'http://192.168.x.x:/api/v1/';
   static String baseURL = liveBaseURL;
 
   // ==> Authentication ==>

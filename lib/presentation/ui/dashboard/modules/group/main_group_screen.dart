@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:paisay_da_da/core/constants.dart';
 import 'package:paisay_da_da/core/log.dart';
 import 'package:paisay_da_da/presentation/notifier/group.notifier.dart';
@@ -38,8 +39,12 @@ class _GroupScreenState extends State<GroupScreen> {
               );
             },
             child: Text(
-              "Add Group",
-              style: TextStyle(color: Colors.black),
+              "Create Group",
+              style: GoogleFonts.aBeeZee(
+                fontSize: 16,
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           )
         ],
@@ -96,7 +101,7 @@ class _GroupScreenState extends State<GroupScreen> {
                             height: 50,
                           ),
                           trailing: group.expenseDetail!.isEmpty
-                              ? const Text("No expense")
+                              ? const Text("no expense")
                               : Text(
                                   "${group.expenseDetail!.length} expense",
                                   style: const TextStyle(

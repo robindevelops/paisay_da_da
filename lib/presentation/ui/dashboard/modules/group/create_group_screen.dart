@@ -23,6 +23,7 @@ class _CreategroupScreenState extends State<CreategroupScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        centerTitle: true,
         backgroundColor: Colors.white,
         title: const Text(
           "Create Group",
@@ -67,7 +68,7 @@ class _CreategroupScreenState extends State<CreategroupScreen> {
                   }
                   return null;
                 },
-                hintText: "Group Name",
+                hintText: "Group name",
                 icon: Icons.group,
                 controller: groupName,
               ),

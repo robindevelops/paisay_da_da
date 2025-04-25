@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:paisay_da_da/core/constants.dart';
+import 'package:paisay_da_da/presentation/ui/auth/signin_screen.dart';
 import 'package:paisay_da_da/presentation/ui/auth/signup_screen.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -141,19 +142,28 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             const SizedBox(height: 16),
 
             // Already have an account
-            Container(
-              width: 280,
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              decoration: BoxDecoration(
-                color: const Color(0xFFBFFF60),
-                borderRadius: BorderRadius.circular(40),
-              ),
-              child: Text(
-                "I already have an account",
-                textAlign: TextAlign.center,
-                style: GoogleFonts.poppins(
-                  color: Colors.black,
-                  fontSize: 14,
+            GestureDetector(
+              onTap: () {
+                // Navigate to login screen
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const SigninScreen()),
+                );
+              },
+              child: Container(
+                width: 280,
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFBFFF60),
+                  borderRadius: BorderRadius.circular(40),
+                ),
+                child: Text(
+                  "I already have an account",
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.poppins(
+                    color: Colors.black,
+                    fontSize: 14,
+                  ),
                 ),
               ),
             ),

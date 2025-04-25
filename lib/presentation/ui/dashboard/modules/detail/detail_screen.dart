@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:paisay_da_da/core/constants.dart';
+import 'package:paisay_da_da/core/themes.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/modules/detail/total_bill.dart';
 
 class DetailScreen extends StatefulWidget {
@@ -119,8 +121,25 @@ class _DetailScreenState extends State<DetailScreen> {
                         leading: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text("Mar"),
-                            Text("13"),
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Column(
+                                  children: [
+                                    Text("Mar"),
+                                    Text("13"),
+                                  ],
+                                ),
+                                SizedBox(width: 10),
+                                SizedBox(
+                                  height: 40,
+                                  child: Image.asset(
+                                    Constants.stickman1,
+                                    // fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ],
                         ),
                         title: Text("Roti"),
@@ -148,11 +167,11 @@ class _DetailScreenState extends State<DetailScreen> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {},
-        backgroundColor: Colors.black,
-        icon: const Icon(Icons.add, color: Colors.white),
+        backgroundColor: AppThemes.highlightGreen,
+        icon: const Icon(Icons.add, color: Colors.black),
         label: const Text(
           "Split Money",
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.black),
         ),
       ),
     );

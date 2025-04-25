@@ -59,23 +59,23 @@ class _GroupSettingScreenState extends State<GroupSettingScreen> {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  Container(
-                    width: 20,
-                    height: 20,
-                    decoration: BoxDecoration(
-                      color: Colors.black,
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Center(
-                      child: Text(
-                        widget.groupMembers!.length.toString(),
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 12,
-                        ),
-                      ),
-                    ),
-                  ),
+                  // Container(
+                  //   width: 20,
+                  //   height: 20,
+                  //   decoration: BoxDecoration(
+                  //     color: Colors.black,
+                  //     borderRadius: BorderRadius.circular(5),
+                  //   ),
+                  //   child: Center(
+                  //     child: Text(
+                  //       widget.groupMembers!.length.toString(),
+                  //       style: TextStyle(
+                  //         color: Colors.white,
+                  //         fontSize: 12,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
               const SizedBox(height: 12),
@@ -97,12 +97,22 @@ class _GroupSettingScreenState extends State<GroupSettingScreen> {
                           ),
                           title: Text(memberEmail),
                           trailing: memberEmail == widget.createdBy
-                              ? Text(
-                                  "Admin",
-                                  style: GoogleFonts.aBeeZee(
+                              ? Container(
+                                  width: 53,
+                                  height: 22,
+                                  decoration: BoxDecoration(
                                     color: Colors.black,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      "Admin",
+                                      style: GoogleFonts.aBeeZee(
+                                        color: Colors.white,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
                                   ),
                                 )
                               : SizedBox.shrink(),
