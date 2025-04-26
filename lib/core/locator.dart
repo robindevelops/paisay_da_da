@@ -11,7 +11,7 @@ class ServiceLocator {
 
   static setup() {
     getIt.registerSingleton<AuthRepository>(AuthServriceRepository());
-    // getIt.registerSingleton<FriendRepository>(FriendServiceRepository());
+    getIt.registerSingleton<FriendRepository>(FriendServiceRepository());
     getIt.registerSingleton<GroupRepository>(GroupServiceRepository());
   }
 

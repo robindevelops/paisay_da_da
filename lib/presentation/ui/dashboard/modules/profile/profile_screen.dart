@@ -4,26 +4,28 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:paisay_da_da/core/base_helper.dart';
 import 'package:paisay_da_da/core/themes.dart';
 import 'package:paisay_da_da/data/local/hive.dart';
+import 'package:paisay_da_da/presentation/notifier/auth.notifier.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/modules/profile/about.dart';
+import 'package:paisay_da_da/presentation/ui/welcome/welcome_screen.dart';
+import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    var userName = HiveDatabase.getValue(HiveDatabase.userKey);
-    const screenBackgroundColor = Colors.white;
-    const primaryColor = Colors.blue;
-
+    AuthenticationNotifier authNotifier =
+        Provider.of<AuthenticationNotifier>(context);
+    String userEmail = HiveDatabase.getValue(HiveDatabase.userKey);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: screenBackgroundColor,
+        backgroundColor: Colors.white,
         title: const Text("Profile"),
         centerTitle: true,
         scrolledUnderElevation: 0,
       ),
-      backgroundColor: screenBackgroundColor,
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -96,6 +98,21 @@ class ProfileScreen extends StatelessWidget {
                       title: "Are you sure you want to delete your account?",
                       message: "Delete Account",
                       buttoncolor: Colors.red,
+                      onPressed: () async {
+                        await authNotifier.deleteAccount(
+                          context: context,
+                          email: userEmail,
+                        );
+                        Navigator.pop(context);
+                        HiveDatabase.storelogin(false);
+                        HiveDatabase.clearAll();
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const WelcomeScreen(),
+                          ),
+                        );
+                      },
                     );
                   },
                 ),
@@ -108,6 +125,22 @@ class ProfileScreen extends StatelessWidget {
                       title: "Are you sure you want to logout?",
                       message: "logout",
                       buttoncolor: AppThemes.splitGreen,
+                      onPressed: () {
+                        Navigator.pop(context);
+                        HiveDatabase.storelogin(false);
+                        HiveDatabase.clearAll();
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const WelcomeScreen(),
+                          ),
+                        );
+                        BaseHelper.showSnackBar(
+                          context,
+                          "Logout Successfully",
+                          Colors.green,
+                        );
+                      },
                     );
                   },
                 ),

@@ -1,4 +1,5 @@
 import 'dart:math';
+
 import 'package:circular_reveal_animation/circular_reveal_animation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -62,6 +63,7 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   Widget build(BuildContext context) {
     GroupNotifier groupNotifier = context.watch<GroupNotifier>();
+    FriendNotifier friendNotifier = context.watch<FriendNotifier>();
     final userEmail = HiveDatabase.getValue(HiveDatabase.userKey);
 
     final List<String> stickmanImages = [
@@ -78,6 +80,14 @@ class _HomeScreenState extends State<HomeScreen>
           TextButton(
             onPressed: () {
               print(userEmail);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return AddFriendScreen();
+                  },
+                ),
+              );
             },
             child: Text(
               "Add friend",
@@ -97,6 +107,7 @@ class _HomeScreenState extends State<HomeScreen>
           color: Colors.black,
           onRefresh: () async {
             await groupNotifier.getGroups(email: userEmail);
+            friendNotifier.getFriends(email: userEmail, context: context);
           },
           child: ListView(
             padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
@@ -104,81 +115,83 @@ class _HomeScreenState extends State<HomeScreen>
               parent: BouncingScrollPhysics(),
             ),
             children: [
-              const NoFriendsWidget()
+              friendNotifier.friends.isEmpty
+                  ? NoFriendsWidget()
+                  // : Row(
+                  //     mainAxisSize: MainAxisSize.min,
+                  //     mainAxisAlignment: MainAxisAlignment.center,
+                  //     children: [
+                  //       Text(
+                  //         "You owed \$0.00",
+                  //         style: GoogleFonts.aBeeZee(
+                  //           fontWeight: FontWeight.bold,
+                  //           color: Colors.orange,
+                  //           fontSize: 16,
+                  //         ),
+                  //       ),
+                  //       const SizedBox(width: 16),
+                  //       Container(
+                  //         height: 20,
+                  //         width: 1,
+                  //         color: Colors.black.withOpacity(0.6),
+                  //       ),
+                  //       const SizedBox(width: 16),
+                  //       Text(
+                  //         "You are owed \$0.00",
+                  //         style: GoogleFonts.aBeeZee(
+                  //           fontWeight: FontWeight.bold,
+                  //           color: Colors.green,
+                  //           fontSize: 16,
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
 
-              // Row(
-              //   mainAxisSize: MainAxisSize.min,
-              //   mainAxisAlignment: MainAxisAlignment.center,
-              //   children: [
-              //     Text(
-              //       "You owed \$0.00",
-              //       style: GoogleFonts.aBeeZee(
-              //         fontWeight: FontWeight.bold,
-              //         color: Colors.orange,
-              //         fontSize: 16,
-              //       ),
-              //     ),
-              //     const SizedBox(width: 16),
-              //     Container(
-              //       height: 20,
-              //       width: 1,
-              //       color: Colors.black.withOpacity(0.6),
-              //     ),
-              //     const SizedBox(width: 16),
-              //     Text(
-              //       "You are owed \$0.00",
-              //       style: GoogleFonts.aBeeZee(
-              //         fontWeight: FontWeight.bold,
-              //         color: Colors.green,
-              //         fontSize: 16,
-              //       ),
-              //     ),
-              //   ],
-              // ),
+                  // const SizedBox(height: 25),
 
-              // const SizedBox(height: 25),
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Gareeb Dost",
+                          style: GoogleFonts.aBeeZee(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: friendNotifier.friends.length,
+                          itemBuilder: (context, index) {
+                            var friend = friendNotifier.friends[index];
+                            var name = friend.name;
 
-              // Column(
-              //   crossAxisAlignment: CrossAxisAlignment.start,
-              //   children: [
-              //     Text(
-              //       "Gareeb Dost",
-              //       style: GoogleFonts.aBeeZee(
-              //         fontSize: 20,
-              //         fontWeight: FontWeight.bold,
-              //       ),
-              //     ),
-              //     const SizedBox(height: 10),
-              //     ListView.builder(
-              //       shrinkWrap: true,
-              //       physics: const NeverScrollableScrollPhysics(),
-              //       itemCount: 2,
-              //       itemBuilder: (context, index) {
-              //         final randomImage = stickmanImages[
-              //             Random().nextInt(stickmanImages.length)];
-
-              //         return ListTile(
-              //           contentPadding: const EdgeInsets.symmetric(
-              //             vertical: 10,
-              //           ),
-              //           onTap: () {
-              //             Navigator.push(
-              //               context,
-              //               MaterialPageRoute(
-              //                 builder: (_) => const DetailScreen(),
-              //               ),
-              //             );
-              //           },
-              //           leading: CircleAvatar(
-              //             child: Image.asset(randomImage),
-              //           ),
-              //           title: Text("furqan abid"),
-              //           trailing: const Text("No expense"),
-              //         );
-              //       },
-              //     ),
-              //   ],
-              // ),
+                            return ListTile(
+                              contentPadding: const EdgeInsets.symmetric(
+                                vertical: 10,
+                              ),
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => DetailScreen(
+                                      name: name,
+                                    ),
+                                  ),
+                                );
+                              },
+                              leading: CircleAvatar(
+                                child: Image.asset(Constants.stickman1),
+                              ),
+                              title: Text(name!),
+                              trailing: const Text("No expense"),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
               // const SizedBox(height: 20),
               // Text(
               //   "Pending Payment",
@@ -241,15 +254,17 @@ class _HomeScreenState extends State<HomeScreen>
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: _navigateToAddExpenseScreen,
-        backgroundColor: AppThemes.highlightGreen,
-        icon: const Icon(Icons.add, color: Colors.black),
-        label: const Text(
-          "Split Money",
-          style: TextStyle(color: Colors.black),
-        ),
-      ),
+      floatingActionButton: friendNotifier.friends.isEmpty
+          ? SizedBox.shrink()
+          : FloatingActionButton.extended(
+              onPressed: _navigateToAddExpenseScreen,
+              backgroundColor: AppThemes.highlightGreen,
+              icon: const Icon(Icons.add, color: Colors.black),
+              label: const Text(
+                "Split Money",
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
     );
   }
 }
@@ -266,15 +281,6 @@ class NoFriendsWidget extends StatelessWidget {
           children: [
             const Icon(Icons.person_2_rounded, size: 50, color: Colors.black),
             const SizedBox(height: 20),
-            // Text(
-            //   "Friends!",
-            //   style: GoogleFonts.dancingScript(
-            //     fontSize: 25,
-            //     // fontWeight: FontWeight.bold,
-            //   ),
-            //   textAlign: TextAlign.center,
-            // ),
-            // const SizedBox(height: 10),
             Text(
               "Add karo, warna app ki feeling off ho jayegi!",
               style: GoogleFonts.patrickHand(

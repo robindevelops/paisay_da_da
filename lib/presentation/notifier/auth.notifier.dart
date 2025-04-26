@@ -5,6 +5,7 @@ import 'package:paisay_da_da/core/base_helper.dart';
 import 'package:paisay_da_da/data/local/hive.dart';
 import 'package:paisay_da_da/domain/models/generalmodel/authentication.model.dart';
 import 'package:paisay_da_da/domain/repository/auth.repository.dart';
+import 'package:paisay_da_da/presentation/ui/welcome/welcome_screen.dart';
 
 class AuthenticationNotifier extends ChangeNotifier {
   AuthRepository authRepository;
@@ -121,5 +122,38 @@ class AuthenticationNotifier extends ChangeNotifier {
     _isLoading = false;
     notifyListeners();
     return result;
+  }
+
+  Future<void> deleteAccount({
+    required BuildContext context,
+    required String email,
+  }) async {
+    final response = await authRepository.deleteAccount(email: email);
+
+    response.fold(
+      (success) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const WelcomeScreen(),
+          ),
+        );
+        BaseHelper.showSnackBar(
+          context,
+          'Account deleted successfully',
+          Colors.green,
+        );
+      },
+      (failure) {
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        if (failure.message == 'Email-not-found') {
+          BaseHelper.showSnackBar(
+            context,
+            'Email not found',
+            Colors.red,
+          );
+        }
+      },
+    );
   }
 }

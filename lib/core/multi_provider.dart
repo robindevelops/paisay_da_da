@@ -50,6 +50,11 @@ class MultiProviders extends StatelessWidget {
             return ConnectionNotifier();
           },
         ),
+        ChangeNotifierProvider(
+          create: (context) {
+            return FriendNotifier(friendsRepository: ServiceLocator.getIt());
+          },
+        ),
       ],
       child: child,
     );

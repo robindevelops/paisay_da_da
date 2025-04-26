@@ -5,6 +5,7 @@ import 'package:paisay_da_da/data/api/api_path.dart';
 import 'package:paisay_da_da/data/api/api_service.dart';
 import 'package:paisay_da_da/domain/models/generalmodel/failture.model.dart';
 import 'package:paisay_da_da/domain/models/generalmodel/authentication.model.dart';
+import 'package:paisay_da_da/domain/models/generalmodel/success.model.dart';
 import 'package:paisay_da_da/domain/repository/auth.repository.dart';
 
 class AuthServriceRepository extends AuthRepository {
@@ -58,6 +59,37 @@ class AuthServriceRepository extends AuthRepository {
       if (response != null) {
         if (response['success'] == true) {
           return left(AuthenticationModel.fromJson(response));
+        } else {
+          return right(FailtureModel.fromJson(response, String: null));
+        }
+      } else {
+        return right(FailtureModel(message: 'An error occurred'));
+      }
+    } on DioException catch (e) {
+      return right(
+        FailtureModel(
+          message: CustomDioException.fromDioError(e).toString(),
+        ),
+      );
+    } catch (e) {
+      return right(FailtureModel(message: "Unexpected error: $e"));
+    }
+  }
+
+  @override
+  Future<Either<SuccessModel, FailtureModel>> deleteAccount(
+      {required String email}) async {
+    try {
+      var response = await ApiService.request(
+        ApiPaths.deleteAccount,
+        method: RequestMethod.post,
+        data: {
+          "email": email,
+        },
+      );
+      if (response != null) {
+        if (response['success'] == true) {
+          return left(SuccessModel.fromJson(response));
         } else {
           return right(FailtureModel.fromJson(response, String: null));
         }

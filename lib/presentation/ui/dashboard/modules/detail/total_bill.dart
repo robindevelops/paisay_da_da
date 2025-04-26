@@ -17,7 +17,12 @@ class _TotalBillState extends State<TotalBill> {
         //   "Total Bill",
         //   style: TextStyle(color: Colors.white),
         // ),
-        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.edit))],
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.edit),
+          ),
+        ],
         backgroundColor: Colors.black,
         elevation: 0,
         iconTheme: IconThemeData(color: Colors.white),

@@ -5,8 +5,10 @@ import 'package:paisay_da_da/core/constants.dart';
 import 'package:paisay_da_da/core/themes.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/modules/detail/total_bill.dart';
 
+// ignore: must_be_immutable
 class DetailScreen extends StatefulWidget {
-  const DetailScreen({super.key});
+  String name;
+  DetailScreen({super.key, required this.name});
 
   @override
   State<DetailScreen> createState() => _DetailScreenState();
@@ -30,7 +32,7 @@ class _DetailScreenState extends State<DetailScreen> {
               children: [
                 SizedBox(height: 20),
                 Text(
-                  "Furqan abid",
+                  widget.name,
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 20,

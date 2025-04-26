@@ -104,6 +104,7 @@ class BaseHelper {
     required String title,
     required String message,
     required Color buttoncolor,
+    required void Function()? onPressed,
     TextStyle style = const TextStyle(),
   }) {
     showModalBottomSheet(
@@ -141,23 +142,9 @@ class BaseHelper {
                   Expanded(
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: buttoncolor),
-                      onPressed: () {
-                        Navigator.pop(context);
-                        HiveDatabase.storelogin(false);
-                        HiveDatabase.clearAll();
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const WelcomeScreen(),
-                          ),
-                        );
-                        BaseHelper.showSnackBar(
-                          context,
-                          "Logout Successfully",
-                          Colors.green,
-                        );
-                      },
+                        backgroundColor: buttoncolor,
+                      ),
+                      onPressed: onPressed,
                       child: Text(
                         message,
                         style: TextStyle(color: Colors.black),

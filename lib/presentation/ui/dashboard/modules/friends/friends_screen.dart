@@ -3,7 +3,7 @@ import 'package:paisay_da_da/core/base_helper.dart';
 import 'package:paisay_da_da/core/constants.dart';
 import 'package:paisay_da_da/data/local/hive.dart';
 import 'package:paisay_da_da/presentation/notifier/friend.notifier.dart';
-import 'package:paisay_da_da/presentation/widgets/app_elevated_button.dart';
+import 'package:paisay_da_da/presentation/notifier/group.notifier.dart';
 import 'package:paisay_da_da/presentation/widgets/app_textfield.dart';
 import 'package:provider/provider.dart';
 
@@ -17,6 +17,8 @@ class FriendRequest extends StatefulWidget {
 class _FriendRequestState extends State<FriendRequest> {
   @override
   Widget build(BuildContext context) {
+    FriendNotifier friendNotifier = Provider.of<FriendNotifier>(context);
+    final userEmail = HiveDatabase.getValue(HiveDatabase.userKey);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -30,63 +32,59 @@ class _FriendRequestState extends State<FriendRequest> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Container(
-          //   width: double.infinity,
-          //   height: 50,
-          //   decoration: BoxDecoration(
-          //     color: Colors.black,
-          //     borderRadius: BorderRadius.circular(10),
-          //   ),
-          //   child: Center(
-          //     child: Text(
-          //       "Friend Request",
-          //       style: TextStyle(
-          //         fontSize: 20,
-          //         fontWeight: FontWeight.bold,
-          //         color: Colors.white,
-          //       ),
-          //     ),
-          //   ),
-          // ),
-          const SizedBox(height: 20),
-          NoFriendRequestsFound(),
-          // Expanded(
-          //   child: ListView.builder(
-          //     itemCount: 2,
-          //     itemBuilder: (context, index) {
-          //       return ListTile(
-          //         contentPadding:
-          //             const EdgeInsets.symmetric(horizontal: 40, vertical: 5),
-          //         onTap: () {},
-          //         leading: CircleAvatar(
-          //           child: Image.asset(
-          //             Constants.stickman1,
-          //           ),
-          //         ),
-          //         title: const Text("Furqan abid"),
-          //         trailing: Row(
-          //           mainAxisSize: MainAxisSize.min,
-          //           children: [
-          //             IconButton(
-          //               onPressed: () {},
-          //               icon: Icon(
-          //                 Icons.done,
-          //                 color: Colors.green,
-          //               ),
-          //             ),
-          //             IconButton(
-          //               onPressed: () {},
-          //               icon: Icon(
-          //                 Icons.cancel_rounded,
-          //                 color: Colors.red,
-          //               ),
-          //             )
-          //           ],
-          //         ),
-          //       );
-          //     },
-          //   ),
-          // ),
+          friendNotifier.friendRequests.isEmpty
+              ? NoFriendRequestsFound()
+              : Expanded(
+                  child: ListView.builder(
+                    itemCount: friendNotifier.friendRequests.length,
+                    itemBuilder: (context, index) {
+                      var request = friendNotifier.friendRequests[index];
+                      var name = request.sender?.name;
+                      var id = request.sId.toString();
+
+                      return ListTile(
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 40,
+                          vertical: 5,
+                        ),
+                        onTap: () {},
+                        leading: CircleAvatar(
+                          child: Image.asset(
+                            Constants.stickman1,
+                          ),
+                        ),
+                        title: Text(name!),
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              onPressed: () async {
+                                await friendNotifier.acceptRequest(
+                                  requestId: id,
+                                );
+                              },
+                              icon: Icon(
+                                Icons.done,
+                                color: Colors.green,
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () async {
+                                await friendNotifier.rejectRequest(
+                                  requestId: id,
+                                );
+                              },
+                              icon: Icon(
+                                Icons.cancel_rounded,
+                                color: Colors.red,
+                              ),
+                            )
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ),
         ],
       ),
     );
@@ -111,6 +109,7 @@ class _AddFriendScreenState extends State<AddFriendScreen> {
 
   @override
   Widget build(BuildContext context) {
+    FriendNotifier friendNotifier = Provider.of<FriendNotifier>(context);
     TextEditingController _emailController = TextEditingController();
     final senderEmail = HiveDatabase.getValue(HiveDatabase.userKey);
     return Scaffold(
@@ -125,11 +124,17 @@ class _AddFriendScreenState extends State<AddFriendScreen> {
         elevation: 0,
         actions: [
           TextButton(
-            onPressed: () {
+            onPressed: () async {
               if (_emailController.text.isEmpty) {
                 BaseHelper.showSnackBar(context, "Email required", Colors.red);
                 return;
               }
+
+              return await friendNotifier.addFriend(
+                senderEmail: senderEmail,
+                receiverEmail: _emailController.text,
+                context: context,
+              );
             },
             child: const Text(
               "Send",
@@ -221,6 +226,9 @@ class _AddMembersScreenState extends State<AddMembersScreen> {
 
   @override
   Widget build(BuildContext context) {
+    FriendNotifier friendNotifier = Provider.of<FriendNotifier>(context);
+    GroupNotifier groupNotifier = Provider.of<GroupNotifier>(context);
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -261,6 +269,7 @@ class _AddMembersScreenState extends State<AddMembersScreen> {
             const SizedBox(height: 20),
 
             // Friends Section
+
             const Text(
               "Friends",
               style: TextStyle(
@@ -270,18 +279,27 @@ class _AddMembersScreenState extends State<AddMembersScreen> {
               ),
             ),
             const SizedBox(height: 10),
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: friends.length,
-              itemBuilder: (context, index) {
-                return MemberTile(name: friends[index]);
-              },
-            ),
+
+            friendNotifier.friends.isEmpty
+                ? ListTile(
+                    title: Text("No Member Found"),
+                  )
+                : ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: friendNotifier.friends.length,
+                    itemBuilder: (context, index) {
+                      var name = friendNotifier.friends[index].name.toString();
+                      return MemberTile(
+                        name: name,
+                      );
+                    },
+                  ),
 
             const SizedBox(height: 20),
 
             // Groups Section
+
             const Text(
               "Groups",
               style: TextStyle(
@@ -291,14 +309,22 @@ class _AddMembersScreenState extends State<AddMembersScreen> {
               ),
             ),
             const SizedBox(height: 10),
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: groups.length,
-              itemBuilder: (context, index) {
-                return MemberTile(name: groups[index]);
-              },
-            ),
+            groupNotifier.groupModel.groups!.isEmpty
+                ? ListTile(
+                    title: Text("No group Found"),
+                  )
+                : ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: groupNotifier.groupModel.groups?.length,
+                    itemBuilder: (context, index) {
+                      var name = groupNotifier.groupModel.groups![index].name
+                          .toString();
+                      return MemberTile(
+                        name: name,
+                      );
+                    },
+                  ),
           ],
         ),
       ),

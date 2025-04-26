@@ -235,20 +235,32 @@ class NoGroupWidget extends StatelessWidget {
           const SizedBox(height: 10),
 
           // Already have an account
-          Container(
-            width: 280,
-            padding: const EdgeInsets.symmetric(vertical: 16),
-            decoration: BoxDecoration(
-              color: const Color(0xFFBFFF60),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Text(
-              "Add Members",
-              textAlign: TextAlign.center,
-              style: GoogleFonts.aBeeZee(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-                fontSize: 14,
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return AddMembersScreen();
+                  },
+                ),
+              );
+            },
+            child: Container(
+              width: 280,
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              decoration: BoxDecoration(
+                color: const Color(0xFFBFFF60),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Text(
+                "Add Members",
+                textAlign: TextAlign.center,
+                style: GoogleFonts.aBeeZee(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                ),
               ),
             ),
           ),
