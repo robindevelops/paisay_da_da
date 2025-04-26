@@ -83,18 +83,18 @@ class FriendNotifier extends ChangeNotifier {
 
     response.fold(
       (success) {
-        BaseHelper.showSnackBar(
-          "Friend Request accepted",
-          context,
-          Colors.green,
-        );
+        // BaseHelper.showSnackBar(
+        //   "Friend Request accepted",
+        //   context,
+        //   Colors.green,
+        // );
       },
       (failure) {
-        BaseHelper.showSnackBar(
-          context,
-          'Error: ${failure.message}',
-          Colors.red,
-        );
+        // BaseHelper.showSnackBar(
+        //   context,
+        //   'Error: ${failure.message}',
+        //   Colors.red,
+        // );
       },
     );
   }

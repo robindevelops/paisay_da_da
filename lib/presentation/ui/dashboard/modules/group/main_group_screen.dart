@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:paisay_da_da/core/constants.dart';
 import 'package:paisay_da_da/core/log.dart';
+import 'package:paisay_da_da/domain/models/groupmodel/group.model.dart';
 import 'package:paisay_da_da/presentation/notifier/group.notifier.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/modules/group/group_detail_screen.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/modules/group/create_group_screen.dart';
-import 'package:paisay_da_da/presentation/widgets/app_elevated_button.dart';
+import 'package:paisay_da_da/presentation/widgets/add_group.widget.dart';
 import 'package:provider/provider.dart';
 
 class GroupScreen extends StatefulWidget {
@@ -55,7 +56,7 @@ class _GroupScreenState extends State<GroupScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             groups!.isEmpty
-                ? NoGroupWidget()
+                ? AddGroupWidget()
                 : Expanded(
                     child: ListView.builder(
                       shrinkWrap: true,
@@ -64,6 +65,7 @@ class _GroupScreenState extends State<GroupScreen> {
                       itemBuilder: (context, index) {
                         final group = groups[index];
                         final groupId = group.sId;
+                        final expenseDetail = group.expenseDetail;
                         final userEmails = group.members
                             ?.map((member) => member.email)
                             .toList()
@@ -89,6 +91,7 @@ class _GroupScreenState extends State<GroupScreen> {
                                   groupMembers: userEmails,
                                   createdBy: createdBy,
                                   groupId: groupId,
+                                  expenseDetail: expenseDetail,
                                 ),
                               ),
                             );
@@ -114,43 +117,6 @@ class _GroupScreenState extends State<GroupScreen> {
                   ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class NoGroupWidget extends StatelessWidget {
-  const NoGroupWidget({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 50),
-      child: Column(
-        children: [
-          Text(
-            "Jitne marzi dost add kar lo…\npaisay wapas nahi milnay waalay!",
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.black,
-            ),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 30),
-          AppElevatedButton(
-            text: "Start a Group",
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => CreategroupScreen(),
-                ),
-              );
-            },
-          )
-        ],
       ),
     );
   }

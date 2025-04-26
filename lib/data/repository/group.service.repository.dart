@@ -40,14 +40,21 @@ class GroupServiceRepository implements GroupRepository {
 
   @override
   Future<Either<GroupModel, FailtureModel>> getGroups(
-      {required String useremail}) async {
+      {required String useremail, String? groupId}) async {
     try {
+      var data = {
+        "email": useremail,
+      };
+
+      // Add groupId only if it's not null or empty
+      if (groupId != null && groupId.isNotEmpty) {
+        data["groupId"] = groupId;
+      }
+
       var response = await ApiService.request(
         ApiPaths.getGroup,
         method: RequestMethod.get,
-        data: {
-          "email": useremail,
-        },
+        data: data,
       );
       if (response != null) {
         if (response['success'] == true) {
@@ -98,6 +105,32 @@ class GroupServiceRepository implements GroupRepository {
         data: {
           "groupId": groupId,
           "userEmail": userEmail,
+        },
+      );
+      if (response != null) {
+        if (response['success'] == true) {
+          return left(SuccessModel.fromJson(response));
+        } else {
+          return right(FailtureModel.fromJson(response, String: null));
+        }
+      } else {
+        return right(FailtureModel(message: 'An error occurred'));
+      }
+    } catch (e) {
+      return right(FailtureModel(message: "Unexpected error: $e"));
+    }
+  }
+
+  @override
+  Future<Either<SuccessModel, FailtureModel>> addMember(
+      {required String groupId, required List<String> members}) async {
+    try {
+      var response = await ApiService.request(
+        ApiPaths.addMember,
+        method: RequestMethod.post,
+        data: {
+          "groupId": groupId,
+          "members": members,
         },
       );
       if (response != null) {

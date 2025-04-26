@@ -13,6 +13,7 @@ abstract class GroupRepository {
 
   Future<Either<GroupModel, FailtureModel>> getGroups({
     required String useremail,
+    String? groupId,
   });
 
   Future<Either<SuccessModel, FailtureModel>> deleteGroup({
@@ -22,6 +23,11 @@ abstract class GroupRepository {
   Future<Either<SuccessModel, FailtureModel>> leaveGroup({
     required String groupId,
     required String userEmail,
+  });
+
+  Future<Either<SuccessModel, FailtureModel>> addMember({
+    required String groupId,
+    required List<String> members,
   });
 
   // Future<Either<AuthenticationModel, FailtureModel>> getGroup({

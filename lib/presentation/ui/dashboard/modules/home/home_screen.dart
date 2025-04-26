@@ -10,7 +10,8 @@ import 'package:paisay_da_da/presentation/notifier/friend.notifier.dart';
 import 'package:paisay_da_da/presentation/notifier/group.notifier.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/modules/detail/detail_screen.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/modules/expense/add_expense.dart';
-import 'package:paisay_da_da/presentation/ui/dashboard/modules/friends/friends_screen.dart';
+import 'package:paisay_da_da/presentation/ui/dashboard/modules/friends/add_friends_screen.dart';
+import 'package:paisay_da_da/presentation/ui/dashboard/modules/friends/add_members_screen.dart';
 import 'package:paisay_da_da/presentation/widgets/app_elevated_button.dart';
 import 'package:provider/provider.dart';
 
@@ -107,7 +108,7 @@ class _HomeScreenState extends State<HomeScreen>
           color: Colors.black,
           onRefresh: () async {
             await groupNotifier.getGroups(email: userEmail);
-            friendNotifier.getFriends(email: userEmail, context: context);
+            await friendNotifier.getFriends(email: userEmail, context: context);
           },
           child: ListView(
             padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),

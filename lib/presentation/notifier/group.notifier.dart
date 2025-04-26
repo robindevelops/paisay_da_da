@@ -52,8 +52,14 @@ class GroupNotifier extends ChangeNotifier {
     );
   }
 
-  Future<void> getGroups({required String email}) async {
-    final response = await groupRepository.getGroups(useremail: email);
+  Future<void> getGroups({
+    required String email,
+    String? groupId,
+  }) async {
+    final response = await groupRepository.getGroups(
+      useremail: email,
+      groupId: groupId,
+    );
 
     response.fold(
       (success) {
@@ -87,6 +93,19 @@ class GroupNotifier extends ChangeNotifier {
     response.fold(
       (success) {
         BaseHelper.showSnackBar(context, "You leave the group", Colors.green);
+      },
+      (failure) {},
+    );
+  }
+
+  Future<void> addMember(
+      {required String groupId, required List<String> email, context}) async {
+    final response =
+        await groupRepository.addMember(groupId: groupId, members: email);
+
+    response.fold(
+      (success) {
+        BaseHelper.showSnackBar(context, "Members Added", Colors.green);
       },
       (failure) {},
     );

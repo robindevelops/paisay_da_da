@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:paisay_da_da/core/base_helper.dart';
-import 'package:paisay_da_da/presentation/ui/dashboard/modules/friends/friends_screen.dart';
+import 'package:paisay_da_da/presentation/ui/dashboard/modules/friends/add_members_screen.dart';
 import 'package:simple_animated_button/bouncing_button.dart';
 import 'package:simple_animated_button/elevated_layer_button.dart';
 
@@ -74,7 +74,9 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const AddMembersScreen(),
+                    builder: (context) => AddMembersScreen(
+                      groupId: '',
+                    ),
                   ),
                 );
               },

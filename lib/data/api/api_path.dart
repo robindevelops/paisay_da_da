@@ -19,4 +19,5 @@ class ApiPaths {
   static String getGroup = "${baseURL}group/getGroup";
   static String deleteGroup = "${baseURL}group/deleteGroup";
   static String leaveGroup = "${baseURL}group/leaveGroup";
+  static String addMember = "${baseURL}group/addMember";
 }

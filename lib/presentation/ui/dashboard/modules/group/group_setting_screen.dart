@@ -1,12 +1,10 @@
 // ignore_for_file: must_be_immutable
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:paisay_da_da/core/themes.dart';
+import 'package:paisay_da_da/core/base_helper.dart';
 import 'package:paisay_da_da/data/local/hive.dart';
 import 'package:paisay_da_da/presentation/notifier/group.notifier.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/dashboard_screen.dart';
-import 'package:paisay_da_da/presentation/ui/dashboard/modules/group/main_group_screen.dart';
 import 'package:provider/provider.dart';
 
 class GroupSettingScreen extends StatefulWidget {
@@ -87,7 +85,7 @@ class _GroupSettingScreenState extends State<GroupSettingScreen> {
                   : ListView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      itemCount: widget.groupMembers?.length ?? 0,
+                      itemCount: widget.groupMembers?.length,
                       itemBuilder: (context, index) {
                         final memberEmail = widget.groupMembers![index];
                         return ListTile(
@@ -122,19 +120,30 @@ class _GroupSettingScreenState extends State<GroupSettingScreen> {
               const SizedBox(height: 30),
               isGroupCreator
                   ? ListTile(
-                      onTap: () async {
-                        await groupProvider.deleteGroup(
-                          groupId: widget.groupId.toString(),
-                          context: context,
-                        );
-
-                        groupProvider.getGroups(email: UserEmail);
-                        Navigator.pushAndRemoveUntil(
+                      onTap: () {
+                        BaseHelper.showDBottomSheet(
                           context,
-                          MaterialPageRoute(
-                            builder: (context) => DashboardScreen(),
-                          ),
-                          (Route<dynamic> route) => false,
+                          message: "Delete Group",
+                          title: "Are you sure you want to delete this group?",
+                          buttoncolor: Colors.red,
+                          onPressed: () async {
+                            Navigator.pop(context);
+
+                            await groupProvider.deleteGroup(
+                              groupId: widget.groupId.toString(),
+                              context: context,
+                            );
+
+                            await groupProvider.getGroups(email: UserEmail);
+
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DashboardScreen(),
+                              ),
+                              (Route<dynamic> route) => false,
+                            );
+                          },
                         );
                       },
                       title: const Text(
