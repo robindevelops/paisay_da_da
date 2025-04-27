@@ -25,6 +25,8 @@ class _AddFriendScreenState extends State<AddFriendScreen> {
   Widget build(BuildContext context) {
     FriendNotifier friendNotifier = Provider.of<FriendNotifier>(context);
     TextEditingController _emailController = TextEditingController();
+    final _formKey = GlobalKey<FormState>();
+
     final senderEmail = HiveDatabase.getValue(HiveDatabase.userKey);
     return Scaffold(
       backgroundColor: Colors.white,
@@ -39,16 +41,16 @@ class _AddFriendScreenState extends State<AddFriendScreen> {
         actions: [
           TextButton(
             onPressed: () async {
-              if (_emailController.text.isEmpty) {
-                BaseHelper.showSnackBar(context, "Email required", Colors.red);
-                return;
+              if (_formKey.currentState!.validate()) {
+                bool success = await friendNotifier.addFriend(
+                  senderEmail: senderEmail,
+                  receiverEmail: _emailController.text,
+                  context: context,
+                );
+                if (success) {
+                  Navigator.pop(context);
+                }
               }
-
-              return await friendNotifier.addFriend(
-                senderEmail: senderEmail,
-                receiverEmail: _emailController.text,
-                context: context,
-              );
             },
             child: const Text(
               "Send",
@@ -62,26 +64,35 @@ class _AddFriendScreenState extends State<AddFriendScreen> {
         ],
         iconTheme: const IconThemeData(color: Colors.black),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              "Email",
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 16,
+      body: Form(
+        key: _formKey,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                "Email",
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16,
+                ),
               ),
-            ),
-            const SizedBox(height: 12),
-            CustomTextField(
-              hintText: 'Enter email address',
-              icon: Icons.email,
-              controller: _emailController,
-            ),
-            const SizedBox(height: 20),
-          ],
+              const SizedBox(height: 12),
+              CustomTextField(
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Email is required";
+                  }
+                  return null;
+                },
+                hintText: 'Enter email address',
+                icon: Icons.email,
+                controller: _emailController,
+              ),
+              const SizedBox(height: 20),
+            ],
+          ),
         ),
       ),
     );

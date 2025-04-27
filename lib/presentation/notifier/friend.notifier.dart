@@ -14,8 +14,7 @@ class FriendNotifier extends ChangeNotifier {
   List<Friends> get friends => _friendsModel.friends ?? [];
   List<FriendRequests> get friendRequests =>
       _friendRequests.friendRequests ?? [];
-
-  Future<void> addFriend({
+  Future<bool> addFriend({
     required String senderEmail,
     required String receiverEmail,
     required BuildContext context,
@@ -25,7 +24,7 @@ class FriendNotifier extends ChangeNotifier {
       receiverEmail: receiverEmail,
     );
 
-    response.fold(
+    var result = response.fold(
       (success) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -33,6 +32,7 @@ class FriendNotifier extends ChangeNotifier {
             backgroundColor: Colors.green,
           ),
         );
+        return true;
       },
       (failure) {
         BaseHelper.showSnackBar(
@@ -40,21 +40,11 @@ class FriendNotifier extends ChangeNotifier {
           failure.message.toString(),
           Colors.red,
         );
-        // if (failure.message == 'Sender or receiver not found.') {
-        //   BaseHelper.showSnackBar(context, 'User not found 💨', Colors.red);
-        // } else if (failure.message == 'Friend request already sent.') {
-        //   BaseHelper.showSnackBar(
-        //       context, 'Pehle wali pending hai bhai 😂', Colors.red);
-        // } else if (failure.message ==
-        //     'You cannot send a friend request to yourself.') {
-        //   BaseHelper.showSnackBar(
-        //       context, 'Nice try, lonely legend 🤡', Colors.red);
-        // } else if (failure.message == 'You are already friends.') {
-        //   BaseHelper.showSnackBar(
-        //       context, 'You are already friends', Colors.red);
-        // }
+        return false;
       },
     );
+
+    return result;
   }
 
   Future<void> getFriends({
@@ -82,7 +72,7 @@ class FriendNotifier extends ChangeNotifier {
 
   Future<void> acceptRequest({
     required String requestId,
-    context,
+    required BuildContext context,
   }) async {
     var response = await friendsRepository.acceptRequest(requestId: requestId);
 
@@ -106,7 +96,7 @@ class FriendNotifier extends ChangeNotifier {
 
   Future<void> rejectRequest({
     required String requestId,
-    context,
+    required BuildContext context,
   }) async {
     var response = await friendsRepository.rejectRequest(requestId: requestId);
 

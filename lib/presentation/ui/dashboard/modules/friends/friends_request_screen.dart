@@ -61,6 +61,7 @@ class _FriendRequestState extends State<FriendRequest> {
                               onPressed: () async {
                                 await friendNotifier.acceptRequest(
                                   requestId: id,
+                                  context: context,
                                 );
                               },
                               icon: Icon(
@@ -72,6 +73,7 @@ class _FriendRequestState extends State<FriendRequest> {
                               onPressed: () async {
                                 await friendNotifier.rejectRequest(
                                   requestId: id,
+                                  context: context,
                                 );
                               },
                               icon: Icon(

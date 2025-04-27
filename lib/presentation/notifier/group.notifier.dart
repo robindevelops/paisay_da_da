@@ -116,8 +116,10 @@ class GroupNotifier extends ChangeNotifier {
     required List<String> email,
     required BuildContext context,
   }) async {
-    final response =
-        await groupRepository.addMember(groupId: groupId, members: email);
+    final response = await groupRepository.addMember(
+      groupId: groupId,
+      members: email,
+    );
 
     response.fold(
       (success) {
@@ -127,7 +129,13 @@ class GroupNotifier extends ChangeNotifier {
           Colors.green,
         );
       },
-      (failure) {},
+      (failure) {
+        BaseHelper.showSnackBar(
+          context,
+          failure.message.toString(),
+          Colors.red,
+        );
+      },
     );
   }
 }

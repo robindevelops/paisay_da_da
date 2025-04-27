@@ -146,10 +146,14 @@ class _SignupScreenState extends State<SignupScreen> {
                         ),
                         TextButton(
                           onPressed: () {
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context) {
-                              return SigninScreen();
-                            }));
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return SigninScreen();
+                                },
+                              ),
+                            );
                           },
                           child: Text(
                             "Signin",
