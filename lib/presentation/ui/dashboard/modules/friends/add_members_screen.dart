@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:paisay_da_da/core/themes.dart';
 import 'package:paisay_da_da/data/local/hive.dart';
 import 'package:paisay_da_da/presentation/notifier/addMember.notifier.dart';
 import 'package:paisay_da_da/presentation/notifier/friend.notifier.dart';
@@ -27,8 +28,6 @@ class _AddMembersScreenState extends State<AddMembersScreen> {
   Widget build(BuildContext context) {
     FriendNotifier friendNotifier = Provider.of<FriendNotifier>(context);
     GroupNotifier groupNotifier = Provider.of<GroupNotifier>(context);
-    AddMemberNotifier addMemberNotifier =
-        Provider.of<AddMemberNotifier>(context);
     var email = HiveDatabase.getValue(HiveDatabase.userKey);
 
     return Scaffold(
@@ -185,7 +184,8 @@ class MemberTile extends StatelessWidget {
       trailing: isAlreadyInGroup
           ? Text("Already member")
           : Checkbox(
-              activeColor: Colors.black,
+              checkColor: Colors.black,
+              activeColor: AppThemes.highlightGreen,
               value: isSelected,
               onChanged: (_) => addMemberNotifier.toggleMember(email),
             ),

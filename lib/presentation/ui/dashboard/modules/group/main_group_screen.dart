@@ -64,6 +64,7 @@ class _GroupScreenState extends State<GroupScreen> {
                       itemBuilder: (context, index) {
                         final group = groups[index];
                         final groupId = group.sId;
+
                         final expenseDetail = group.expenseDetail;
                         final userEmails = group.members
                             ?.map((member) => member.email)

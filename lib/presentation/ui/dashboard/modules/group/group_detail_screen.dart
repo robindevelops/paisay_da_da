@@ -7,6 +7,7 @@ import 'package:paisay_da_da/presentation/animation/animation.dart';
 import 'package:paisay_da_da/presentation/notifier/friend.notifier.dart';
 import 'package:paisay_da_da/presentation/notifier/group.notifier.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/modules/expense/add_expense.dart';
+import 'package:paisay_da_da/presentation/ui/dashboard/modules/friends/add_members_screen.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/modules/group/group_setting_screen.dart';
 import 'package:paisay_da_da/presentation/widgets/expense_tile.dart';
 import 'package:paisay_da_da/presentation/widgets/no_expense_widget.dart';
@@ -54,7 +55,7 @@ class _GroupDetailScreenState extends State<GroupDetailScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 130,
+        toolbarHeight: 100,
         backgroundColor: Colors.black,
         centerTitle: true,
         title: Row(
@@ -97,6 +98,22 @@ class _GroupDetailScreenState extends State<GroupDetailScreen> {
         ),
         iconTheme: const IconThemeData(color: Colors.white),
         actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return AddMembersScreen(
+                      groupId: widget.groupId.toString(),
+                      groupMembers: widget.groupMembers,
+                    );
+                  },
+                ),
+              );
+            },
+            icon: const Icon(Icons.person_add_alt_1, color: Colors.white),
+          ),
           IconButton(
             onPressed: () {
               Navigator.push(

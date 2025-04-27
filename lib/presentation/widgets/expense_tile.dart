@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:intl/intl.dart';
 import 'package:paisay_da_da/core/constants.dart';
 import 'package:paisay_da_da/data/local/hive.dart';
 import 'package:paisay_da_da/domain/models/groupmodel/group.model.dart';
@@ -17,6 +18,8 @@ class ExpenseTile extends StatelessWidget {
       itemCount: expenseDetail!.length,
       itemBuilder: (context, index) {
         var expense = expenseDetail![index];
+        var totalBill = expense.expense!.price;
+        var createdAt = expense.createdAt;
         var expenseName = expense.expense?.title;
         var payerName = expense.payer?.name;
         var payerEmail = expense.payer?.email;
@@ -65,11 +68,15 @@ class ExpenseTile extends StatelessWidget {
           ),
           child: ListTile(
             onTap: () {
+              print(totalBill);
               Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return TotalBill(); // You can also pass data if needed
+                    return TotalBill(
+                      createdAt: createdAt.toString(),
+                      totalBill: totalBill.toString(),
+                    );
                   },
                 ),
               );
@@ -84,11 +91,14 @@ class ExpenseTile extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "ad", // Replace with actual date if needed
+                          displayJustDate(
+                            createdAt.toString(),
+                          )['date']!, // First Text: Day
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          "ad", // Replace with actual date if needed
+                          displayJustDate(createdAt.toString())[
+                              'month']!, // Second Text: Month
                           style: TextStyle(fontSize: 12),
                         ),
                       ],
@@ -176,4 +186,12 @@ class OwedMoneyWidget extends StatelessWidget {
       ],
     );
   }
+} // Function to display both date and month separately
+
+Map<String, String> displayJustDate(String date) {
+  var dateLocal = DateTime.parse(date);
+  return {
+    'date': DateFormat("d").format(dateLocal), // Day of the month
+    'month': DateFormat("MMMM").format(dateLocal), // Full month name
+  };
 }

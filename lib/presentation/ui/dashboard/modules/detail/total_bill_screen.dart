@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 class TotalBill extends StatefulWidget {
-  const TotalBill({super.key});
+  String totalBill;
+  String createdAt;
+  TotalBill({super.key, required this.createdAt, required this.totalBill});
 
   @override
   State<TotalBill> createState() => _TotalBillState();
@@ -60,13 +63,13 @@ class _TotalBillState extends State<TotalBill> {
                       ),
                       SizedBox(height: 5),
                       Text(
-                        "Added on 34 March 2024",
+                        'Added on ${displayJustDate(widget.createdAt)}',
                         style: TextStyle(fontSize: 14, color: Colors.black54),
                       ),
                     ],
                   ),
                   Text(
-                    "Rs 34,00",
+                    'Rs ${widget.totalBill}',
                     style: GoogleFonts.aBeeZee(
                       fontSize: 35,
                       fontWeight: FontWeight.w600,
@@ -130,4 +133,15 @@ class _TotalBillState extends State<TotalBill> {
       ),
     );
   }
+}
+
+String displayJustDate(String date) {
+  var dateLocal = DateTime(
+      DateTime.parse(date).year,
+      DateTime.parse(date).month,
+      DateTime.parse(date).day,
+      DateTime.parse(date).hour,
+      DateTime.parse(date).minute,
+      DateTime.parse(date).second); //.add(DateTime.now().timeZoneOffset);
+  return DateFormat('d/MM/yyyy').format(dateLocal);
 }

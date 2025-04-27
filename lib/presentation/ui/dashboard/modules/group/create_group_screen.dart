@@ -65,7 +65,7 @@ class _CreategroupScreenState extends State<CreategroupScreen> {
               CustomTextField(
                 validator: (value) {
                   if (value!.isEmpty) {
-                    return "required";
+                    return "Name is required";
                   }
                   return null;
                 },

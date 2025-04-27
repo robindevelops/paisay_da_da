@@ -6,6 +6,7 @@ import 'package:paisay_da_da/data/local/hive.dart';
 import 'package:paisay_da_da/presentation/notifier/addMember.notifier.dart';
 import 'package:paisay_da_da/presentation/notifier/group.notifier.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/dashboard_screen.dart';
+import 'package:paisay_da_da/presentation/widgets/admin_widget.dart';
 import 'package:provider/provider.dart';
 
 class GroupSettingScreen extends StatefulWidget {
@@ -93,29 +94,14 @@ class _GroupSettingScreenState extends State<GroupSettingScreen> {
                         final memberEmail = widget.groupMembers![index];
                         return ListTile(
                           onTap: () {},
-                          leading: CircleAvatar(
-                            backgroundColor: Colors.black,
+                          leading: Icon(Icons.person_2_outlined),
+                          title: Text(
+                            getUsernameFromEmail(memberEmail),
+                            style: GoogleFonts.aBeeZee(),
                           ),
-                          title: Text(memberEmail),
+                          subtitle: Text(memberEmail),
                           trailing: memberEmail == widget.createdBy
-                              ? Container(
-                                  width: 53,
-                                  height: 22,
-                                  decoration: BoxDecoration(
-                                    color: Colors.black,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      "Admin",
-                                      style: GoogleFonts.aBeeZee(
-                                        color: Colors.white,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                )
+                              ? AdminWidget()
                               : SizedBox.shrink(),
                         );
                       },
@@ -191,4 +177,8 @@ class _GroupSettingScreenState extends State<GroupSettingScreen> {
       ),
     );
   }
+}
+
+String getUsernameFromEmail(String email) {
+  return email.split('@')[0].toUpperCase();
 }
