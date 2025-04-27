@@ -7,10 +7,10 @@ import 'package:provider/provider.dart';
 
 class NoGroupMemberWidget extends StatelessWidget {
   String groupId;
-  NoGroupMemberWidget({
-    super.key,
-    required this.groupId,
-  });
+  List<String>? groupMembers;
+
+  NoGroupMemberWidget(
+      {super.key, required this.groupId, required this.groupMembers});
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +45,7 @@ class NoGroupMemberWidget extends StatelessWidget {
                 MaterialPageRoute(
                   builder: (context) => AddMembersScreen(
                     groupId: groupId,
+                    groupMembers: groupMembers,
                   ),
                 ),
               );

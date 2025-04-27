@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:paisay_da_da/core/base_helper.dart';
 import 'package:paisay_da_da/data/local/hive.dart';
+import 'package:paisay_da_da/presentation/notifier/addMember.notifier.dart';
 import 'package:paisay_da_da/presentation/notifier/group.notifier.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/dashboard_screen.dart';
 import 'package:provider/provider.dart';
@@ -28,6 +29,8 @@ class _GroupSettingScreenState extends State<GroupSettingScreen> {
     var UserEmail = HiveDatabase.getValue(HiveDatabase.userKey);
     final isGroupCreator = UserEmail == widget.createdBy;
     GroupNotifier groupProvider = Provider.of<GroupNotifier>(context);
+    AddMemberNotifier addMemberNotifier =
+        Provider.of<AddMemberNotifier>(context);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -133,6 +136,8 @@ class _GroupSettingScreenState extends State<GroupSettingScreen> {
                               groupId: widget.groupId.toString(),
                               context: context,
                             );
+
+                            addMemberNotifier.clearMemeber();
 
                             await groupProvider.getGroups(email: UserEmail);
 

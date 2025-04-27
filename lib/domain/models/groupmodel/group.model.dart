@@ -31,7 +31,7 @@ class Groups {
   String? sId;
   String? name;
   List<Members>? members;
-  List<Null>? expenseDetail;
+  List<ExpenseDetail>? expenseDetail;
   Members? createdBy;
   String? createdAt;
   String? updatedAt;
@@ -57,9 +57,9 @@ class Groups {
       });
     }
     if (json['ExpenseDetail'] != null) {
-      expenseDetail = <Null>[];
+      expenseDetail = <ExpenseDetail>[];
       json['ExpenseDetail'].forEach((v) {
-        expenseDetail!.add(v);
+        expenseDetail!.add(new ExpenseDetail.fromJson(v));
       });
     }
     createdBy = json['createdBy'] != null
@@ -78,7 +78,8 @@ class Groups {
       data['members'] = this.members!.map((v) => v.toJson()).toList();
     }
     if (this.expenseDetail != null) {
-      data['ExpenseDetail'] = this.expenseDetail!.map((v) => v).toList();
+      data['ExpenseDetail'] =
+          this.expenseDetail!.map((v) => v.toJson()).toList();
     }
     if (this.createdBy != null) {
       data['createdBy'] = this.createdBy!.toJson();
@@ -111,7 +112,7 @@ class Members {
 
 class ExpenseDetail {
   String? sId;
-  String? expense;
+  Expense? expense;
   Payer? payer;
   List<OwedUsers>? owedUsers;
   int? amount;
@@ -131,7 +132,8 @@ class ExpenseDetail {
 
   ExpenseDetail.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
-    expense = json['expense'];
+    expense =
+        json['expense'] != null ? new Expense.fromJson(json['expense']) : null;
     payer = json['payer'] != null ? new Payer.fromJson(json['payer']) : null;
     if (json['owedUsers'] != null) {
       owedUsers = <OwedUsers>[];
@@ -148,7 +150,9 @@ class ExpenseDetail {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['_id'] = this.sId;
-    data['expense'] = this.expense;
+    if (this.expense != null) {
+      data['expense'] = this.expense!.toJson();
+    }
     if (this.payer != null) {
       data['payer'] = this.payer!.toJson();
     }
@@ -159,6 +163,28 @@ class ExpenseDetail {
     data['createdAt'] = this.createdAt;
     data['updatedAt'] = this.updatedAt;
     data['__v'] = this.iV;
+    return data;
+  }
+}
+
+class Expense {
+  String? sId;
+  String? title;
+  int? price;
+
+  Expense({this.sId, this.title, this.price});
+
+  Expense.fromJson(Map<String, dynamic> json) {
+    sId = json['_id'];
+    title = json['title'];
+    price = json['price'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['_id'] = this.sId;
+    data['title'] = this.title;
+    data['price'] = this.price;
     return data;
   }
 }
@@ -205,25 +231,6 @@ class OwedUsers {
     }
     data['amount'] = this.amount;
     data['_id'] = this.sId;
-    return data;
-  }
-}
-
-class CreatedBy {
-  String? sId;
-  String? email;
-
-  CreatedBy({this.sId, this.email});
-
-  CreatedBy.fromJson(Map<String, dynamic> json) {
-    sId = json['_id'];
-    email = json['email'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
-    data['email'] = this.email;
     return data;
   }
 }

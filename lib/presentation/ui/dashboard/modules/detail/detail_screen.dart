@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:paisay_da_da/core/constants.dart';
 import 'package:paisay_da_da/core/themes.dart';
 import 'package:paisay_da_da/data/local/hive.dart';
-import 'package:paisay_da_da/presentation/ui/dashboard/modules/detail/total_bill.dart';
+import 'package:paisay_da_da/presentation/animation/animation.dart';
+import 'package:paisay_da_da/presentation/ui/dashboard/modules/expense/add_expense.dart';
 import 'package:paisay_da_da/presentation/widgets/no_expense_widget.dart';
-import 'package:paisay_da_da/presentation/widgets/no_group_member_widget.dart';
 
 // ignore: must_be_immutable
 class DetailScreen extends StatefulWidget {
@@ -18,6 +16,16 @@ class DetailScreen extends StatefulWidget {
 }
 
 class _DetailScreenState extends State<DetailScreen> {
+  void _navigateToAddExpenseScreen() {
+    Navigator.of(context).push(
+      AnimationUtil.circularRevealTransition(
+        page: AddExpenseScreen(),
+        centerAlignment: Alignment.bottomCenter,
+        duration: const Duration(milliseconds: 600),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,7 +98,7 @@ class _DetailScreenState extends State<DetailScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
+        onPressed: () => _navigateToAddExpenseScreen(),
         backgroundColor: AppThemes.highlightGreen,
         icon: const Icon(Icons.add, color: Colors.black),
         label: const Text(

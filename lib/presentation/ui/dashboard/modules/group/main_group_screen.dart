@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:paisay_da_da/core/constants.dart';
 import 'package:paisay_da_da/core/log.dart';
-import 'package:paisay_da_da/domain/models/groupmodel/group.model.dart';
 import 'package:paisay_da_da/presentation/notifier/group.notifier.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/modules/group/group_detail_screen.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/modules/group/create_group_screen.dart';

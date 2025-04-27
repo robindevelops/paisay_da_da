@@ -11,7 +11,10 @@ import 'package:provider/provider.dart';
 
 class AddMembersScreen extends StatefulWidget {
   String groupId;
-  AddMembersScreen({super.key, required this.groupId});
+  List<String>? groupMembers;
+
+  AddMembersScreen(
+      {super.key, required this.groupId, required this.groupMembers});
 
   @override
   State<AddMembersScreen> createState() => _AddMembersScreenState();
@@ -24,6 +27,8 @@ class _AddMembersScreenState extends State<AddMembersScreen> {
   Widget build(BuildContext context) {
     FriendNotifier friendNotifier = Provider.of<FriendNotifier>(context);
     GroupNotifier groupNotifier = Provider.of<GroupNotifier>(context);
+    AddMemberNotifier addMemberNotifier =
+        Provider.of<AddMemberNotifier>(context);
     var email = HiveDatabase.getValue(HiveDatabase.userKey);
 
     return Scaffold(
@@ -52,6 +57,9 @@ class _AddMembersScreenState extends State<AddMembersScreen> {
                 groupId: widget.groupId,
                 email: addMemberNotifier.members,
               );
+
+              addMemberNotifier.clearMemeber();
+
               await groupNotifier.getGroups(email: email);
 
               Navigator.pushAndRemoveUntil(
@@ -105,12 +113,14 @@ class _AddMembersScreenState extends State<AddMembersScreen> {
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: friendNotifier.friends.length,
                     itemBuilder: (context, index) {
-                      var name = friendNotifier.friends[index].name.toString();
-                      var email =
-                          friendNotifier.friends[index].email.toString();
+                      var friend = friendNotifier.friends[index];
+                      var name = friend.name.toString();
+                      var email = friend.email.toString();
+
                       return MemberTile(
                         name: name,
                         email: email,
+                        groupemail: widget.groupMembers,
                       );
                     },
                   ),
@@ -156,25 +166,28 @@ class _AddMembersScreenState extends State<AddMembersScreen> {
 class MemberTile extends StatelessWidget {
   final String name;
   final String email;
+  List<String>? groupemail;
 
-  const MemberTile({
-    super.key,
-    required this.name,
-    required this.email,
-  });
+  MemberTile(
+      {super.key,
+      required this.name,
+      required this.email,
+      required this.groupemail});
 
   @override
   Widget build(BuildContext context) {
     final addMemberNotifier = Provider.of<AddMemberNotifier>(context);
     final isSelected = addMemberNotifier.isSelected(email);
-
+    bool isAlreadyInGroup = groupemail != null && groupemail!.contains(email);
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(vertical: 5),
-      trailing: Checkbox(
-        activeColor: Colors.black,
-        value: isSelected,
-        onChanged: (_) => addMemberNotifier.toggleMember(email),
-      ),
+      trailing: isAlreadyInGroup
+          ? Text("Already member")
+          : Checkbox(
+              activeColor: Colors.black,
+              value: isSelected,
+              onChanged: (_) => addMemberNotifier.toggleMember(email),
+            ),
       title: Row(
         children: [
           CircleAvatar(

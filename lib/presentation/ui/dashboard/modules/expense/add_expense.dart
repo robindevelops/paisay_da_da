@@ -1,12 +1,15 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:paisay_da_da/core/base_helper.dart';
-import 'package:paisay_da_da/presentation/ui/dashboard/modules/friends/add_members_screen.dart';
-import 'package:simple_animated_button/bouncing_button.dart';
 import 'package:simple_animated_button/elevated_layer_button.dart';
 
 class AddExpenseScreen extends StatefulWidget {
-  const AddExpenseScreen({super.key});
+  List<String>? groupMembers;
+  String? groupid;
+  String? name;
+  AddExpenseScreen({super.key, this.groupMembers, this.groupid, this.name});
 
   @override
   State<AddExpenseScreen> createState() => _AddExpenseScreenState();
@@ -34,7 +37,9 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
         ),
         actions: [
           TextButton(
-            onPressed: () {}, // Implement save logic
+            onPressed: () {
+              print(widget.groupMembers);
+            },
             child: const Text(
               "Save",
               style: TextStyle(color: Colors.white, fontSize: 16),
@@ -71,29 +76,42 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
             const SizedBox(height: 15),
             GestureDetector(
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => AddMembersScreen(
-                      groupId: '',
-                    ),
-                  ),
-                );
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) => AddMembersScreen(
+                //       groupId: '',
+                //       groupMembers: [],
+                //     ),
+                //   ),
+                // );
               },
-              child: Container(
-                width: 70,
-                height: 50,
-                decoration: BoxDecoration(
-                  color: Colors.grey[200],
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Center(
-                  child: Text(
-                    "+Add",
-                    style: GoogleFonts.poppins(),
-                  ),
-                ),
-              ),
+              child: (widget.groupMembers != null &&
+                      widget.groupMembers!.isNotEmpty)
+                  ? Chip(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      backgroundColor: Colors.black,
+                      label: Text(
+                        'All members of ${widget.name}',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    )
+                  : Container(
+                      width: 70,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Center(
+                        child: Text(
+                          "+Add",
+                          style: GoogleFonts.poppins(),
+                        ),
+                      ),
+                    ),
             ),
             const SizedBox(height: 30),
             // Text(

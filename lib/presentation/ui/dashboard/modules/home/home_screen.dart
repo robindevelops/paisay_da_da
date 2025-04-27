@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:paisay_da_da/core/constants.dart';
 import 'package:paisay_da_da/core/themes.dart';
 import 'package:paisay_da_da/data/local/hive.dart';
+import 'package:paisay_da_da/presentation/animation/animation.dart';
 import 'package:paisay_da_da/presentation/notifier/friend.notifier.dart';
 import 'package:paisay_da_da/presentation/notifier/group.notifier.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/modules/detail/detail_screen.dart';
@@ -24,41 +25,14 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
-  late AnimationController _animationController;
-  @override
-  void initState() {
-    super.initState();
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 700),
-    );
-  }
-
   void _navigateToAddExpenseScreen() {
     Navigator.of(context).push(
-      PageRouteBuilder(
-        barrierColor: Colors.black,
-        transitionDuration: const Duration(milliseconds: 600),
-        pageBuilder: (context, animation, secondaryAnimation) {
-          final curvedAnimation = CurvedAnimation(
-            parent: animation,
-            curve: Curves.fastOutSlowIn,
-          );
-
-          return CircularRevealAnimation(
-            animation: curvedAnimation,
-            centerAlignment: Alignment.bottomCenter,
-            child: const AddExpenseScreen(),
-          );
-        },
+      AnimationUtil.circularRevealTransition(
+        page: AddExpenseScreen(),
+        centerAlignment: Alignment.bottomCenter,
+        duration: const Duration(milliseconds: 600),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _animationController.dispose();
-    super.dispose();
   }
 
   @override

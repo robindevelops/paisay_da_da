@@ -1,4 +1,6 @@
 import 'package:flutter/foundation.dart';
+import 'package:paisay_da_da/presentation/notifier/group.notifier.dart';
+import 'package:provider/provider.dart';
 
 class AddMemberNotifier extends ChangeNotifier {
   final List<String> _members = [];
@@ -11,6 +13,10 @@ class AddMemberNotifier extends ChangeNotifier {
       _members.add(email);
     }
     notifyListeners();
+  }
+
+  void clearMemeber() {
+    _members.clear();
   }
 
   bool isSelected(String email) => _members.contains(email);

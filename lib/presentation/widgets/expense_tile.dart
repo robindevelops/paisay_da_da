@@ -1,23 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:paisay_da_da/core/constants.dart';
+import 'package:paisay_da_da/data/local/hive.dart';
+import 'package:paisay_da_da/domain/models/groupmodel/group.model.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/modules/detail/total_bill.dart';
 
 class ExpenseTile extends StatelessWidget {
-  const ExpenseTile({
-    super.key,
-  });
+  final List<ExpenseDetail>? expenseDetail; // Make it final
+
+  ExpenseTile({super.key, required this.expenseDetail});
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      physics: BouncingScrollPhysics(),
-      itemCount: 4,
+      physics: const BouncingScrollPhysics(),
+      itemCount: expenseDetail!.length,
       itemBuilder: (context, index) {
+        var expense = expenseDetail![index];
+        var expenseName = expense.expense?.title;
+        var payerName = expense.payer?.name;
+        var payerEmail = expense.payer?.email;
+        var currentUser = HiveDatabase.getValue(HiveDatabase.userKey);
+        bool isPaidByMe = currentUser == payerEmail;
+        double totalLent = 0.0;
+        double totalOwe = 0.0;
+
+        expense.owedUsers?.forEach((owedUser) {
+          totalLent += owedUser.amount ?? 0.0;
+        });
+
+        expense.owedUsers?.forEach((owedUser) {
+          if (owedUser.user?.email != currentUser) {
+            totalOwe += owedUser.amount ?? 0.0;
+          }
+        });
+
         return Slidable(
           key: ValueKey(index),
           startActionPane: ActionPane(
-            motion: const DrawerMotion(),
+            motion: const ScrollMotion(),
             children: [
               SlidableAction(
                 borderRadius: BorderRadius.circular(5),
@@ -30,7 +51,7 @@ class ExpenseTile extends StatelessWidget {
             ],
           ),
           endActionPane: ActionPane(
-            motion: const DrawerMotion(),
+            motion: const ScrollMotion(),
             children: [
               SlidableAction(
                 borderRadius: BorderRadius.circular(5),
@@ -48,7 +69,7 @@ class ExpenseTile extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return TotalBill();
+                    return TotalBill(); // You can also pass data if needed
                   },
                 ),
               );
@@ -60,12 +81,19 @@ class ExpenseTile extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text("Mar"),
-                        Text("13"),
+                        Text(
+                          "ad", // Replace with actual date if needed
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          "ad", // Replace with actual date if needed
+                          style: TextStyle(fontSize: 12),
+                        ),
                       ],
                     ),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     SizedBox(
                       height: 40,
                       child: Image.asset(
@@ -76,23 +104,76 @@ class ExpenseTile extends StatelessWidget {
                 ),
               ],
             ),
-            title: Text("Roti"),
-            subtitle: Text("You paid Rs 400"),
-            trailing: Column(
-              children: [
-                Text(
-                  "You Lend",
-                  style: TextStyle(color: Colors.green),
-                ),
-                Text(
-                  "RS 500",
-                  style: TextStyle(color: Colors.green),
-                ),
-              ],
+            title: Text(expenseName!),
+            subtitle: isPaidByMe
+                ? Text('Paid by you')
+                : Text(
+                    'Paid by ${payerName}',
+                  ),
+            trailing: SizedBox(
+              width: 80,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  isPaidByMe
+                      ? LendMoneyWidget(totalLent: totalLent)
+                      : OwedMoneyWidget(totalOwe: totalOwe),
+                ],
+              ),
             ),
           ),
         );
       },
+    );
+  }
+}
+
+class LendMoneyWidget extends StatelessWidget {
+  final double totalLent;
+
+  const LendMoneyWidget({super.key, required this.totalLent});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(
+          "You Lend",
+          style: TextStyle(color: Colors.green, fontSize: 12),
+        ),
+        Text(
+          "RS ${totalLent.toStringAsFixed(0)}",
+          style: TextStyle(
+            color: Colors.green,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class OwedMoneyWidget extends StatelessWidget {
+  final double totalOwe;
+
+  const OwedMoneyWidget({super.key, required this.totalOwe});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(
+          "You Owe",
+          style: TextStyle(color: Colors.red, fontSize: 12),
+        ),
+        Text(
+          "RS ${totalOwe.toStringAsFixed(0)}",
+          style: TextStyle(
+            color: Colors.red,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
     );
   }
 }
