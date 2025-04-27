@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:paisay_da_da/core/base_helper.dart';
 import 'package:paisay_da_da/data/local/hive.dart';
 import 'package:paisay_da_da/presentation/notifier/group.notifier.dart';
+import 'package:paisay_da_da/presentation/ui/dashboard/dashboard_screen.dart';
 import 'package:paisay_da_da/presentation/widgets/app_elevated_button.dart';
 import 'package:paisay_da_da/presentation/widgets/app_textfield.dart';
 import 'package:provider/provider.dart';
@@ -75,31 +76,25 @@ class _CreategroupScreenState extends State<CreategroupScreen> {
 
               const SizedBox(height: 20),
 
-              groupProvider.isLoading
-                  ? const Center(
-                      child: CircularProgressIndicator(),
-                    )
-                  : AppElevatedButton(
-                      text: "Create Group",
-                      onPressed: () {
-                        var value = HiveDatabase.getValue(HiveDatabase.userKey);
+              AppElevatedButton(
+                text: "Create Group",
+                onPressed: () async {
+                  var value = HiveDatabase.getValue(HiveDatabase.userKey);
 
-                        if (_formKey.currentState!.validate()) {
-                          groupProvider.groupRepository.createGroup(
-                            createdBy: value,
-                            groupName: groupName.text,
-                            members: [],
-                          );
-                          BaseHelper.showSnackBar(
-                            context,
-                            "Group Created Successfully",
-                            Colors.green,
-                          );
-                          groupProvider.getGroups(email: value);
-                          Navigator.pop(context);
-                        }
-                      },
-                    ),
+                  if (_formKey.currentState!.validate()) {
+                    bool success = await groupProvider.CreateGroup(
+                      createdBy: value,
+                      groupName: groupName.text,
+                      members: [],
+                      context: context,
+                    );
+                    if (success) {
+                      Navigator.pop(context);
+                      groupProvider.getGroups(email: value);
+                    }
+                  }
+                },
+              ),
 
               const SizedBox(height: 20),
 

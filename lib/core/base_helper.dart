@@ -162,7 +162,7 @@ class BaseHelper {
 
   /// Function to show a snackbar with a message
 
-  static void showSnackBar(context, String message, Color color) {
+  static void showSnackBar(BuildContext context, String message, Color color) {
     awesomeTopSnackbar(
       backgroundColor: color,
       context,

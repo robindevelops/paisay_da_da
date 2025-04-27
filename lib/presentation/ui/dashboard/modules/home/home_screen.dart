@@ -9,7 +9,7 @@ import 'package:paisay_da_da/data/local/hive.dart';
 import 'package:paisay_da_da/presentation/animation/animation.dart';
 import 'package:paisay_da_da/presentation/notifier/friend.notifier.dart';
 import 'package:paisay_da_da/presentation/notifier/group.notifier.dart';
-import 'package:paisay_da_da/presentation/ui/dashboard/modules/detail/detail_screen.dart';
+import 'package:paisay_da_da/presentation/ui/dashboard/modules/detail/user_detail_screen.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/modules/expense/add_expense.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/modules/friends/add_friends_screen.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/modules/friends/add_members_screen.dart';

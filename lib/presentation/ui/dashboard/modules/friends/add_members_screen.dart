@@ -56,6 +56,7 @@ class _AddMembersScreenState extends State<AddMembersScreen> {
               await groupNotifier.addMember(
                 groupId: widget.groupId,
                 email: addMemberNotifier.members,
+                context: context,
               );
 
               addMemberNotifier.clearMemeber();

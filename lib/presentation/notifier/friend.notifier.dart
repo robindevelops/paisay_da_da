@@ -29,25 +29,30 @@ class FriendNotifier extends ChangeNotifier {
       (success) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text("Friend request sent ✅"),
+            content: Text(success.message.toString()),
             backgroundColor: Colors.green,
           ),
         );
       },
       (failure) {
-        if (failure.message == 'Sender or receiver not found.') {
-          BaseHelper.showSnackBar(context, 'User not found 💨', Colors.red);
-        } else if (failure.message == 'Friend request already sent.') {
-          BaseHelper.showSnackBar(
-              context, 'Pehle wali pending hai bhai 😂', Colors.red);
-        } else if (failure.message ==
-            'You cannot send a friend request to yourself.') {
-          BaseHelper.showSnackBar(
-              context, 'Nice try, lonely legend 🤡', Colors.red);
-        } else if (failure.message == 'You are already friends.') {
-          BaseHelper.showSnackBar(
-              context, 'You are already friends', Colors.red);
-        }
+        BaseHelper.showSnackBar(
+          context,
+          failure.message.toString(),
+          Colors.red,
+        );
+        // if (failure.message == 'Sender or receiver not found.') {
+        //   BaseHelper.showSnackBar(context, 'User not found 💨', Colors.red);
+        // } else if (failure.message == 'Friend request already sent.') {
+        //   BaseHelper.showSnackBar(
+        //       context, 'Pehle wali pending hai bhai 😂', Colors.red);
+        // } else if (failure.message ==
+        //     'You cannot send a friend request to yourself.') {
+        //   BaseHelper.showSnackBar(
+        //       context, 'Nice try, lonely legend 🤡', Colors.red);
+        // } else if (failure.message == 'You are already friends.') {
+        //   BaseHelper.showSnackBar(
+        //       context, 'You are already friends', Colors.red);
+        // }
       },
     );
   }
@@ -62,8 +67,8 @@ class FriendNotifier extends ChangeNotifier {
       (success) {
         _friendsModel = FriendsModel(friends: success.friends);
         _friendRequests = FriendsModel(friendRequests: success.friendRequests);
-        // Correctly call notifyListeners
-        notifyListeners(); // This will notify listeners that state has changed
+
+        notifyListeners();
       },
       (failure) {
         BaseHelper.showSnackBar(
@@ -83,18 +88,18 @@ class FriendNotifier extends ChangeNotifier {
 
     response.fold(
       (success) {
-        // BaseHelper.showSnackBar(
-        //   "Friend Request accepted",
-        //   context,
-        //   Colors.green,
-        // );
+        BaseHelper.showSnackBar(
+          context,
+          success.message.toString(),
+          Colors.green,
+        );
       },
       (failure) {
-        // BaseHelper.showSnackBar(
-        //   context,
-        //   'Error: ${failure.message}',
-        //   Colors.red,
-        // );
+        BaseHelper.showSnackBar(
+          context,
+          '${failure.message}',
+          Colors.red,
+        );
       },
     );
   }
@@ -106,7 +111,13 @@ class FriendNotifier extends ChangeNotifier {
     var response = await friendsRepository.rejectRequest(requestId: requestId);
 
     response.fold(
-      (success) {},
+      (success) {
+        BaseHelper.showSnackBar(
+          context,
+          success.message.toString(),
+          Colors.green,
+        );
+      },
       (failure) {
         BaseHelper.showSnackBar(
           context,

@@ -3,10 +3,13 @@ import 'package:paisay_da_da/core/base_helper.dart';
 import 'package:paisay_da_da/data/local/hive.dart';
 import 'package:paisay_da_da/domain/models/generalmodel/authentication.model.dart';
 import 'package:paisay_da_da/domain/repository/auth.repository.dart';
+import 'package:paisay_da_da/presentation/notifier/loader.notifier.dart';
 import 'package:paisay_da_da/presentation/ui/welcome/welcome_screen.dart';
+import 'package:provider/provider.dart';
 
 class AuthenticationNotifier extends ChangeNotifier {
   AuthRepository authRepository;
+
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
@@ -20,10 +23,14 @@ class AuthenticationNotifier extends ChangeNotifier {
     required String password,
     required BuildContext context,
   }) async {
-    _isLoading = true;
+    LoaderNotifier loaderNotifier =
+        Provider.of<LoaderNotifier>(context, listen: false);
+
+    loaderNotifier.setLoading(true);
+    // _isLoading = true;
     notifyListeners();
 
-    await Future.delayed(Duration(seconds: 2)); // Awaiting the delay
+    await Future.delayed(Duration(seconds: 2));
 
     final response = await authRepository.signup(
       name: name,
@@ -36,9 +43,13 @@ class AuthenticationNotifier extends ChangeNotifier {
         _authenticationModel = success;
 
         HiveDatabase.storeValue(
-            HiveDatabase.tokenKey, _authenticationModel.token);
+          HiveDatabase.tokenKey,
+          _authenticationModel.token,
+        );
         HiveDatabase.storeValue(
-            HiveDatabase.userKey, _authenticationModel.user?.email);
+          HiveDatabase.userKey,
+          _authenticationModel.user?.email,
+        );
         HiveDatabase.storelogin(true);
 
         BaseHelper.showSnackBar(
@@ -60,7 +71,9 @@ class AuthenticationNotifier extends ChangeNotifier {
         return false;
       },
     );
-    _isLoading = false;
+    loaderNotifier.setLoading(true);
+
+    // _isLoading = false;
     notifyListeners();
     return result;
   }

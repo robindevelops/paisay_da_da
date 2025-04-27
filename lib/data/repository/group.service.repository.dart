@@ -134,7 +134,7 @@ class GroupServiceRepository implements GroupRepository {
         },
       );
       if (response != null) {
-        if (response['success'] == true) {
+        if (response['status'] == true) {
           return left(SuccessModel.fromJson(response));
         } else {
           return right(FailtureModel.fromJson(response, String: null));

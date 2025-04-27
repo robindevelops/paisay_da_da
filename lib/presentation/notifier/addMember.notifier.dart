@@ -1,6 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:paisay_da_da/presentation/notifier/group.notifier.dart';
-import 'package:provider/provider.dart';
 
 class AddMemberNotifier extends ChangeNotifier {
   final List<String> _members = [];

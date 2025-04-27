@@ -1,17 +1,12 @@
 // ignore_for_file: must_be_immutable
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:paisay_da_da/core/themes.dart';
-import 'package:paisay_da_da/data/local/hive.dart';
 import 'package:paisay_da_da/domain/models/groupmodel/group.model.dart';
 import 'package:paisay_da_da/presentation/animation/animation.dart';
 import 'package:paisay_da_da/presentation/notifier/friend.notifier.dart';
 import 'package:paisay_da_da/presentation/notifier/group.notifier.dart';
-import 'package:paisay_da_da/presentation/ui/dashboard/modules/detail/detail_screen.dart';
-import 'package:paisay_da_da/presentation/ui/dashboard/modules/detail/total_bill.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/modules/expense/add_expense.dart';
-import 'package:paisay_da_da/presentation/ui/dashboard/modules/friends/add_members_screen.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/modules/group/group_setting_screen.dart';
 import 'package:paisay_da_da/presentation/widgets/expense_tile.dart';
 import 'package:paisay_da_da/presentation/widgets/no_expense_widget.dart';
