@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
@@ -23,19 +25,14 @@ class ExpenseTile extends StatelessWidget {
         var expenseName = expense.expense?.title;
         var payerName = expense.payer?.name;
         var payerEmail = expense.payer?.email;
+        var owedUsers = expense.owedUsers;
+        var oweamount = expense.amount;
         var currentUser = HiveDatabase.getValue(HiveDatabase.userKey);
         bool isPaidByMe = currentUser == payerEmail;
         double totalLent = 0.0;
-        double totalOwe = 0.0;
 
         expense.owedUsers?.forEach((owedUser) {
           totalLent += owedUser.amount ?? 0.0;
-        });
-
-        expense.owedUsers?.forEach((owedUser) {
-          if (owedUser.user?.email != currentUser) {
-            totalOwe += owedUser.amount ?? 0.0;
-          }
         });
 
         return Slidable(
@@ -74,9 +71,10 @@ class ExpenseTile extends StatelessWidget {
                 MaterialPageRoute(
                   builder: (context) {
                     return TotalBill(
-                      createdAt: createdAt.toString(),
-                      totalBill: totalBill.toString(),
-                    );
+                        createdAt: createdAt.toString(),
+                        totalBill: totalBill.toString(),
+                        payerName: payerName,
+                        owedUsers: owedUsers);
                   },
                 ),
               );
@@ -97,8 +95,9 @@ class ExpenseTile extends StatelessWidget {
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          displayJustDate(createdAt.toString())[
-                              'month']!, // Second Text: Month
+                          displayJustDate(
+                            createdAt.toString(),
+                          )['month']!, // Second Text: Month
                           style: TextStyle(fontSize: 12),
                         ),
                       ],
@@ -127,7 +126,7 @@ class ExpenseTile extends StatelessWidget {
                 children: [
                   isPaidByMe
                       ? LendMoneyWidget(totalLent: totalLent)
-                      : OwedMoneyWidget(totalOwe: totalOwe),
+                      : OwedMoneyWidget(totalOwe: oweamount),
                 ],
               ),
             ),
@@ -164,7 +163,7 @@ class LendMoneyWidget extends StatelessWidget {
 }
 
 class OwedMoneyWidget extends StatelessWidget {
-  final double totalOwe;
+  final int? totalOwe;
 
   const OwedMoneyWidget({super.key, required this.totalOwe});
 
@@ -177,7 +176,7 @@ class OwedMoneyWidget extends StatelessWidget {
           style: TextStyle(color: Colors.red, fontSize: 12),
         ),
         Text(
-          "RS ${totalOwe.toStringAsFixed(0)}",
+          "RS ${totalOwe ?? 0}",
           style: TextStyle(
             color: Colors.red,
             fontWeight: FontWeight.bold,

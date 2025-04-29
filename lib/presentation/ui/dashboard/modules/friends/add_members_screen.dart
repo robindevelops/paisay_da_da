@@ -27,6 +27,7 @@ class _AddMembersScreenState extends State<AddMembersScreen> {
   @override
   Widget build(BuildContext context) {
     FriendNotifier friendNotifier = Provider.of<FriendNotifier>(context);
+
     GroupNotifier groupNotifier = Provider.of<GroupNotifier>(context);
     var email = HiveDatabase.getValue(HiveDatabase.userKey);
 
@@ -43,40 +44,46 @@ class _AddMembersScreenState extends State<AddMembersScreen> {
         scrolledUnderElevation: 0,
         iconTheme: const IconThemeData(color: Colors.black),
         actions: [
-          TextButton(
-            onPressed: () async {
-              final addMemberNotifier = Provider.of<AddMemberNotifier>(
-                context,
-                listen: false,
-              );
+          Consumer<AddMemberNotifier>(
+            builder: (context, addMemberNotifier, child) {
+              List<String> newMembers = addMemberNotifier.members
+                  .where((email) =>
+                      !(widget.groupMembers?.contains(email) ?? false))
+                  .toList();
 
-              print(widget.groupId);
+              bool hasNewMembers = newMembers.isNotEmpty;
 
-              await groupNotifier.addMember(
-                groupId: widget.groupId,
-                email: addMemberNotifier.members,
-                context: context,
-              );
+              return TextButton(
+                onPressed: hasNewMembers
+                    ? () async {
+                        await groupNotifier.addMember(
+                          groupId: widget.groupId,
+                          email: newMembers, // only send new members
+                          context: context,
+                        );
 
-              addMemberNotifier.clearMemeber();
+                        addMemberNotifier.clearMemeber();
 
-              await groupNotifier.getGroups(email: email);
+                        await groupNotifier.getGroups(email: email);
 
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => DashboardScreen(),
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DashboardScreen(),
+                          ),
+                          (Route<dynamic> route) => false,
+                        );
+                      }
+                    : null,
+                child: Text(
+                  "Save",
+                  style: TextStyle(
+                    color: hasNewMembers ? Colors.black : Colors.grey,
+                    fontSize: 17,
+                  ),
                 ),
-                (Route<dynamic> route) => false,
               );
             },
-            child: const Text(
-              "Save",
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 17,
-              ),
-            ),
           ),
         ],
       ),
@@ -89,6 +96,9 @@ class _AddMembersScreenState extends State<AddMembersScreen> {
               hintText: "Search Members or Groups",
               icon: Icons.search,
               controller: _searchController,
+              onChanged: (value) {
+                // addMemberNotifier.filterMember(value, context);
+              },
             ),
             const SizedBox(height: 20),
 

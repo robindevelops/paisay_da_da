@@ -1,8 +1,12 @@
 import 'package:flutter/foundation.dart';
+import 'package:paisay_da_da/domain/models/friendmodel/friend.model.dart';
 
 class AddMemberNotifier extends ChangeNotifier {
-  final List<String> _members = [];
+  List<String> _members = [];
   List<String> get members => _members;
+
+  FriendsModel _friendsModel = FriendsModel();
+  FriendsModel get friendsModel => _friendsModel;
 
   void toggleMember(String email) {
     if (_members.contains(email)) {

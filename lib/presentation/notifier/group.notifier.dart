@@ -38,11 +38,11 @@ class GroupNotifier extends ChangeNotifier {
 
     var result = response.fold(
       (success) {
-        BaseHelper.showSnackBar(
-          context,
-          success.message.toString(),
-          Colors.green,
-        );
+        // BaseHelper.showSnackBar(
+        //   context,
+        //   success.message.toString(),
+        //   Colors.green,
+        // );
         return true;
       },
       (failure) {
@@ -51,6 +51,7 @@ class GroupNotifier extends ChangeNotifier {
           failure.message.toString(),
           Colors.red,
         );
+
         return false;
       },
     );
@@ -89,7 +90,7 @@ class GroupNotifier extends ChangeNotifier {
 
     response.fold(
       (success) {
-        BaseHelper.showSnackBar(context, "Group deleted", Colors.green);
+        // BaseHelper.showSnackBar(context, "Group deleted", Colors.green);
       },
       (failure) {},
     );

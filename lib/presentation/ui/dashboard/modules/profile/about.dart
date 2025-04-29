@@ -11,9 +11,9 @@ class AboutUsScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.black,
         elevation: 0,
-        title: const Text(
-          "About Us",
-          style: TextStyle(color: Colors.white),
+        title: Text(
+          "About us",
+          style: GoogleFonts.aBeeZee(color: Colors.white),
         ),
         centerTitle: true,
         iconTheme: const IconThemeData(color: Colors.white),

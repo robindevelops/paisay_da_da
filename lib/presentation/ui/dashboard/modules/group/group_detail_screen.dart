@@ -85,10 +85,10 @@ class _GroupDetailScreenState extends State<GroupDetailScreen> {
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  "khata clear ha",
+                  "No expense here yet",
                   style: GoogleFonts.aBeeZee(
                     color: Colors.white,
-                    fontSize: 15,
+                    fontSize: 12,
                     fontWeight: FontWeight.bold,
                   ),
                 ),

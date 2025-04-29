@@ -40,12 +40,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
     Rootvm rootvm = context.watch<Rootvm>();
 
     return Scaffold(
-      // backgroundColor: AppThemes.appScaffoaldColor,
+      backgroundColor: Colors.white,
       body: IndexedStack(
         index: rootvm.currentindex,
         children: rootvm.screens,
       ),
-
       bottomNavigationBar: Container(
         margin: EdgeInsets.all(10),
         padding: EdgeInsets.all(10),
