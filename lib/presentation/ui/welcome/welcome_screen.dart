@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:paisay_da_da/core/constants.dart';
+import 'package:paisay_da_da/core/constants/constants.dart';
 import 'package:paisay_da_da/presentation/ui/auth/signin_screen.dart';
 import 'package:paisay_da_da/presentation/ui/auth/signup_screen.dart';
 

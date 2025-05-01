@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:paisay_da_da/core/constants.dart';
+import 'package:paisay_da_da/core/constants/constants.dart';
 import 'dart:async';
 import 'package:paisay_da_da/data/local/hive.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/dashboard_screen.dart';

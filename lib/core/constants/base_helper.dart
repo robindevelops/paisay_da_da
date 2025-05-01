@@ -1,7 +1,7 @@
 import 'package:awesome_top_snackbar/awesome_top_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:paisay_da_da/core/themes.dart';
+import 'package:paisay_da_da/core/themes/themes.dart';
 import 'package:paisay_da_da/data/local/hive.dart';
 import 'package:paisay_da_da/presentation/ui/welcome/welcome_screen.dart';
 import 'package:paisay_da_da/presentation/widgets/app_elevated_button.dart';

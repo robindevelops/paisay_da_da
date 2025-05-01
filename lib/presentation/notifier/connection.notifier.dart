@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:paisay_da_da/core/log.dart';
+import 'package:paisay_da_da/core/themes/log.dart';
 
 class ConnectionNotifier extends ChangeNotifier {
   final Connectivity _connectivity = Connectivity();

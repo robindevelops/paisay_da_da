@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:paisay_da_da/core/base_helper.dart';
+import 'package:paisay_da_da/core/constants/base_helper.dart';
 import 'package:paisay_da_da/domain/models/friendmodel/friend.model.dart';
 import 'package:paisay_da_da/domain/repository/friend.repository.dart';
 

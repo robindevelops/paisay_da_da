@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:paisay_da_da/core/themes.dart';
+import 'package:paisay_da_da/core/themes/themes.dart';
 import 'package:paisay_da_da/presentation/notifier/loader.notifier.dart';
 import 'package:provider/provider.dart';
 

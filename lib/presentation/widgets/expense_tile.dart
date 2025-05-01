@@ -3,7 +3,7 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
-import 'package:paisay_da_da/core/constants.dart';
+import 'package:paisay_da_da/core/constants/constants.dart';
 import 'package:paisay_da_da/data/local/hive.dart';
 import 'package:paisay_da_da/domain/models/groupmodel/group.model.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/modules/detail/total_bill_screen.dart';

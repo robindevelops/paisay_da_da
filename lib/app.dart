@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:paisay_da_da/core/app_builder.dart';
-import 'package:paisay_da_da/core/multi_provider.dart';
+import 'package:paisay_da_da/core/provider/multi_provider.dart';
 import 'package:paisay_da_da/presentation/ui/splash/splash_screen.dart';
 
 class MyApp extends StatefulWidget {

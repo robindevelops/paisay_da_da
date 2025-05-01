@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:paisay_da_da/core/constants.dart';
+import 'package:paisay_da_da/core/constants/constants.dart';
 import 'package:paisay_da_da/data/local/hive.dart';
 import 'package:paisay_da_da/presentation/notifier/friend.notifier.dart';
 import 'package:paisay_da_da/presentation/widgets/no_friends_found.widget.dart';

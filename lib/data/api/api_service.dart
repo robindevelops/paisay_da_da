@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:dio/dio.dart' as dio;
 import 'package:dio/dio.dart';
-import 'package:paisay_da_da/core/log.dart';
+import 'package:paisay_da_da/core/themes/log.dart';
 import 'package:paisay_da_da/data/local/hive.dart';
 import 'api_config.dart';
 
