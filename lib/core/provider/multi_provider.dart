@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:paisay_da_da/core/locator/locator.dart';
-import 'package:paisay_da_da/domain/repository/auth.repository.dart';
 import 'package:paisay_da_da/presentation/notifier/addMember.notifier.dart';
 import 'package:paisay_da_da/presentation/notifier/auth.notifier.dart';
 import 'package:paisay_da_da/presentation/notifier/connection.notifier.dart';
+import 'package:paisay_da_da/presentation/notifier/expense.notifier.dart';
 import 'package:paisay_da_da/presentation/notifier/friend.notifier.dart';
 import 'package:paisay_da_da/presentation/notifier/group.notifier.dart';
 import 'package:paisay_da_da/presentation/notifier/loader.notifier.dart';
@@ -53,12 +53,21 @@ class MultiProviders extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) {
-            return FriendNotifier(friendsRepository: ServiceLocator.getIt());
+            return FriendNotifier(
+              friendsRepository: ServiceLocator.getIt(),
+            );
           },
         ),
         ChangeNotifierProvider(
           create: (context) {
             return AddMemberNotifier();
+          },
+        ),
+        ChangeNotifierProvider(
+          create: (context) {
+            return ExpenseNotifier(
+              expenseRepository: ServiceLocator.getIt(),
+            );
           },
         ),
       ],

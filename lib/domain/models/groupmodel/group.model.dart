@@ -67,7 +67,7 @@ class Groups {
         : null;
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
-    iV = json['__v'];
+    iV = (json['__v'] as num?)?.toInt(); // Fixed to handle int or double
   }
 
   Map<String, dynamic> toJson() {
@@ -141,10 +141,10 @@ class ExpenseDetail {
         owedUsers!.add(new OwedUsers.fromJson(v));
       });
     }
-    amount = json['amount'];
+    amount = (json['amount'] as num?)?.toInt(); // Fixed to handle int or double
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
-    iV = json['__v'];
+    iV = (json['__v'] as num?)?.toInt(); // Fixed to handle int or double
   }
 
   Map<String, dynamic> toJson() {
@@ -170,7 +170,7 @@ class ExpenseDetail {
 class Expense {
   String? sId;
   String? title;
-  int? price;
+  String? price;
 
   Expense({this.sId, this.title, this.price});
 
@@ -220,7 +220,7 @@ class OwedUsers {
 
   OwedUsers.fromJson(Map<String, dynamic> json) {
     user = json['user'] != null ? new Payer.fromJson(json['user']) : null;
-    amount = json['amount'];
+    amount = (json['amount'] as num?)?.toInt(); // Fixed to handle int or double
     sId = json['_id'];
   }
 

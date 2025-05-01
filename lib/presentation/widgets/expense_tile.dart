@@ -126,7 +126,7 @@ class ExpenseTile extends StatelessWidget {
                 children: [
                   isPaidByMe
                       ? LendMoneyWidget(totalLent: totalLent)
-                      : OwedMoneyWidget(totalOwe: oweamount),
+                      : OwedMoneyWidget(totalOwe: oweamount?.toInt()),
                 ],
               ),
             ),

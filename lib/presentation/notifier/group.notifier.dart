@@ -77,6 +77,7 @@ class GroupNotifier extends ChangeNotifier {
       (failure) {
         _groupModel = GroupModel(groups: []);
         print("No group Found: ${_groupModel.groups}");
+        print("No group Found: ${failure.message}");
         notifyListeners();
       },
     );

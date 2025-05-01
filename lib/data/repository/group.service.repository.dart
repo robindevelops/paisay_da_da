@@ -42,19 +42,12 @@ class GroupServiceRepository implements GroupRepository {
   Future<Either<GroupModel, FailtureModel>> getGroups(
       {required String useremail, String? groupId}) async {
     try {
-      var data = {
-        "email": useremail,
-      };
-
-      // Add groupId only if it's not null or empty
-      if (groupId != null && groupId.isNotEmpty) {
-        data["groupId"] = groupId;
-      }
-
       var response = await ApiService.request(
         ApiPaths.getGroup,
         method: RequestMethod.get,
-        data: data,
+        data: {
+          "email": useremail,
+        },
       );
       if (response != null) {
         if (response['success'] == true) {
@@ -65,7 +58,9 @@ class GroupServiceRepository implements GroupRepository {
       } else {
         return right(FailtureModel(message: 'An error occurred'));
       }
-    } catch (e) {
+    } catch (e, stackTrace) {
+      print("❌ Error: $e");
+      print("📍 StackTrace: $stackTrace");
       return right(FailtureModel(message: "Unexpected error: $e"));
     }
   }
