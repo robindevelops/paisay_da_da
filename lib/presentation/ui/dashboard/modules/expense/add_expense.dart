@@ -31,22 +31,28 @@ class AddExpenseScreen extends StatefulWidget {
 class _AddExpenseScreenState extends State<AddExpenseScreen> {
   final TextEditingController descriptionController = TextEditingController();
   final TextEditingController amountController = TextEditingController();
-
-  final payerEmail = HiveDatabase.getValue(HiveDatabase.userKey);
   final _formKey = GlobalKey<FormState>();
+  final String payerEmail = HiveDatabase.getValue(HiveDatabase.userKey);
+
+  late List<String> members;
+  late ExpenseNotifier expenseNotifier;
+  late GroupNotifier groupNotifier;
+  late AddMemberNotifier addMemberNotifier;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    expenseNotifier = Provider.of<ExpenseNotifier>(context);
+    groupNotifier = Provider.of<GroupNotifier>(context);
+    addMemberNotifier = Provider.of<AddMemberNotifier>(context);
+
+    members = (widget.groupMembers ?? [])
+        .where((member) => member != payerEmail)
+        .toList();
+  }
 
   @override
   Widget build(BuildContext context) {
-    ExpenseNotifier expenseNotifier = Provider.of<ExpenseNotifier>(context);
-    GroupNotifier groupNotifier = Provider.of<GroupNotifier>(context);
-    AddMemberNotifier addMemberNotifier =
-        Provider.of<AddMemberNotifier>(context);
-
-    // Filter out the payer from the member list
-    final members = (widget.groupMembers ?? []).where((member) {
-      return member != payerEmail;
-    }).toList();
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(

@@ -197,11 +197,12 @@ class MemberTile extends StatelessWidget {
   final String email;
   List<String>? groupemail;
 
-  MemberTile(
-      {super.key,
-      required this.name,
-      required this.email,
-      required this.groupemail});
+  MemberTile({
+    super.key,
+    required this.name,
+    required this.email,
+    required this.groupemail,
+  });
 
   @override
   Widget build(BuildContext context) {
