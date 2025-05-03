@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:paisay_da_da/core/constants/constants.dart';
 import 'package:paisay_da_da/core/themes/log.dart';
+import 'package:paisay_da_da/core/themes/themes.dart';
 import 'package:paisay_da_da/presentation/notifier/group.notifier.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/modules/group/group_detail_screen.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/modules/group/create_group_screen.dart';
@@ -105,10 +106,20 @@ class _GroupScreenState extends State<GroupScreen> {
                           ),
                           trailing: group.expenseDetail!.isEmpty
                               ? const Text("no expense")
-                              : Text(
-                                  "${group.expenseDetail!.length} expense",
-                                  style: const TextStyle(
-                                    color: Colors.black,
+                              : Container(
+                                  width: 70,
+                                  height: 25,
+                                  decoration: BoxDecoration(
+                                    color: AppThemes.highlightGreen,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      "${group.expenseDetail!.length} expense",
+                                      style: const TextStyle(
+                                        color: Colors.black,
+                                      ),
+                                    ),
                                   ),
                                 ),
                         );

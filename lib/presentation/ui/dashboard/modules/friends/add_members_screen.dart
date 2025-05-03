@@ -11,11 +11,10 @@ import 'package:paisay_da_da/presentation/widgets/app_textfield.dart';
 import 'package:provider/provider.dart';
 
 class AddMembersScreen extends StatefulWidget {
-  String groupId;
+  String? groupId;
   List<String>? groupMembers;
 
-  AddMembersScreen(
-      {super.key, required this.groupId, required this.groupMembers});
+  AddMembersScreen({super.key, this.groupId, this.groupMembers});
 
   @override
   State<AddMembersScreen> createState() => _AddMembersScreenState();
@@ -57,7 +56,7 @@ class _AddMembersScreenState extends State<AddMembersScreen> {
                 onPressed: hasNewMembers
                     ? () async {
                         await groupNotifier.addMember(
-                          groupId: widget.groupId,
+                          groupId: widget.groupId.toString(),
                           email: newMembers, // only send new members
                           context: context,
                         );

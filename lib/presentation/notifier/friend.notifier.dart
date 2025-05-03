@@ -14,6 +14,7 @@ class FriendNotifier extends ChangeNotifier {
   List<Friends> get friends => _friendsModel.friends ?? [];
   List<FriendRequests> get friendRequests =>
       _friendRequests.friendRequests ?? [];
+
   Future<bool> addFriend({
     required String senderEmail,
     required String receiverEmail,
@@ -35,10 +36,11 @@ class FriendNotifier extends ChangeNotifier {
         return true;
       },
       (failure) {
-        BaseHelper.showSnackBar(
-          context,
-          failure.message.toString(),
-          Colors.red,
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(failure.message.toString()),
+            backgroundColor: Colors.red,
+          ),
         );
         return false;
       },

@@ -7,6 +7,7 @@ import 'package:paisay_da_da/data/local/hive.dart';
 import 'package:paisay_da_da/presentation/notifier/expense.notifier.dart';
 import 'package:paisay_da_da/presentation/notifier/group.notifier.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/dashboard_screen.dart';
+import 'package:paisay_da_da/presentation/ui/dashboard/modules/friends/add_members_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_animated_button/elevated_layer_button.dart';
 
@@ -148,17 +149,27 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
                           style: TextStyle(color: Colors.white),
                         ),
                       )
-                    : Container(
-                        width: 70,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          color: Colors.grey[200],
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Center(
-                          child: Text(
-                            "+Add",
-                            style: GoogleFonts.poppins(),
+                    : GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AddMembersScreen(),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          width: 70,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[200],
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "+Add",
+                              style: GoogleFonts.poppins(),
+                            ),
                           ),
                         ),
                       ),

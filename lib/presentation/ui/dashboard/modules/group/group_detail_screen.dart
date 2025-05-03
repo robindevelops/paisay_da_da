@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:paisay_da_da/core/themes/themes.dart';
 import 'package:paisay_da_da/domain/models/groupmodel/group.model.dart';
 import 'package:paisay_da_da/presentation/animation/animation.dart';
+import 'package:paisay_da_da/presentation/notifier/addMember.notifier.dart';
 import 'package:paisay_da_da/presentation/notifier/friend.notifier.dart';
 import 'package:paisay_da_da/presentation/notifier/group.notifier.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/modules/expense/add_expense.dart';
@@ -52,6 +53,8 @@ class _GroupDetailScreenState extends State<GroupDetailScreen> {
 
     GroupNotifier groupNotifier = Provider.of<GroupNotifier>(context);
     FriendNotifier friendNotifier = context.watch<FriendNotifier>();
+
+    AddMemberNotifier addMemberNotifier = context.watch<AddMemberNotifier>();
 
     return Scaffold(
       appBar: AppBar(
@@ -162,11 +165,19 @@ class _GroupDetailScreenState extends State<GroupDetailScreen> {
                         ? NoExpenseWidget(
                             message: 'No expenes in this group yet',
                           )
-                        : ExpenseTile(
-                            expenseDetail: widget.expenseDetail,
-                          ),
+                        : ExpenseTile(expenseDetail: widget.expenseDetail),
               ),
             ),
+            // addMemberNotifier.leftGroup.isEmpty
+            //     ? SizedBox.shrink()
+            //     : Text(
+            //         "${addMemberNotifier.leftGroup} left the group",
+            //         style: const TextStyle(
+            //           color: Colors.black,
+            //           fontSize: 15,
+            //           fontWeight: FontWeight.w500,
+            //         ),
+            //       ),
           ],
         ),
       ),

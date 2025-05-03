@@ -5,6 +5,7 @@ import 'package:paisay_da_da/core/constants/base_helper.dart';
 import 'package:paisay_da_da/core/themes/themes.dart';
 import 'package:paisay_da_da/data/local/hive.dart';
 import 'package:paisay_da_da/presentation/notifier/addMember.notifier.dart';
+import 'package:paisay_da_da/presentation/notifier/friend.notifier.dart';
 import 'package:paisay_da_da/presentation/notifier/group.notifier.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/dashboard_screen.dart';
 import 'package:paisay_da_da/presentation/widgets/admin_widget.dart';
@@ -32,6 +33,14 @@ class _GroupSettingScreenState extends State<GroupSettingScreen> {
     final userEmail = HiveDatabase.getValue(HiveDatabase.userKey);
     final isGroupCreator = userEmail == widget.createdBy;
     final groupProvider = Provider.of<GroupNotifier>(context);
+    final friendNotifier = Provider.of<FriendNotifier>(context);
+
+    var friends = friendNotifier.friends.map(
+      (friend) {
+        return friend.email;
+      },
+    ).toList();
+
     final addMemberNotifier = Provider.of<AddMemberNotifier>(context);
 
     return Scaffold(
@@ -46,7 +55,9 @@ class _GroupSettingScreenState extends State<GroupSettingScreen> {
         ),
         actions: [
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              print(friends);
+            },
             child: Text(
               "Edit",
               style: GoogleFonts.aBeeZee(
@@ -97,6 +108,8 @@ class _GroupSettingScreenState extends State<GroupSettingScreen> {
                 itemCount: widget.groupMembers?.length,
                 itemBuilder: (context, index) {
                   final memberEmail = widget.groupMembers![index];
+                  var name = getUsernameFromEmail(memberEmail);
+
                   return ListTile(
                     leading: const Icon(Icons.person_2_outlined),
                     title: Text(
@@ -106,7 +119,25 @@ class _GroupSettingScreenState extends State<GroupSettingScreen> {
                     subtitle: Text(memberEmail),
                     trailing: memberEmail == widget.createdBy
                         ? const AdminWidget()
-                        : null,
+                        : friends.contains(memberEmail) ||
+                                memberEmail == userEmail
+                            ? null
+                            : TextButton(
+                                onPressed: () async {
+                                  print(memberEmail);
+                                  await friendNotifier.addFriend(
+                                    senderEmail: userEmail,
+                                    receiverEmail: memberEmail,
+                                    context: context,
+                                  );
+                                },
+                                child: Text(
+                                  "Add friend",
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
                   );
                 },
               ),
@@ -154,6 +185,7 @@ class _GroupSettingScreenState extends State<GroupSettingScreen> {
                   context: context,
                 );
 
+                addMemberNotifier.addleftGroup(getUsernameFromEmail(userEmail));
                 await groupProvider.getGroups(email: userEmail);
 
                 Navigator.pushAndRemoveUntil(

@@ -5,6 +5,9 @@ class AddMemberNotifier extends ChangeNotifier {
   List<String> _members = [];
   List<String> get members => _members;
 
+  List<String> _leftGroup = [];
+  List<String> get leftGroup => _leftGroup;
+
   FriendsModel _friendsModel = FriendsModel();
   FriendsModel get friendsModel => _friendsModel;
 
@@ -14,6 +17,16 @@ class AddMemberNotifier extends ChangeNotifier {
     } else {
       _members.add(email);
     }
+    notifyListeners();
+  }
+
+  void addleftGroup(String name) {
+    _leftGroup.add(name);
+    notifyListeners();
+  }
+
+  void clearleftGroup(String name) {
+    _leftGroup.clear();
     notifyListeners();
   }
 
