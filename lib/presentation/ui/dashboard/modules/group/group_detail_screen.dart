@@ -110,6 +110,7 @@ class _GroupDetailScreenState extends State<GroupDetailScreen> {
                     return AddMembersScreen(
                       groupId: widget.groupId.toString(),
                       groupMembers: widget.groupMembers,
+                      isGroup: true,
                     );
                   },
                 ),

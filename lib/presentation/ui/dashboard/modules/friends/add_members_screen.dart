@@ -13,8 +13,14 @@ import 'package:provider/provider.dart';
 class AddMembersScreen extends StatefulWidget {
   String? groupId;
   List<String>? groupMembers;
+  bool isGroup = false;
 
-  AddMembersScreen({super.key, this.groupId, this.groupMembers});
+  AddMembersScreen({
+    super.key,
+    this.groupId,
+    this.groupMembers,
+    this.isGroup = false,
+  });
 
   @override
   State<AddMembersScreen> createState() => _AddMembersScreenState();
@@ -26,7 +32,6 @@ class _AddMembersScreenState extends State<AddMembersScreen> {
   @override
   Widget build(BuildContext context) {
     FriendNotifier friendNotifier = Provider.of<FriendNotifier>(context);
-
     GroupNotifier groupNotifier = Provider.of<GroupNotifier>(context);
     var email = HiveDatabase.getValue(HiveDatabase.userKey);
 
@@ -52,36 +57,51 @@ class _AddMembersScreenState extends State<AddMembersScreen> {
 
               bool hasNewMembers = newMembers.isNotEmpty;
 
-              return TextButton(
-                onPressed: hasNewMembers
-                    ? () async {
-                        await groupNotifier.addMember(
-                          groupId: widget.groupId.toString(),
-                          email: newMembers, // only send new members
-                          context: context,
-                        );
+              return widget.isGroup
+                  ? TextButton(
+                      onPressed: hasNewMembers
+                          ? () async {
+                              await groupNotifier.addMember(
+                                groupId: widget.groupId.toString(),
+                                email: newMembers, // only send new members
+                                context: context,
+                              );
 
-                        addMemberNotifier.clearMemeber();
+                              addMemberNotifier.clearMemeber();
 
-                        await groupNotifier.getGroups(email: email);
+                              await groupNotifier.getGroups(email: email);
 
-                        Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => DashboardScreen(),
-                          ),
-                          (Route<dynamic> route) => false,
-                        );
-                      }
-                    : null,
-                child: Text(
-                  "Save",
-                  style: TextStyle(
-                    color: hasNewMembers ? Colors.black : Colors.grey,
-                    fontSize: 17,
-                  ),
-                ),
-              );
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => DashboardScreen(),
+                                ),
+                                (Route<dynamic> route) => false,
+                              );
+                            }
+                          : null,
+                      child: Text(
+                        "Save",
+                        style: TextStyle(
+                          color: hasNewMembers ? Colors.black : Colors.grey,
+                          fontSize: 17,
+                        ),
+                      ),
+                    )
+                  : TextButton(
+                      onPressed: hasNewMembers
+                          ? () async {
+                              Navigator.pop(context);
+                            }
+                          : null,
+                      child: Text(
+                        "Add",
+                        style: TextStyle(
+                          color: hasNewMembers ? Colors.black : Colors.grey,
+                          fontSize: 17,
+                        ),
+                      ),
+                    );
             },
           ),
         ],

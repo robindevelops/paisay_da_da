@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:paisay_da_da/core/constants/base_helper.dart';
 import 'package:paisay_da_da/data/local/hive.dart';
+import 'package:paisay_da_da/presentation/notifier/addMember.notifier.dart';
 import 'package:paisay_da_da/presentation/notifier/expense.notifier.dart';
 import 'package:paisay_da_da/presentation/notifier/group.notifier.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/dashboard_screen.dart';
@@ -15,7 +16,13 @@ class AddExpenseScreen extends StatefulWidget {
   List<String>? groupMembers;
   String? groupid;
   String? name;
-  AddExpenseScreen({super.key, this.groupMembers, this.groupid, this.name});
+
+  AddExpenseScreen({
+    super.key,
+    this.groupMembers,
+    this.groupid,
+    this.name,
+  });
 
   @override
   State<AddExpenseScreen> createState() => _AddExpenseScreenState();
@@ -24,14 +31,16 @@ class AddExpenseScreen extends StatefulWidget {
 class _AddExpenseScreenState extends State<AddExpenseScreen> {
   final TextEditingController descriptionController = TextEditingController();
   final TextEditingController amountController = TextEditingController();
-  final payerEmail =
-      HiveDatabase.getValue(HiveDatabase.userKey).trim().toLowerCase();
+
+  final payerEmail = HiveDatabase.getValue(HiveDatabase.userKey);
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     ExpenseNotifier expenseNotifier = Provider.of<ExpenseNotifier>(context);
     GroupNotifier groupNotifier = Provider.of<GroupNotifier>(context);
+    AddMemberNotifier addMemberNotifier =
+        Provider.of<AddMemberNotifier>(context);
 
     // Filter out the payer from the member list
     final members = (widget.groupMembers ?? []).where((member) {
@@ -49,9 +58,11 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
         foregroundColor: Colors.white,
         centerTitle: true,
         leading: IconButton(
-          icon: const Icon(Icons.close),
-          onPressed: () => Navigator.pop(context),
-        ),
+            icon: const Icon(Icons.close),
+            onPressed: () {
+              Navigator.pop(context);
+              addMemberNotifier.clearMemeber();
+            }),
         actions: [
           TextButton(
             onPressed: () async {
@@ -76,6 +87,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
                 );
               }
               print(members);
+              print(addMemberNotifier.members);
             },
             child: const Text(
               "Save",
@@ -125,56 +137,76 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
                 ),
               ),
               const SizedBox(height: 15),
-              GestureDetector(
-                onTap: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => AddMembersScreen(
-                  //       groupId: '',
-                  //       groupMembers: [],
-                  //     ),
-                  //   ),
-                  // );
-                },
-                child: (widget.groupMembers != null &&
-                        widget.groupMembers!.isNotEmpty)
-                    ? Chip(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
+              (widget.groupMembers != null && widget.groupMembers!.isNotEmpty)
+                  ? Chip(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      backgroundColor: Colors.black,
+                      label: Text(
+                        'All members of ${widget.name}',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    )
+                  : Wrap(
+                      spacing: 10,
+                      runSpacing: 10,
+                      children: [
+                        // +Add button
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AddMembersScreen(),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            width: 80,
+                            height: 40,
+                            decoration: BoxDecoration(
+                              color: Colors.grey[200],
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Icon(Icons.add, size: 18),
+                                const SizedBox(width: 4),
+                                Text(
+                                  "Add",
+                                  style: GoogleFonts.poppins(),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
-                        backgroundColor: Colors.black,
-                        label: Text(
-                          'All members of ${widget.name}',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      )
-                    : GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => AddMembersScreen(),
+
+                        // Member chips
+                        ...addMemberNotifier.members.map((member) {
+                          return Chip(
+                            label: Text(
+                              getUsernameFromEmail(member),
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                            backgroundColor: Colors.black,
+                            deleteIcon:
+                                const Icon(Icons.close, color: Colors.white),
+                            onDeleted: () {
+                              addMemberNotifier.toggleMember(member);
+                            },
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              side: const BorderSide(color: Colors.white),
                             ),
                           );
-                        },
-                        child: Container(
-                          width: 70,
-                          height: 50,
-                          decoration: BoxDecoration(
-                            color: Colors.grey[200],
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Center(
-                            child: Text(
-                              "+Add",
-                              style: GoogleFonts.poppins(),
-                            ),
-                          ),
-                        ),
-                      ),
-              ),
+                        }).toList(),
+                      ],
+                    ),
               const SizedBox(height: 30),
+
               // Text(
               //   "Paid by you split equally",
               //   style: GoogleFonts.poppins(
@@ -268,4 +300,8 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
       ),
     );
   }
+}
+
+String getUsernameFromEmail(String email) {
+  return email.split('@')[0].toUpperCase();
 }
