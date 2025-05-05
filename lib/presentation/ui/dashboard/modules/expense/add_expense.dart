@@ -34,7 +34,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
   final _formKey = GlobalKey<FormState>();
   final String payerEmail = HiveDatabase.getValue(HiveDatabase.userKey);
 
-  late List<String> members;
+  late List<String> groupMembers;
   late ExpenseNotifier expenseNotifier;
   late GroupNotifier groupNotifier;
   late AddMemberNotifier addMemberNotifier;
@@ -46,7 +46,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
     groupNotifier = Provider.of<GroupNotifier>(context);
     addMemberNotifier = Provider.of<AddMemberNotifier>(context);
 
-    members = (widget.groupMembers ?? [])
+    groupMembers = (widget.groupMembers ?? [])
         .where((member) => member != payerEmail)
         .toList();
   }
@@ -77,7 +77,9 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
                   title: descriptionController.text,
                   price: amountController.text,
                   payerEmail: payerEmail,
-                  members: members,
+                  members: widget.groupMembers!.isNotEmpty
+                      ? groupMembers
+                      : addMemberNotifier.members,
                   context: context,
                   groupId: widget.groupid,
                 );
@@ -92,7 +94,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
                   (Route<dynamic> route) => false,
                 );
               }
-              print(members);
+              print(widget.groupMembers);
               print(addMemberNotifier.members);
             },
             child: const Text(

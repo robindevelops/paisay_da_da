@@ -116,7 +116,7 @@ class _AddMembersScreenState extends State<AddMembersScreen> {
               icon: Icons.search,
               controller: _searchController,
               onChanged: (value) {
-                // addMemberNotifier.filterMember(value, context);
+                friendNotifier.filterFriends(value);
               },
             ),
             const SizedBox(height: 20),
@@ -133,16 +133,16 @@ class _AddMembersScreenState extends State<AddMembersScreen> {
             ),
             const SizedBox(height: 10),
 
-            friendNotifier.friends.isEmpty
+            friendNotifier.filteredFriends.isEmpty
                 ? ListTile(
                     title: Text("No Member Found"),
                   )
                 : ListView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: friendNotifier.friends.length,
+                    itemCount: friendNotifier.filteredFriends.length,
                     itemBuilder: (context, index) {
-                      var friend = friendNotifier.friends[index];
+                      var friend = friendNotifier.filteredFriends[index];
                       var name = friend.name.toString();
                       var email = friend.email.toString();
 
@@ -156,8 +156,7 @@ class _AddMembersScreenState extends State<AddMembersScreen> {
 
             const SizedBox(height: 20),
 
-            // Groups Section
-
+            // Groups Section (commented out for now)
             // const Text(
             //   "Groups",
             //   style: TextStyle(
@@ -178,7 +177,7 @@ class _AddMembersScreenState extends State<AddMembersScreen> {
             //         itemBuilder: (context, index) {
             //           var name = groupNotifier.groupModel.groups![index].name
             //               .toString();
-
+            //
             //           return MemberTile(
             //             name: name,
             //             email: '',

@@ -10,10 +10,24 @@ class FriendNotifier extends ChangeNotifier {
 
   FriendsModel _friendsModel = FriendsModel(friends: []);
   FriendsModel _friendRequests = FriendsModel(friendRequests: []);
+  List<Friends> _filteredFriends = [];
+  List<Friends> get filteredFriends => _filteredFriends;
 
   List<Friends> get friends => _friendsModel.friends ?? [];
   List<FriendRequests> get friendRequests =>
       _friendRequests.friendRequests ?? [];
+
+  Future<void> filterFriends(String query) async {
+    if (query.isEmpty) {
+      _filteredFriends = List.from(_friendsModel.friends ?? []);
+    } else {
+      _filteredFriends = _friendsModel.friends!
+          .where((friend) =>
+              friend.name?.toLowerCase().contains(query.toLowerCase()) ?? false)
+          .toList();
+    }
+    notifyListeners();
+  }
 
   Future<bool> addFriend({
     required String senderEmail,
@@ -59,6 +73,7 @@ class FriendNotifier extends ChangeNotifier {
       (success) {
         _friendsModel = FriendsModel(friends: success.friends);
         _friendRequests = FriendsModel(friendRequests: success.friendRequests);
+        _filteredFriends = List.from(_friendsModel.friends ?? []);
 
         notifyListeners();
       },

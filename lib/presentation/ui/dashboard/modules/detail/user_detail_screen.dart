@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:paisay_da_da/core/themes/themes.dart';
 import 'package:paisay_da_da/data/local/hive.dart';
 import 'package:paisay_da_da/presentation/animation/animation.dart';
+import 'package:paisay_da_da/presentation/ui/dashboard/modules/detail/user_settings_screen.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/modules/expense/add_expense.dart';
 import 'package:paisay_da_da/presentation/widgets/no_expense_widget.dart';
 
@@ -66,7 +67,16 @@ class _DetailScreenState extends State<DetailScreen> {
         iconTheme: const IconThemeData(color: Colors.white),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return UserSettingsScreen();
+                  },
+                ),
+              );
+            },
             icon: const Icon(Icons.settings, color: Colors.white),
           ),
         ],

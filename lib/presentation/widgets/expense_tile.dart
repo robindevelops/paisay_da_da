@@ -21,6 +21,7 @@ class ExpenseTile extends StatelessWidget {
       itemBuilder: (context, index) {
         var expense = expenseDetail![index];
         var totalBill = expense.expense!.price;
+        var expenseId = expense.expense?.sId;
         var createdAt = expense.createdAt;
         var expenseName = expense.expense?.title;
         var payerName = expense.payer?.name;
@@ -55,7 +56,9 @@ class ExpenseTile extends StatelessWidget {
             children: [
               SlidableAction(
                 borderRadius: BorderRadius.circular(5),
-                onPressed: (context) {},
+                onPressed: (context) {
+                  print('Delete action for expense ID: $expenseId');
+                },
                 backgroundColor: Colors.red,
                 foregroundColor: Colors.white,
                 icon: Icons.delete,
@@ -71,10 +74,11 @@ class ExpenseTile extends StatelessWidget {
                 MaterialPageRoute(
                   builder: (context) {
                     return TotalBill(
-                        createdAt: createdAt.toString(),
-                        totalBill: totalBill.toString(),
-                        payerName: payerName,
-                        owedUsers: owedUsers);
+                      createdAt: createdAt.toString(),
+                      totalBill: totalBill.toString(),
+                      payerName: payerName,
+                      owedUsers: owedUsers,
+                    );
                   },
                 ),
               );
@@ -91,7 +95,7 @@ class ExpenseTile extends StatelessWidget {
                         Text(
                           displayJustDate(
                             createdAt.toString(),
-                          )['date']!, // First Text: Day
+                          )['date']!,
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         Text(
@@ -115,7 +119,12 @@ class ExpenseTile extends StatelessWidget {
             ),
             title: Text(expenseName!),
             subtitle: isPaidByMe
-                ? Text('Paid by you')
+                ? Text(
+                    'Paid by you',
+                    style: TextStyle(
+                      fontSize: 12,
+                    ),
+                  )
                 : Text(
                     'Paid by ${payerName}',
                   ),

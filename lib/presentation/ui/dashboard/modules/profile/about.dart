@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:paisay_da_da/core/themes/themes.dart';
 
 class AboutUsScreen extends StatelessWidget {
   const AboutUsScreen({super.key});
@@ -12,7 +13,7 @@ class AboutUsScreen extends StatelessWidget {
         backgroundColor: Colors.black,
         elevation: 0,
         title: Text(
-          "About us",
+          "About Us",
           style: GoogleFonts.aBeeZee(color: Colors.white),
         ),
         centerTitle: true,
@@ -25,55 +26,57 @@ class AboutUsScreen extends StatelessWidget {
             Expanded(
               child: ListView(
                 children: [
-                  Center(
-                    child: Text(
-                      "Welcome to Paisay Da Da!",
-                      style: GoogleFonts.aBeeZee(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 16),
                   Text(
-                    "By using this app, you agree to the following terms. Don't worry, it's painless:",
-                    style: TextStyle(
+                    "Welcome to Paisay Da Da!",
+                    style: GoogleFonts.aBeeZee(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    "Just a few things to keep in mind:",
+                    style: GoogleFonts.poppins(
                       fontSize: 16,
                       color: Colors.black,
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: 24),
-                  TermPoint("App fair use ke liye hai. Bakaiti na karna."),
-                  TermPoint("Secrets safe hain. Dil aur data dono."),
-                  TermPoint(
-                      "Nuksaan ka zimmedar khud ho. Hum sirf dua dein ge."),
-                  TermPoint("13+ only. Chhotay bhai, pehle baray ho jao."),
-                  TermPoint(
-                      "Data sirf app behtar banane ke liye. Na aliens ko bhejain ge, na rishtedaron ko."),
-                  TermPoint("Rule tode? Ban ho jao ge. Aur rona bhi mana hai."),
-                  TermPoint(
-                      "3 baje raat ko biryani khao, app kholo. Full support!"),
-                  SizedBox(height: 30),
-                  Divider(color: Colors.white24),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 24),
+                  TermPoint("Use responsibly. Mazaaq thik hai, hadd mein."),
+                  TermPoint("Your data = your trust. We respect both."),
+                  TermPoint("We don’t take blame, only prayers."),
+                  TermPoint("No kids under 13. Bacho, grow up first."),
+                  TermPoint("Break the rules? Ban. No drama."),
+                  const SizedBox(height: 30),
                 ],
               ),
             ),
-            // Footer with humorous touch
-            Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: Center(
-                child: Text(
-                  "Made with ❤️ for Pakistan 🇵🇰",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 12,
-                  ),
+            // const Divider(),
+            // const SizedBox(height: 10),
+            Text(
+              "Made with ❤️ in Pakistan 🇵🇰",
+              style: GoogleFonts.poppins(
+                fontSize: 12,
+                color: Colors.black,
+              ),
+            ),
+            const SizedBox(height: 10),
+            Transform.rotate(
+              angle: -0.05, // slight tilt
+              child: Text(
+                "Alyan\nShahid",
+                style: GoogleFonts.rockSalt(
+                  fontSize: 30,
+                  color: AppThemes.splitGreen,
+                  fontWeight: FontWeight.w900,
+                  letterSpacing: 5,
                 ),
               ),
             ),
+            const SizedBox(height: 10),
           ],
         ),
       ),
@@ -88,20 +91,17 @@ class TermPoint extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.symmetric(vertical: 6),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            "• ",
-            style: TextStyle(fontSize: 18, color: Colors.black),
-          ),
+          const Text("• ", style: TextStyle(fontSize: 18, color: Colors.black)),
           Expanded(
             child: Text(
               text,
-              style: const TextStyle(
+              style: GoogleFonts.poppins(
                 fontSize: 15,
-                color: Colors.black,
+                color: Colors.black87,
               ),
             ),
           ),
