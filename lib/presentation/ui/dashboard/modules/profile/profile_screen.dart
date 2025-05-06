@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:paisay_da_da/core/constants/base_helper.dart';
 import 'package:paisay_da_da/core/themes/themes.dart';
 import 'package:paisay_da_da/data/local/hive.dart';
+import 'package:paisay_da_da/presentation/notifier/addMember.notifier.dart';
 import 'package:paisay_da_da/presentation/notifier/auth.notifier.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/modules/profile/about.dart';
 import 'package:paisay_da_da/presentation/ui/welcome/welcome_screen.dart';
@@ -16,6 +17,7 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     AuthenticationNotifier authNotifier =
         Provider.of<AuthenticationNotifier>(context);
+
     String userEmail = HiveDatabase.getValue(HiveDatabase.userKey);
     return Scaffold(
       appBar: AppBar(
@@ -64,6 +66,7 @@ class ProfileScreen extends StatelessWidget {
                 ProfileListTile(
                   icon: "assets/icons/privacy.svg",
                   title: "Notification",
+                  isNotification: true,
                   onTap: () {},
                 ),
 
@@ -71,11 +74,11 @@ class ProfileScreen extends StatelessWidget {
                   "More",
                   Icons.collections_bookmark,
                 ),
-                ProfileListTile(
-                  icon: "assets/icons/language.svg",
-                  title: "Theme",
-                  onTap: () {},
-                ),
+                // ProfileListTile(
+                //   icon: "assets/icons/language.svg",
+                //   title: "Theme",
+                //   onTap: () {},
+                // ),
                 ProfileListTile(
                   icon: "assets/icons/terms.svg",
                   title: "About Us",
@@ -182,19 +185,23 @@ class ProfileScreen extends StatelessWidget {
 }
 
 class ProfileListTile extends StatelessWidget {
+  bool isNotification;
   final String icon;
   final String title;
   final VoidCallback onTap;
 
-  const ProfileListTile({
+  ProfileListTile({
     required this.icon,
     required this.title,
     required this.onTap,
+    this.isNotification = false,
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    AddMemberNotifier addMemberNotifier =
+        Provider.of<AddMemberNotifier>(context);
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
       title: Text(
@@ -202,10 +209,21 @@ class ProfileListTile extends StatelessWidget {
         style: GoogleFonts.poppins(fontSize: 16),
       ),
       onTap: onTap,
-      trailing: const Icon(
-        CupertinoIcons.chevron_compact_right,
-        color: Colors.black,
-      ),
+      trailing: isNotification
+          ? Switch(
+              activeColor: Colors.white,
+              activeTrackColor: AppThemes.splitGreen,
+              inactiveThumbColor: Colors.white,
+              // inactiveTrackColor: Colors.grey,
+              value: addMemberNotifier.isOn,
+              onChanged: (value) {
+                addMemberNotifier.toggleNotification(value);
+              },
+            )
+          : const Icon(
+              CupertinoIcons.chevron_compact_right,
+              color: Colors.black,
+            ),
     );
   }
 }

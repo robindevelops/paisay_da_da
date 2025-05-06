@@ -11,12 +11,20 @@ class AddMemberNotifier extends ChangeNotifier {
   FriendsModel _friendsModel = FriendsModel();
   FriendsModel get friendsModel => _friendsModel;
 
+  bool _isOn = false;
+  bool get isOn => _isOn;
+
   void toggleMember(String email) {
     if (_members.contains(email)) {
       _members.remove(email);
     } else {
       _members.add(email);
     }
+    notifyListeners();
+  }
+
+  void toggleNotification(bool value) {
+    _isOn = value;
     notifyListeners();
   }
 

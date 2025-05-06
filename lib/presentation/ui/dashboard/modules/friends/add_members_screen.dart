@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:paisay_da_da/core/themes/themes.dart';
 import 'package:paisay_da_da/data/local/hive.dart';
 import 'package:paisay_da_da/presentation/notifier/addMember.notifier.dart';
@@ -123,12 +124,11 @@ class _AddMembersScreenState extends State<AddMembersScreen> {
 
             // Friends Section
 
-            const Text(
+            Text(
               "Friends",
-              style: TextStyle(
-                fontSize: 16,
+              style: GoogleFonts.aBeeZee(
+                fontSize: 17,
                 color: Colors.black,
-                fontWeight: FontWeight.w500,
               ),
             ),
             const SizedBox(height: 10),
@@ -209,6 +209,7 @@ class MemberTile extends StatelessWidget {
     final isSelected = addMemberNotifier.isSelected(email);
     bool isAlreadyInGroup = groupemail != null && groupemail!.contains(email);
     return ListTile(
+      leading: const Icon(Icons.person_3_outlined),
       contentPadding: const EdgeInsets.symmetric(vertical: 5),
       trailing: isAlreadyInGroup
           ? Text("Already member")
@@ -218,17 +219,7 @@ class MemberTile extends StatelessWidget {
               value: isSelected,
               onChanged: (_) => addMemberNotifier.toggleMember(email),
             ),
-      title: Row(
-        children: [
-          CircleAvatar(
-            maxRadius: 20,
-            backgroundColor: Colors.grey[200],
-            child: const Icon(Icons.person, color: Colors.black, size: 25),
-          ),
-          const SizedBox(width: 10),
-          Text(name),
-        ],
-      ),
+      title: Text(name),
     );
   }
 }
