@@ -23,7 +23,7 @@ class FriendNotifier extends ChangeNotifier {
     } else {
       _filteredFriends = _friendsModel.friends!
           .where((friend) =>
-              friend.name?.toLowerCase().contains(
+              friend.friend?.name?.toLowerCase().contains(
                     query.toLowerCase(),
                   ) ??
               false)
@@ -53,6 +53,7 @@ class FriendNotifier extends ChangeNotifier {
         return true;
       },
       (failure) {
+        print(failure.message);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(failure.message.toString()),

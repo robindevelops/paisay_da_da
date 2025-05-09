@@ -143,12 +143,12 @@ class _AddMembersScreenState extends State<AddMembersScreen> {
                     itemCount: friendNotifier.filteredFriends.length,
                     itemBuilder: (context, index) {
                       var friend = friendNotifier.filteredFriends[index];
-                      var name = friend.name.toString();
-                      var email = friend.email.toString();
+                      var name = friend.friend?.name;
+                      var email = friend.friend?.email;
 
                       return MemberTile(
-                        name: name,
-                        email: email,
+                        name: name.toString(),
+                        email: email.toString(),
                         groupemail: widget.groupMembers,
                       );
                     },

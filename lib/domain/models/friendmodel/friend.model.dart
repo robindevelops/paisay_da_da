@@ -113,20 +113,42 @@ class Sender {
 }
 
 class Friends {
+  Friend? friend;
+  String? sId;
+
+  Friends({this.friend, this.sId});
+
+  Friends.fromJson(Map<String, dynamic> json) {
+    friend =
+        json['friend'] != null ? new Friend.fromJson(json['friend']) : null;
+    sId = json['_id'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.friend != null) {
+      data['friend'] = this.friend!.toJson();
+    }
+    data['_id'] = this.sId;
+    return data;
+  }
+}
+
+class Friend {
   String? sId;
   String? name;
   String? email;
 
-  Friends({this.sId, this.name, this.email});
+  Friend({this.sId, this.name, this.email});
 
-  Friends.fromJson(Map<String, dynamic> json) {
+  Friend.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     name = json['name'];
     email = json['email'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = {};
+    final Map<String, dynamic> data = new Map<String, dynamic>();
     data['_id'] = this.sId;
     data['name'] = this.name;
     data['email'] = this.email;

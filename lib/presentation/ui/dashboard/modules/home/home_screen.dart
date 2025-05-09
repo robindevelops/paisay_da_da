@@ -141,7 +141,7 @@ class _HomeScreenState extends State<HomeScreen>
                           itemCount: friendNotifier.friends.length,
                           itemBuilder: (context, index) {
                             var friend = friendNotifier.friends[index];
-                            var name = friend.name;
+                            var name = friend.friend?.name;
 
                             return ListTile(
                               contentPadding: const EdgeInsets.symmetric(
@@ -152,7 +152,7 @@ class _HomeScreenState extends State<HomeScreen>
                                   context,
                                   MaterialPageRoute(
                                     builder: (_) => DetailScreen(
-                                      name: name,
+                                      name: name.toString(),
                                     ),
                                   ),
                                 );
@@ -160,7 +160,7 @@ class _HomeScreenState extends State<HomeScreen>
                               leading: CircleAvatar(
                                 child: Image.asset(Constants.stickman1),
                               ),
-                              title: Text(name!),
+                              title: Text(name.toString()),
                               trailing: const Text("No expense"),
                             );
                           },

@@ -37,7 +37,7 @@ class _GroupSettingScreenState extends State<GroupSettingScreen> {
 
     var friends = friendNotifier.friends.map(
       (friend) {
-        return friend.email;
+        return friend.friend?.email;
       },
     ).toList();
 
