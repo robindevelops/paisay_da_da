@@ -142,6 +142,7 @@ class _HomeScreenState extends State<HomeScreen>
                           itemBuilder: (context, index) {
                             var friend = friendNotifier.friends[index];
                             var name = friend.name;
+                            var email = friend.email;
                             var expenseDetail = friend.expenseDetail;
 
                             return ListTile(
@@ -154,7 +155,8 @@ class _HomeScreenState extends State<HomeScreen>
                                   MaterialPageRoute(
                                     builder: (_) => DetailScreen(
                                       name: name.toString(),
-                                      expenseDetail: expenseDetail ?? [],
+                                      expenseDetail: expenseDetail,
+                                      email: email.toString(),
                                     ),
                                   ),
                                 );
@@ -163,7 +165,24 @@ class _HomeScreenState extends State<HomeScreen>
                                 child: Image.asset(Constants.stickman1),
                               ),
                               title: Text(name.toString()),
-                              trailing: const Text("No expense"),
+                              trailing: expenseDetail!.isEmpty
+                                  ? Text("No expense")
+                                  : Container(
+                                      width: 70,
+                                      height: 25,
+                                      decoration: BoxDecoration(
+                                        color: AppThemes.highlightGreen,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          "${expenseDetail.length} expense",
+                                          style: const TextStyle(
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
                             );
                           },
                         ),

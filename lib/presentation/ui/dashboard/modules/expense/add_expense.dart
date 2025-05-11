@@ -17,12 +17,14 @@ class AddExpenseScreen extends StatefulWidget {
   List<String>? groupMembers;
   String? groupid;
   String? name;
+  String? email;
 
   AddExpenseScreen({
     super.key,
     this.groupMembers,
     this.groupid,
     this.name,
+    this.email,
   });
 
   @override
@@ -34,7 +36,6 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
   final TextEditingController amountController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   final String payerEmail = HiveDatabase.getValue(HiveDatabase.userKey);
-
   late List<String> groupMembers;
   late ExpenseNotifier expenseNotifier;
   late GroupNotifier groupNotifier;
@@ -46,7 +47,6 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
     expenseNotifier = Provider.of<ExpenseNotifier>(context);
     groupNotifier = Provider.of<GroupNotifier>(context);
     addMemberNotifier = Provider.of<AddMemberNotifier>(context);
-
     groupMembers = (widget.groupMembers ?? [])
         .where((member) => member != payerEmail)
         .toList();
@@ -58,18 +58,19 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
-          "Add an expense",
+          "Add an expense ",
           style: GoogleFonts.poppins(),
         ),
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
         centerTitle: true,
         leading: IconButton(
-            icon: const Icon(Icons.close),
-            onPressed: () {
-              Navigator.pop(context);
-              addMemberNotifier.clearMemeber();
-            }),
+          icon: const Icon(Icons.close),
+          onPressed: () {
+            Navigator.pop(context);
+            addMemberNotifier.clearMemeber();
+          },
+        ),
         actions: [
           TextButton(
             onPressed: () async {
@@ -157,65 +158,76 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
                         style: TextStyle(color: Colors.white),
                       ),
                     )
-                  : Wrap(
-                      spacing: 10,
-                      runSpacing: 10,
-                      children: [
-                        // +Add button
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => AddMembersScreen(),
-                              ),
-                            );
-                          },
-                          child: Container(
-                            width: 80,
-                            height: 40,
-                            decoration: BoxDecoration(
-                              color: Colors.grey[200],
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const Icon(Icons.add, size: 18),
-                                const SizedBox(width: 4),
-                                Text(
-                                  "Add",
-                                  style: GoogleFonts.poppins(),
-                                ),
-                              ],
-                            ),
+                  : (widget.email != null && widget.email!.isNotEmpty)
+                      ? Chip(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
                           ),
-                        ),
+                          backgroundColor: Colors.black,
+                          label: Text(
+                            '${getUsernameFromEmail(widget.email!)}',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        )
+                      : Wrap(
+                          spacing: 10,
+                          runSpacing: 10,
+                          children: [
+                            // +Add button
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => AddMembersScreen(),
+                                  ),
+                                );
+                              },
+                              child: Container(
+                                width: 80,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[200],
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    const Icon(Icons.add, size: 18),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      "Add",
+                                      style: GoogleFonts.poppins(),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
 
-                        // Member chips
-                        ...addMemberNotifier.members.map((member) {
-                          return Chip(
-                            label: Text(
-                              getUsernameFromEmail(member),
-                              style: const TextStyle(color: Colors.white),
-                            ),
-                            backgroundColor: Colors.black,
-                            deleteIcon: const Icon(
-                              Icons.close,
-                              color: AppThemes.highlightGreen,
-                            ),
-                            onDeleted: () {
-                              addMemberNotifier.toggleMember(member);
-                            },
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              side: const BorderSide(color: Colors.white),
-                            ),
-                          );
-                        }).toList(),
-                      ],
-                    ),
+                            // Member chips
+                            ...addMemberNotifier.members.map((member) {
+                              return Chip(
+                                label: Text(
+                                  getUsernameFromEmail(member),
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                                backgroundColor: Colors.black,
+                                deleteIcon: const Icon(
+                                  Icons.close,
+                                  color: AppThemes.highlightGreen,
+                                ),
+                                onDeleted: () {
+                                  addMemberNotifier.toggleMember(member);
+                                },
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                  side: const BorderSide(color: Colors.white),
+                                ),
+                              );
+                            }).toList(),
+                          ],
+                        ),
               const SizedBox(height: 30),
 
               // Text(

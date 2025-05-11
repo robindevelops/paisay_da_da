@@ -187,16 +187,6 @@ class _GroupDetailScreenState extends State<GroupDetailScreen> {
                         : ExpenseTile(expenseDetail: widget.expenseDetail),
               ),
             ),
-            // addMemberNotifier.leftGroup.isEmpty
-            //     ? SizedBox.shrink()
-            //     : Text(
-            //         "${addMemberNotifier.leftGroup} left the group",
-            //         style: const TextStyle(
-            //           color: Colors.black,
-            //           fontSize: 15,
-            //           fontWeight: FontWeight.w500,
-            //         ),
-            //       ),
           ],
         ),
       ),
