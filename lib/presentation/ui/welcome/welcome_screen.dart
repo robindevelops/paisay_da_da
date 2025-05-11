@@ -27,7 +27,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       "subtitle": "Divide bills in seconds and let the app do the math.",
     },
     {
-      "image": Constants.logoImg,
+      "image": Constants.akward,
       "title": "No More Awkward Reminders",
       "subtitle": "Keep track of who owes what — without the drama.",
     },
@@ -43,9 +43,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             Expanded(
               child: PageView.builder(
                 controller: _pageController,
-                onPageChanged: (index) => setState(() {
-                  _currentIndex = index;
-                }),
+                onPageChanged: (index) => setState(
+                  () {
+                    _currentIndex = index;
+                  },
+                ),
                 itemCount: onboardingData.length,
                 itemBuilder: (context, index) {
                   final item = onboardingData[index];

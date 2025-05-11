@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:paisay_da_da/core/constants/base_helper.dart';
+import 'package:paisay_da_da/core/themes/themes.dart';
 import 'package:paisay_da_da/data/local/hive.dart';
 import 'package:paisay_da_da/presentation/notifier/addMember.notifier.dart';
 import 'package:paisay_da_da/presentation/notifier/expense.notifier.dart';
@@ -200,8 +201,10 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
                               style: const TextStyle(color: Colors.white),
                             ),
                             backgroundColor: Colors.black,
-                            deleteIcon:
-                                const Icon(Icons.close, color: Colors.white),
+                            deleteIcon: const Icon(
+                              Icons.close,
+                              color: AppThemes.highlightGreen,
+                            ),
                             onDeleted: () {
                               addMemberNotifier.toggleMember(member);
                             },

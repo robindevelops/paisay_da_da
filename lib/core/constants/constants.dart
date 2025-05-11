@@ -6,6 +6,7 @@ class Constants {
   static const String splitImg = "$imagePath/split.png";
   static const String splashImg = "$imagePath/splash.png";
   static const String invoice = "$imagePath/invoice.png";
+  static const String akward = "$imagePath/akward.png";
 
   static const String stickman1 = "$imagePath/1.jpeg";
   static const String stickman2 = "$imagePath/2.jpeg";

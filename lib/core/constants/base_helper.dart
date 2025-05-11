@@ -104,6 +104,7 @@ class BaseHelper {
     required String title,
     required String message,
     required Color buttoncolor,
+    Color? buttonTextColor = Colors.black,
     required void Function()? onPressed,
     TextStyle style = const TextStyle(),
   }) {
@@ -147,7 +148,7 @@ class BaseHelper {
                       onPressed: onPressed,
                       child: Text(
                         message,
-                        style: TextStyle(color: Colors.black),
+                        style: TextStyle(color: buttonTextColor),
                       ),
                     ),
                   ),

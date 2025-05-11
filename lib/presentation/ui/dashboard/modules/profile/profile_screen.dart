@@ -138,11 +138,11 @@ class ProfileScreen extends StatelessWidget {
                             builder: (context) => const WelcomeScreen(),
                           ),
                         );
-                        BaseHelper.showSnackBar(
-                          context,
-                          "Logout Successfully",
-                          Colors.green,
-                        );
+                        // BaseHelper.showSnackBar(
+                        //   context,
+                        //   "Logout Successfully",
+                        //   Colors.green,
+                        // );
                       },
                     );
                   },
