@@ -113,35 +113,150 @@ class Sender {
 }
 
 class Friends {
-  Friend? friend;
   String? sId;
+  String? name;
+  String? email;
+  List<ExpenseDetail>? expenseDetail;
 
-  Friends({this.friend, this.sId});
+  Friends({this.sId, this.name, this.email, this.expenseDetail});
 
   Friends.fromJson(Map<String, dynamic> json) {
-    friend =
-        json['friend'] != null ? new Friend.fromJson(json['friend']) : null;
     sId = json['_id'];
+    name = json['name'];
+    email = json['email'];
+    if (json['expenseDetail'] != null) {
+      expenseDetail = <ExpenseDetail>[];
+      json['expenseDetail'].forEach((v) {
+        expenseDetail!.add(new ExpenseDetail.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.friend != null) {
-      data['friend'] = this.friend!.toJson();
+    data['_id'] = this.sId;
+    data['name'] = this.name;
+    data['email'] = this.email;
+    if (this.expenseDetail != null) {
+      data['expenseDetail'] =
+          this.expenseDetail!.map((v) => v.toJson()).toList();
     }
+    return data;
+  }
+}
+
+class ExpenseDetail {
+  String? sId;
+  Expense? expense;
+  Payer? payer;
+  List<OwedUsers>? owedUsers;
+  int? amount;
+  String? createdAt;
+  String? updatedAt;
+  int? iV;
+
+  ExpenseDetail({
+    this.sId,
+    this.expense,
+    this.payer,
+    this.owedUsers,
+    this.amount,
+    this.createdAt,
+    this.updatedAt,
+    this.iV,
+  });
+
+  ExpenseDetail.fromJson(Map<String, dynamic> json) {
+    sId = json['_id'];
+    expense =
+        json['expense'] != null ? Expense.fromJson(json['expense']) : null;
+    payer = json['payer'] != null ? Payer.fromJson(json['payer']) : null;
+    if (json['owedUsers'] != null) {
+      owedUsers = <OwedUsers>[];
+      json['owedUsers'].forEach((v) {
+        owedUsers!.add(OwedUsers.fromJson(v));
+      });
+    }
+    amount = (json['amount'] as num?)?.toInt(); // Fixed line here
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
+    iV = json['__v'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = {};
+    data['_id'] = this.sId;
+    if (this.expense != null) {
+      data['expense'] = this.expense!.toJson();
+    }
+    if (this.payer != null) {
+      data['payer'] = this.payer!.toJson();
+    }
+    if (this.owedUsers != null) {
+      data['owedUsers'] = this.owedUsers!.map((v) => v.toJson()).toList();
+    }
+    data['amount'] = this.amount;
+    data['createdAt'] = this.createdAt;
+    data['updatedAt'] = this.updatedAt;
+    data['__v'] = this.iV;
+    return data;
+  }
+}
+
+class OwedUsers {
+  Payer? user;
+  int? amount;
+  String? sId;
+
+  OwedUsers({this.user, this.amount, this.sId});
+
+  OwedUsers.fromJson(Map<String, dynamic> json) {
+    user = json['user'] != null ? Payer.fromJson(json['user']) : null;
+    amount = (json['amount'] as num?)?.toInt(); // Fixed line here
+    sId = json['_id'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = {};
+    if (this.user != null) {
+      data['user'] = this.user!.toJson();
+    }
+    data['amount'] = this.amount;
     data['_id'] = this.sId;
     return data;
   }
 }
 
-class Friend {
+class Expense {
+  String? sId;
+  String? title;
+  String? price;
+
+  Expense({this.sId, this.title, this.price});
+
+  Expense.fromJson(Map<String, dynamic> json) {
+    sId = json['_id'];
+    title = json['title'];
+    price = json['price'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['_id'] = this.sId;
+    data['title'] = this.title;
+    data['price'] = this.price;
+    return data;
+  }
+}
+
+class Payer {
   String? sId;
   String? name;
   String? email;
 
-  Friend({this.sId, this.name, this.email});
+  Payer({this.sId, this.name, this.email});
 
-  Friend.fromJson(Map<String, dynamic> json) {
+  Payer.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
     name = json['name'];
     email = json['email'];

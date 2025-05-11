@@ -23,7 +23,7 @@ class FriendNotifier extends ChangeNotifier {
     } else {
       _filteredFriends = _friendsModel.friends!
           .where((friend) =>
-              friend.friend?.name?.toLowerCase().contains(
+              friend.name?.toLowerCase().contains(
                     query.toLowerCase(),
                   ) ??
               false)

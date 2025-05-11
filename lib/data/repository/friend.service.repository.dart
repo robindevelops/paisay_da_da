@@ -57,8 +57,11 @@ class FriendServiceRepository implements FriendRepository {
       } else {
         return right(FailtureModel(message: 'An error occurred'));
       }
-    } catch (e) {
-      return right(FailtureModel(message: "Unexpected error: $e"));
+    } catch (e, stackTrace) {
+      print("Error: $stackTrace");
+      print("Error: $e");
+
+      return right(FailtureModel(message: "Unexpected error: $e "));
     }
   }
 

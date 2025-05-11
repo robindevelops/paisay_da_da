@@ -141,7 +141,8 @@ class _HomeScreenState extends State<HomeScreen>
                           itemCount: friendNotifier.friends.length,
                           itemBuilder: (context, index) {
                             var friend = friendNotifier.friends[index];
-                            var name = friend.friend?.name;
+                            var name = friend.name;
+                            var expenseDetail = friend.expenseDetail;
 
                             return ListTile(
                               contentPadding: const EdgeInsets.symmetric(
@@ -153,6 +154,7 @@ class _HomeScreenState extends State<HomeScreen>
                                   MaterialPageRoute(
                                     builder: (_) => DetailScreen(
                                       name: name.toString(),
+                                      expenseDetail: expenseDetail ?? [],
                                     ),
                                   ),
                                 );

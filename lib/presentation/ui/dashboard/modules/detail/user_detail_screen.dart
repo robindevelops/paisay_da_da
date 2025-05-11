@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:paisay_da_da/core/constants/constants.dart';
 import 'package:paisay_da_da/core/themes/themes.dart';
 import 'package:paisay_da_da/data/local/hive.dart';
+import 'package:paisay_da_da/domain/models/friendmodel/friend.model.dart'
+    as friend;
 import 'package:paisay_da_da/presentation/animation/animation.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/modules/detail/user_settings_screen.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/modules/expense/add_expense.dart';
+import 'package:paisay_da_da/presentation/widgets/expense_tile.dart';
 import 'package:paisay_da_da/presentation/widgets/no_expense_widget.dart';
 
 // ignore: must_be_immutable
 class DetailScreen extends StatefulWidget {
   String name;
-  DetailScreen({super.key, required this.name});
+  List<friend.ExpenseDetail> expenseDetail;
+  DetailScreen({super.key, required this.name, required this.expenseDetail});
 
   @override
   State<DetailScreen> createState() => _DetailScreenState();
@@ -95,13 +100,131 @@ class _DetailScreenState extends State<DetailScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20),
           children: [
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.7,
+              // height: MediaQuery.of(context).size.height * 0.7,
               child: Center(
                 child:
                     // ExpenseTile(),
-                    NoExpenseWidget(
-                  message: 'No Expense yet with ${widget.name}',
-                ),
+                    widget.expenseDetail.isEmpty
+                        ? NoExpenseWidget(
+                            message: 'No Expense yet with ${widget.name}',
+                          )
+                        : ListView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: widget.expenseDetail.length,
+                            itemBuilder: (context, index) {
+                              final expense = widget.expenseDetail[index];
+                              final expenseId = expense.sId;
+                              final expenseAmount = expense.amount;
+                              final amount = expenseAmount! ~/ 2;
+                              final title = expense.expense?.title.toString();
+                              final createdAt = expense.createdAt;
+                              final payerName = expense.payer?.name.toString();
+                              bool isPaidbyme = expense.payer?.email
+                                      .toString() ==
+                                  HiveDatabase.getValue(HiveDatabase.userKey);
+
+                              return ListTile(
+                                title: Text(
+                                  title.toString(),
+                                ),
+                                leading: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              displayJustDate(
+                                                createdAt.toString(),
+                                              )['date']!,
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            Text(
+                                              displayJustDate(
+                                                createdAt.toString(),
+                                              )['month']!,
+                                              style: TextStyle(fontSize: 12),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(width: 10),
+                                        Container(
+                                          height: 45,
+                                          width: 40,
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey[200],
+                                          ),
+                                          child: Center(
+                                            child: Image.asset(
+                                              Constants.invoice,
+                                              height: 30,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                trailing: isPaidbyme
+                                    ? Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            'You Lend',
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              color: Colors.green,
+                                            ),
+                                          ),
+                                          Text(
+                                            'Rs,$amount',
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              color: Colors.green,
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    : Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            'You owed',
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              color: Colors.red,
+                                            ),
+                                          ),
+                                          Text(
+                                            'Rs,$amount',
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              color: Colors.red,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                subtitle: isPaidbyme
+                                    ? Text("Paid by you")
+                                    : Text(
+                                        "Paid by $payerName",
+                                        style: const TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 15,
+                                        ),
+                                      ),
+                              );
+                            },
+                          ),
               ),
             ),
           ],
