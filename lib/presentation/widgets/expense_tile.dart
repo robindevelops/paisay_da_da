@@ -96,7 +96,9 @@ class ExpenseTile extends StatelessWidget {
                           displayJustDate(
                             createdAt.toString(),
                           )['date']!,
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         Text(
                           displayJustDate(
@@ -107,17 +109,24 @@ class ExpenseTile extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(width: 10),
-                    SizedBox(
-                      height: 40,
-                      child: Image.asset(
-                        Constants.stickman1,
+                    Container(
+                      height: 45,
+                      width: 40,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                      ),
+                      child: Center(
+                        child: Image.asset(
+                          Constants.invoice,
+                          height: 30,
+                        ),
                       ),
                     ),
                   ],
                 ),
               ],
             ),
-            title: Text(expenseName!),
+            title: Text(expenseName!.toUpperCase()),
             subtitle: isPaidByMe
                 ? Text(
                     'Paid by you',

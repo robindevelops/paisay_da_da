@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:paisay_da_da/core/constants/base_helper.dart';
-import 'package:paisay_da_da/core/themes/themes.dart';
 import 'package:paisay_da_da/data/local/hive.dart';
 import 'package:paisay_da_da/presentation/notifier/addMember.notifier.dart';
 import 'package:paisay_da_da/presentation/notifier/friend.notifier.dart';
@@ -108,7 +107,6 @@ class _GroupSettingScreenState extends State<GroupSettingScreen> {
                 itemCount: widget.groupMembers?.length,
                 itemBuilder: (context, index) {
                   final memberEmail = widget.groupMembers![index];
-                  var name = getUsernameFromEmail(memberEmail);
 
                   return ListTile(
                     leading: const Icon(Icons.person_2_outlined),
@@ -119,25 +117,28 @@ class _GroupSettingScreenState extends State<GroupSettingScreen> {
                     subtitle: Text(memberEmail),
                     trailing: memberEmail == widget.createdBy
                         ? const AdminWidget()
-                        : friends.contains(memberEmail) ||
-                                memberEmail == userEmail
-                            ? null
-                            : TextButton(
-                                onPressed: () async {
-                                  print(memberEmail);
-                                  await friendNotifier.addFriend(
-                                    senderEmail: userEmail,
-                                    receiverEmail: memberEmail,
-                                    context: context,
-                                  );
-                                },
-                                child: Text(
-                                  "Add friend",
-                                  style: TextStyle(
-                                    color: Colors.black,
+                        : isGroupCreator
+                            ? IconButton(
+                                onPressed: () {},
+                                icon: Icon(Icons.more_horiz),
+                              )
+                            : friends.contains(memberEmail) ||
+                                    memberEmail == userEmail
+                                ? null
+                                : TextButton(
+                                    onPressed: () async {
+                                      print(memberEmail);
+                                      await friendNotifier.addFriend(
+                                        senderEmail: userEmail,
+                                        receiverEmail: memberEmail,
+                                        context: context,
+                                      );
+                                    },
+                                    child: const Text(
+                                      "Add friend",
+                                      style: TextStyle(color: Colors.black),
+                                    ),
                                   ),
-                                ),
-                              ),
                   );
                 },
               ),

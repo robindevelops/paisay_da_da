@@ -219,7 +219,14 @@ class MemberTile extends StatelessWidget {
               value: isSelected,
               onChanged: (_) => addMemberNotifier.toggleMember(email),
             ),
-      title: Text(name),
+      title: Text(name.capitalizeFirst()),
     );
+  }
+}
+
+extension StringCasingExtension on String {
+  String capitalizeFirst() {
+    if (isEmpty) return this;
+    return '${this[0].toUpperCase()}${substring(1)}';
   }
 }

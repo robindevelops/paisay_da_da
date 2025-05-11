@@ -75,13 +75,16 @@ class _TotalBillState extends State<TotalBill> {
                       ),
                       SizedBox(height: 5),
                       Text(
-                        'Added on ${displayJustDate(widget.createdAt)}',
-                        style: TextStyle(fontSize: 14, color: Colors.black54),
+                        '${displayJustDate(widget.createdAt)}',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.black,
+                        ),
                       ),
                     ],
                   ),
                   Text(
-                    'Rs ${widget.totalBill}',
+                    'Rs,${widget.totalBill}',
                     style: GoogleFonts.aBeeZee(
                       fontSize: 35,
                       fontWeight: FontWeight.w600,
@@ -97,7 +100,25 @@ class _TotalBillState extends State<TotalBill> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Paid by ${widget.payerName!}"),
+                  Text(
+                    "Payer",
+                    style: GoogleFonts.aBeeZee(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  ListTile(
+                    title: Text(
+                      "${widget.payerName}",
+                      style: GoogleFonts.aBeeZee(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    subtitle: Text("Paid"),
+                    leading:
+                        Icon(Icons.check_circle_outline, color: Colors.green),
+                  ),
                   SizedBox(height: 20),
                   Text(
                     "Owed User",

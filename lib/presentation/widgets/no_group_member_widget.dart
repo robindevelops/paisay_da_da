@@ -46,6 +46,7 @@ class NoGroupMemberWidget extends StatelessWidget {
                   builder: (context) => AddMembersScreen(
                     groupId: groupId,
                     groupMembers: groupMembers,
+                    isGroup: true,
                   ),
                 ),
               );

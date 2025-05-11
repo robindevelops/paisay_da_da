@@ -53,12 +53,11 @@ class _GroupDetailScreenState extends State<GroupDetailScreen> {
 
     GroupNotifier groupNotifier = Provider.of<GroupNotifier>(context);
     FriendNotifier friendNotifier = context.watch<FriendNotifier>();
-
     AddMemberNotifier addMemberNotifier = context.watch<AddMemberNotifier>();
 
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 100,
+        toolbarHeight: 105,
         backgroundColor: Colors.black,
         centerTitle: true,
         title: Row(
@@ -87,14 +86,33 @@ class _GroupDetailScreenState extends State<GroupDetailScreen> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                Text(
-                  "No expense here yet",
-                  style: GoogleFonts.aBeeZee(
-                    color: Colors.white,
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                widget.expenseDetail!.isNotEmpty
+                    ? Container(
+                        width: 70,
+                        height: 22,
+                        decoration: BoxDecoration(
+                          color: AppThemes.highlightGreen,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Center(
+                          child: Text(
+                            "${widget.expenseDetail!.length} expense",
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      )
+                    : Text(
+                        "No expense here yet",
+                        style: GoogleFonts.aBeeZee(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
               ],
             )
           ],
