@@ -79,11 +79,14 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
                   title: descriptionController.text,
                   price: amountController.text,
                   payerEmail: payerEmail,
-                  members: widget.groupMembers!.isNotEmpty
-                      ? groupMembers
-                      : addMemberNotifier.members,
+                  members: widget.groupMembers != null &&
+                          widget.groupMembers!.isNotEmpty
+                      ? widget.groupMembers!
+                      : (widget.email != null && widget.email!.isNotEmpty
+                          ? [widget.email!]
+                          : addMemberNotifier.members),
                   context: context,
-                  groupId: widget.groupid,
+                  groupId: widget.groupid ?? "",
                 );
 
                 await groupNotifier.getGroups(email: payerEmail);
