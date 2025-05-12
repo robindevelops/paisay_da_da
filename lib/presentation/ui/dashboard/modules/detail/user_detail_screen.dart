@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:paisay_da_da/core/constants/constants.dart';
@@ -139,7 +141,7 @@ class _DetailScreenState extends State<DetailScreen> {
                         final expense = widget.expenseDetail[index];
                         final expenseId = expense.expenseId;
                         final expenseAmount = expense.price;
-                        final amount = double.parse(expenseAmount!) / 2;
+                        final amount = int.parse(expenseAmount!) / 2;
                         final title = expense.title.toString();
                         final createdAt = expense.date;
                         final payerName = expense.payer?.toString();
