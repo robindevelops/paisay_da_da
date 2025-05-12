@@ -137,13 +137,13 @@ class _DetailScreenState extends State<DetailScreen> {
                       itemCount: widget.expenseDetail.length,
                       itemBuilder: (context, index) {
                         final expense = widget.expenseDetail[index];
-                        final expenseId = expense.sId;
-                        final expenseAmount = expense.amount;
-                        final amount = expenseAmount! ~/ 2;
-                        final title = expense.expense?.title.toString();
-                        final createdAt = expense.createdAt;
-                        final payerName = expense.payer?.name.toString();
-                        bool isPaidbyme = expense.payer?.email.toString() ==
+                        final expenseId = expense.expenseId;
+                        final expenseAmount = expense.price;
+                        final amount = double.parse(expenseAmount!) / 2;
+                        final title = expense.title.toString();
+                        final createdAt = expense.date;
+                        final payerName = expense.payer?.toString();
+                        bool isPaidbyme = expense.email.toString() ==
                             HiveDatabase.getValue(HiveDatabase.userKey);
 
                         return ListTile(

@@ -138,135 +138,44 @@ class Friends {
     data['name'] = this.name;
     data['email'] = this.email;
     if (this.expenseDetail != null) {
-      data['expenseDetail'] =
-          this.expenseDetail!.map((v) => v.toJson()).toList();
+      data['expenseDetail'] = this.expenseDetail!.map((v) => v).toList();
     }
     return data;
   }
 }
 
 class ExpenseDetail {
-  String? sId;
-  Expense? expense;
-  Payer? payer;
-  List<OwedUsers>? owedUsers;
-  int? amount;
-  String? createdAt;
-  String? updatedAt;
-  int? iV;
-
-  ExpenseDetail({
-    this.sId,
-    this.expense,
-    this.payer,
-    this.owedUsers,
-    this.amount,
-    this.createdAt,
-    this.updatedAt,
-    this.iV,
-  });
-
-  ExpenseDetail.fromJson(Map<String, dynamic> json) {
-    sId = json['_id'];
-    expense =
-        json['expense'] != null ? Expense.fromJson(json['expense']) : null;
-    payer = json['payer'] != null ? Payer.fromJson(json['payer']) : null;
-    if (json['owedUsers'] != null) {
-      owedUsers = <OwedUsers>[];
-      json['owedUsers'].forEach((v) {
-        owedUsers!.add(OwedUsers.fromJson(v));
-      });
-    }
-    amount = (json['amount'] as num?)?.toInt(); // Fixed line here
-    createdAt = json['createdAt'];
-    updatedAt = json['updatedAt'];
-    iV = json['__v'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = {};
-    data['_id'] = this.sId;
-    if (this.expense != null) {
-      data['expense'] = this.expense!.toJson();
-    }
-    if (this.payer != null) {
-      data['payer'] = this.payer!.toJson();
-    }
-    if (this.owedUsers != null) {
-      data['owedUsers'] = this.owedUsers!.map((v) => v.toJson()).toList();
-    }
-    data['amount'] = this.amount;
-    data['createdAt'] = this.createdAt;
-    data['updatedAt'] = this.updatedAt;
-    data['__v'] = this.iV;
-    return data;
-  }
-}
-
-class OwedUsers {
-  Payer? user;
-  int? amount;
-  String? sId;
-
-  OwedUsers({this.user, this.amount, this.sId});
-
-  OwedUsers.fromJson(Map<String, dynamic> json) {
-    user = json['user'] != null ? Payer.fromJson(json['user']) : null;
-    amount = (json['amount'] as num?)?.toInt(); // Fixed line here
-    sId = json['_id'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = {};
-    if (this.user != null) {
-      data['user'] = this.user!.toJson();
-    }
-    data['amount'] = this.amount;
-    data['_id'] = this.sId;
-    return data;
-  }
-}
-
-class Expense {
-  String? sId;
+  String? expenseId;
   String? title;
   String? price;
+  String? payer;
+  String? email;
+  int? amountOwed;
+  String? date;
 
-  Expense({this.sId, this.title, this.price});
+  ExpenseDetail(
+      {this.expenseId,
+      this.title,
+      this.price,
+      this.payer,
+      this.email,
+      this.amountOwed,
+      this.date});
 
-  Expense.fromJson(Map<String, dynamic> json) {
-    sId = json['_id'];
+  ExpenseDetail.fromJson(Map<String, dynamic> json) {
+    expenseId = json['expenseId'];
     title = json['title'];
     price = json['price'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
-    data['title'] = this.title;
-    data['price'] = this.price;
-    return data;
-  }
-}
-
-class Payer {
-  String? sId;
-  String? name;
-  String? email;
-
-  Payer({this.sId, this.name, this.email});
-
-  Payer.fromJson(Map<String, dynamic> json) {
-    sId = json['_id'];
-    name = json['name'];
+    payer = json['payer'];
     email = json['email'];
-  }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['_id'] = this.sId;
-    data['name'] = this.name;
-    data['email'] = this.email;
-    return data;
+    // Convert amountOwed to int even if it's double
+    if (json['amountOwed'] != null) {
+      amountOwed = (json['amountOwed'] is int)
+          ? json['amountOwed']
+          : (json['amountOwed'] as double).toInt();
+    }
+
+    date = json['date'];
   }
 }
