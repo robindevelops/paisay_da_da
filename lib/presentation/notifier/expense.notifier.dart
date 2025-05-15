@@ -33,4 +33,24 @@ class ExpenseNotifier extends ChangeNotifier {
       (failture) {},
     );
   }
+
+  Future<void> clearExpenese({
+    required String expenseId,
+    required BuildContext context,
+  }) async {
+    var response = await expenseRepository.clearExpense(
+      expenseId: expenseId,
+    );
+
+    response.fold(
+      (success) {
+        // BaseHelper.showSnackBar(
+        //   context,
+        //   success.message.toString(),
+        //   Colors.green,
+        // );
+      },
+      (failture) {},
+    );
+  }
 }

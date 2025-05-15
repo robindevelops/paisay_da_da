@@ -11,7 +11,7 @@ abstract class ExpenseRepository {
     required List<String> members,
   });
 
-  // Future<void> updateExpense(String id, String name, double amount, String date);
-  // Future<void> deleteExpense(String id);
-  // Future<List<Map<String, dynamic>>> getExpenses();
+  Future<Either<SuccessModel, FailtureModel>> clearExpense({
+    required String expenseId,
+  });
 }

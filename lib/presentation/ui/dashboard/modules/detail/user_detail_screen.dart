@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:paisay_da_da/core/constants/constants.dart';
 import 'package:paisay_da_da/core/themes/themes.dart';
@@ -8,10 +9,13 @@ import 'package:paisay_da_da/data/local/hive.dart';
 import 'package:paisay_da_da/domain/models/friendmodel/friend.model.dart'
     as friend;
 import 'package:paisay_da_da/presentation/animation/animation.dart';
+import 'package:paisay_da_da/presentation/notifier/expense.notifier.dart';
+import 'package:paisay_da_da/presentation/notifier/friend.notifier.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/modules/detail/user_settings_screen.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/modules/expense/add_expense.dart';
 import 'package:paisay_da_da/presentation/widgets/expense_tile.dart';
 import 'package:paisay_da_da/presentation/widgets/no_expense_widget.dart';
+import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class DetailScreen extends StatefulWidget {
@@ -46,6 +50,9 @@ class _DetailScreenState extends State<DetailScreen> {
     final personalExpenses = widget.expenseDetail
         .where((expense) => expense.expenseType == 'personal')
         .toList();
+
+    ExpenseNotifier expenseNotifier = Provider.of<ExpenseNotifier>(context);
+    FriendNotifier friendNotifier = Provider.of<FriendNotifier>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -144,110 +151,153 @@ class _DetailScreenState extends State<DetailScreen> {
                       itemBuilder: (context, index) {
                         final expense = personalExpenses[index];
                         final expenseAmount = expense.price;
+                        final expenseId = expense.expenseId;
                         final amount = int.parse(expenseAmount!) / 2;
                         final title = expense.title.toString();
                         final createdAt = expense.date;
-                        final expenseType = expense.expenseType;
-
                         final payerName = expense.payer?.toString();
                         bool isPaidbyme = expense.email.toString() ==
                             HiveDatabase.getValue(HiveDatabase.userKey);
 
-                        return ListTile(
-                          title: Text(
-                            title.toString(),
-                          ),
-                          leading: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                        return Slidable(
+                          key: ValueKey(index),
+                          startActionPane: ActionPane(
+                            motion: const ScrollMotion(),
                             children: [
-                              Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        displayJustDate(
-                                          createdAt.toString(),
-                                        )['date']!,
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      Text(
-                                        displayJustDate(
-                                          createdAt.toString(),
-                                        )['month']!,
-                                        style: TextStyle(fontSize: 12),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(width: 10),
-                                  Container(
-                                    height: 45,
-                                    width: 40,
-                                    decoration: BoxDecoration(
-                                      color: Colors.grey[200],
-                                    ),
-                                    child: Center(
-                                      child: Image.asset(
-                                        Constants.invoice,
-                                        height: 30,
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                              SlidableAction(
+                                borderRadius: BorderRadius.circular(5),
+                                onPressed: (context) {},
+                                backgroundColor: Colors.blue,
+                                foregroundColor: Colors.white,
+                                icon: Icons.edit,
+                                label: 'Edit',
                               ),
                             ],
                           ),
-                          trailing: isPaidbyme
-                              ? Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                          endActionPane: isPaidbyme
+                              ? ActionPane(
+                                  motion: const ScrollMotion(),
                                   children: [
-                                    Text(
-                                      'You Lend',
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: Colors.green,
-                                      ),
-                                    ),
-                                    Text(
-                                      'Rs,$amount',
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: Colors.green,
-                                      ),
+                                    SlidableAction(
+                                      borderRadius: BorderRadius.circular(5),
+                                      onPressed: (context) {
+                                        expenseNotifier.clearExpenese(
+                                          expenseId: expenseId.toString(),
+                                          context: context,
+                                        );
+
+                                        friendNotifier.getFriends(
+                                          context: context,
+                                          email: HiveDatabase.getValue(
+                                              HiveDatabase.userKey),
+                                        );
+                                        Navigator.pop(context);
+                                      },
+                                      backgroundColor: Colors.red,
+                                      foregroundColor: Colors.white,
+                                      icon: Icons.delete,
+                                      label: 'Delete',
                                     ),
                                   ],
                                 )
-                              : Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                              : null,
+                          child: ListTile(
+                            title: Text(
+                              title.toString(),
+                            ),
+                            leading: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Row(
+                                  mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    Text(
-                                      'You owed',
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: Colors.red,
-                                      ),
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          displayJustDate(
+                                            createdAt.toString(),
+                                          )['date']!,
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        Text(
+                                          displayJustDate(
+                                            createdAt.toString(),
+                                          )['month']!,
+                                          style: TextStyle(fontSize: 12),
+                                        ),
+                                      ],
                                     ),
-                                    Text(
-                                      'Rs,$amount',
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: Colors.red,
+                                    const SizedBox(width: 10),
+                                    Container(
+                                      height: 45,
+                                      width: 40,
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey[200],
+                                      ),
+                                      child: Center(
+                                        child: Image.asset(
+                                          Constants.invoice,
+                                          height: 30,
+                                        ),
                                       ),
                                     ),
                                   ],
                                 ),
-                          subtitle: isPaidbyme
-                              ? Text("Paid by you")
-                              : Text(
-                                  "Paid by $payerName",
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 15,
+                              ],
+                            ),
+                            trailing: isPaidbyme
+                                ? Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        'You Lend',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.green,
+                                        ),
+                                      ),
+                                      Text(
+                                        'Rs,$amount',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.green,
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                : Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        'You owed',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.red,
+                                        ),
+                                      ),
+                                      Text(
+                                        'Rs,$amount',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.red,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
+                            subtitle: isPaidbyme
+                                ? Text("Paid by you")
+                                : Text(
+                                    "Paid by $payerName",
+                                    style: const TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                          ),
                         );
                       },
                     ),

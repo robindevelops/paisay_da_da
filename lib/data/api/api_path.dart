@@ -25,6 +25,7 @@ class ApiPaths {
 // === Expenses ====
 
   static String addExpense = "${baseURL}expense/addexpense";
+  static String clearExpense = "${baseURL}expense/clearexpense";
 
   // static String getExpense = "${baseURL}expense/getExpense";
   // static String deleteExpense = "${baseURL}expense/deleteExpense";

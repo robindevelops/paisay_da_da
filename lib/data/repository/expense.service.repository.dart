@@ -39,4 +39,30 @@ class ExpenseServiceRepository implements ExpenseRepository {
       );
     }
   }
+
+  @override
+  Future<Either<SuccessModel, FailtureModel>> clearExpense(
+      {required String expenseId}) async {
+    try {
+      var response = await ApiService.request(ApiPaths.clearExpense,
+          method: RequestMethod.post,
+          data: {
+            "expenseId": expenseId,
+          });
+
+      if (response != null) {
+        if (response['success'] == true) {
+          return left(SuccessModel.fromJson(response));
+        } else {
+          return right(FailtureModel.fromJson(response, String: null));
+        }
+      } else {
+        return right(FailtureModel(message: 'An error occurred'));
+      }
+    } catch (e) {
+      return right(
+        FailtureModel(message: "Unexpected error: $e"),
+      );
+    }
+  }
 }

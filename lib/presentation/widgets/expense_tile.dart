@@ -4,7 +4,11 @@ import 'package:intl/intl.dart';
 import 'package:paisay_da_da/core/constants/constants.dart';
 import 'package:paisay_da_da/data/local/hive.dart';
 import 'package:paisay_da_da/domain/models/groupmodel/group.model.dart';
+import 'package:paisay_da_da/presentation/notifier/expense.notifier.dart';
+import 'package:paisay_da_da/presentation/notifier/friend.notifier.dart';
+import 'package:paisay_da_da/presentation/notifier/group.notifier.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/modules/detail/total_bill_screen.dart';
+import 'package:provider/provider.dart';
 
 class ExpenseTile extends StatelessWidget {
   final List<ExpenseDetail>? expenseDetail; // Make it final
@@ -13,13 +17,18 @@ class ExpenseTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ExpenseNotifier expenseNotifier =
+        Provider.of<ExpenseNotifier>(context, listen: false);
+
+    GroupNotifier groupNotifier =
+        Provider.of<GroupNotifier>(context, listen: false);
     return ListView.builder(
       physics: const BouncingScrollPhysics(),
       itemCount: expenseDetail!.length,
       itemBuilder: (context, index) {
         var expense = expenseDetail![index];
         var totalBill = expense.expense!.price;
-        var expenseId = expense.expense?.sId;
+        var expenseId = expense.sId;
         var createdAt = expense.createdAt;
         var expenseName = expense.expense?.title;
         var payerName = expense.payer?.name;
@@ -55,21 +64,31 @@ class ExpenseTile extends StatelessWidget {
               ),
             ],
           ),
-          endActionPane: ActionPane(
-            motion: const ScrollMotion(),
-            children: [
-              SlidableAction(
-                borderRadius: BorderRadius.circular(5),
-                onPressed: (context) {
-                  print('Delete action for expense ID: $expenseId');
-                },
-                backgroundColor: Colors.red,
-                foregroundColor: Colors.white,
-                icon: Icons.delete,
-                label: 'Delete',
-              ),
-            ],
-          ),
+          endActionPane: isPaidByMe
+              ? ActionPane(
+                  motion: const ScrollMotion(),
+                  children: [
+                    SlidableAction(
+                      borderRadius: BorderRadius.circular(5),
+                      onPressed: (context) {
+                        expenseNotifier.clearExpenese(
+                          expenseId: expenseId.toString(),
+                          context: context,
+                        );
+
+                        groupNotifier.getGroups(
+                          email: HiveDatabase.getValue(HiveDatabase.userKey),
+                        );
+                        Navigator.pop(context);
+                      },
+                      backgroundColor: Colors.red,
+                      foregroundColor: Colors.white,
+                      icon: Icons.delete,
+                      label: 'Delete',
+                    ),
+                  ],
+                )
+              : null,
           child: ListTile(
             onTap: () {
               print(totalBill);
@@ -148,7 +167,7 @@ class ExpenseTile extends StatelessWidget {
                 children: [
                   isPaidByMe
                       ? LendMoneyWidget(totalLent: totalLent)
-                      : OwedMoneyWidget(totalOwe: oweamount?.toInt()),
+                      : OwedMoneyWidget(totalOwe: oweamount.toInt()),
                 ],
               ),
             ),
