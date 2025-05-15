@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:paisay_da_da/app.dart';
 import 'package:paisay_da_da/core/notifications/notification.dart';
-import 'package:paisay_da_da/core/themes/log.dart';
 import 'package:paisay_da_da/firebase_options.dart';
 import 'package:paisay_da_da/setup.dart';
 

@@ -27,9 +27,9 @@ class AboutUsScreen extends StatelessWidget {
               child: ListView(
                 children: [
                   Text(
-                    "Welcome to Paisay Da Da!",
+                    "About us",
                     style: GoogleFonts.aBeeZee(
-                      fontSize: 24,
+                      fontSize: 22,
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
                     ),
@@ -37,27 +37,26 @@ class AboutUsScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    "Just a few things to keep in mind:",
+                    "I’m Alyan. I made this app after too many dawat scenes where friends just ‘forgot’ to pay. So now, no more excuses. Add, split, and show them the total. Paisay da da, warna screenshot jayega group mein 😎",
                     style: GoogleFonts.poppins(
                       fontSize: 16,
-                      color: Colors.black,
+                      color: Colors.black87,
                     ),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 24),
-                  TermPoint("Use responsibly. Mazaaq thik hai, hadd mein."),
-                  TermPoint("Your data = your trust. We respect both."),
-                  TermPoint("We don’t take blame, only prayers."),
-                  TermPoint("No kids under 13. Bacho, grow up first."),
-                  TermPoint("Break the rules? Ban. No drama."),
+                  TermPoint(
+                      "This app is for splitting bills, not friendships."),
+                  TermPoint("Mazaaq allowed — lekin limit mein."),
+                  TermPoint("Data stays safe. Trust stays safer."),
+                  TermPoint("Under 13? Jaao pehle baray ho jao."),
+                  TermPoint("Break rules? Get banned. Simple."),
                   const SizedBox(height: 30),
                 ],
               ),
             ),
-            // const Divider(),
-            // const SizedBox(height: 10),
             Text(
-              "Made with ❤️ in Pakistan 🇵🇰",
+              "Made with ❤️ for friends who forget 💰",
               style: GoogleFonts.poppins(
                 fontSize: 12,
                 color: Colors.black,
@@ -65,7 +64,7 @@ class AboutUsScreen extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             Transform.rotate(
-              angle: -0.05, // slight tilt
+              angle: -0.05,
               child: Text(
                 "Alyan\nShahid",
                 style: GoogleFonts.rockSalt(
@@ -73,7 +72,9 @@ class AboutUsScreen extends StatelessWidget {
                   color: AppThemes.splitGreen,
                   fontWeight: FontWeight.w900,
                   letterSpacing: 5,
+                  height: 1.2,
                 ),
+                textAlign: TextAlign.center,
               ),
             ),
             const SizedBox(height: 10),

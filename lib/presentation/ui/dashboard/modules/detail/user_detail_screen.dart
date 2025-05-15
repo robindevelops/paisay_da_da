@@ -43,6 +43,10 @@ class _DetailScreenState extends State<DetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final personalExpenses = widget.expenseDetail
+        .where((expense) => expense.expenseType == 'personal')
+        .toList();
+
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 100,
@@ -66,7 +70,7 @@ class _DetailScreenState extends State<DetailScreen> {
                   ),
                 ),
                 SizedBox(height: 10),
-                widget.expenseDetail.isNotEmpty
+                personalExpenses.isNotEmpty
                     ? Container(
                         width: 70,
                         height: 22,
@@ -76,7 +80,7 @@ class _DetailScreenState extends State<DetailScreen> {
                         ),
                         child: Center(
                           child: Text(
-                            "${widget.expenseDetail.length} expense ",
+                            "${personalExpenses.length} expense ",
                             style: const TextStyle(
                               color: Colors.black,
                               fontSize: 12,
@@ -129,21 +133,22 @@ class _DetailScreenState extends State<DetailScreen> {
           children: [
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.7,
-              child: widget.expenseDetail.isEmpty
+              child: personalExpenses.isEmpty
                   ? NoExpenseWidget(
                       message: 'No Expense yet with ${widget.name}',
                     )
                   : ListView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      itemCount: widget.expenseDetail.length,
+                      itemCount: personalExpenses.length,
                       itemBuilder: (context, index) {
-                        final expense = widget.expenseDetail[index];
-                        final expenseId = expense.expenseId;
+                        final expense = personalExpenses[index];
                         final expenseAmount = expense.price;
                         final amount = int.parse(expenseAmount!) / 2;
                         final title = expense.title.toString();
                         final createdAt = expense.date;
+                        final expenseType = expense.expenseType;
+
                         final payerName = expense.payer?.toString();
                         bool isPaidbyme = expense.email.toString() ==
                             HiveDatabase.getValue(HiveDatabase.userKey);

@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
@@ -26,15 +24,21 @@ class ExpenseTile extends StatelessWidget {
         var expenseName = expense.expense?.title;
         var payerName = expense.payer?.name;
         var payerEmail = expense.payer?.email;
-        var owedUsers = expense.owedUsers;
-        var oweamount = expense.amount;
+        var owedUsers = expense.owedUsers?.where(
+          (user) => user.user?.email != payerEmail,
+        );
+        var oweamount = expense.amount! / expense.owedUsers!.length;
         var currentUser = HiveDatabase.getValue(HiveDatabase.userKey);
         bool isPaidByMe = currentUser == payerEmail;
         double totalLent = 0.0;
 
-        expense.owedUsers?.forEach((owedUser) {
-          totalLent += owedUser.amount ?? 0.0;
-        });
+        if (expense.payer?.email == currentUser) {
+          expense.owedUsers?.forEach((owedUser) {
+            if (owedUser.user?.email != currentUser) {
+              totalLent += owedUser.amount ?? 0.0;
+            }
+          });
+        }
 
         return Slidable(
           key: ValueKey(index),
@@ -77,7 +81,7 @@ class ExpenseTile extends StatelessWidget {
                       createdAt: createdAt.toString(),
                       totalBill: totalBill.toString(),
                       payerName: payerName,
-                      owedUsers: owedUsers,
+                      owedUsers: owedUsers?.toList(),
                     );
                   },
                 ),

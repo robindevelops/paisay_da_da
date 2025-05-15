@@ -149,6 +149,7 @@ class ExpenseDetail {
   String? title;
   String? price;
   String? payer;
+  String? expenseType;
   String? email;
   int? amountOwed;
   String? date;
@@ -159,6 +160,7 @@ class ExpenseDetail {
       this.price,
       this.payer,
       this.email,
+      this.expenseType,
       this.amountOwed,
       this.date});
 
@@ -168,6 +170,7 @@ class ExpenseDetail {
     price = json['price'];
     payer = json['payer'];
     email = json['email'];
+    expenseType = json['expenseType'];
 
     // Convert amountOwed to int even if it's double
     if (json['amountOwed'] != null) {

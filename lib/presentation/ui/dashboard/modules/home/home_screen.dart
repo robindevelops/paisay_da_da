@@ -144,6 +144,10 @@ class _HomeScreenState extends State<HomeScreen>
                             var name = friend.name;
                             var email = friend.email;
                             var expenseDetail = friend.expenseDetail;
+                            final personalExpenses = expenseDetail
+                                ?.where((expense) =>
+                                    expense.expenseType == 'personal')
+                                .toList();
 
                             return ListTile(
                               contentPadding: const EdgeInsets.symmetric(
@@ -155,7 +159,7 @@ class _HomeScreenState extends State<HomeScreen>
                                   MaterialPageRoute(
                                     builder: (_) => DetailScreen(
                                       name: name.toString(),
-                                      expenseDetail: expenseDetail,
+                                      expenseDetail: expenseDetail ?? [],
                                       email: email.toString(),
                                     ),
                                   ),
@@ -165,7 +169,7 @@ class _HomeScreenState extends State<HomeScreen>
                                 child: Image.asset(Constants.stickman1),
                               ),
                               title: Text(name.toString()),
-                              trailing: expenseDetail!.isEmpty
+                              trailing: personalExpenses!.isEmpty
                                   ? Text("No expense")
                                   : Container(
                                       width: 70,
@@ -176,7 +180,7 @@ class _HomeScreenState extends State<HomeScreen>
                                       ),
                                       child: Center(
                                         child: Text(
-                                          "${expenseDetail.length} expense",
+                                          "${personalExpenses.length} expense",
                                           style: const TextStyle(
                                             color: Colors.black,
                                           ),
