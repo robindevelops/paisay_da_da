@@ -10,9 +10,6 @@ import 'package:paisay_da_da/main.dart';
 Future<void> setup() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Register background handler
-  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
-
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   await FirebaseMessaging.instance.requestPermission(
@@ -20,6 +17,8 @@ Future<void> setup() async {
     badge: true,
     sound: true,
   );
+
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
   final fcmToken = await FirebaseMessaging.instance.getToken();
   print('FCM Token: $fcmToken');

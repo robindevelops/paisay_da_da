@@ -24,12 +24,12 @@ void onDidReceiveBackgroundNotificationResponse(NotificationResponse response) {
 Future<void> main() async {
   await setup();
 
-  // 🔥 Foreground message handler
-  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    Log.d('📥 Foreground message received: ${message.toMap()}');
-    NotificationService.showLocalNotification(
-        message, 'payload_from_foreground');
-  });
+  // // 🔥 Foreground message handler
+  // FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+  //   Log.d('📥 Foreground message received: ${message.toMap()}');
+  //   NotificationService.showLocalNotification(
+  //       message, 'payload_from_foreground');
+  // });
 
   runApp(const MyApp());
 }

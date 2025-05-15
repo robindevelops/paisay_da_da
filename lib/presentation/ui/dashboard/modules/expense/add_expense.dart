@@ -109,184 +109,202 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
           )
         ],
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 40),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildInputField(
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return "Discription is required";
-                  }
-                  return null;
-                },
-                controller: descriptionController,
-                hintText: "Enter Description",
-                icon: Icons.description_outlined,
+      body: SafeArea(
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return SingleChildScrollView(
+              physics: const BouncingScrollPhysics(
+                parent: AlwaysScrollableScrollPhysics(),
               ),
-              const SizedBox(height: 20),
-              _buildInputField(
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return "Amount is required";
-                  }
-                  return null;
-                },
-                controller: amountController,
-                hintText: "0.00",
-                icon: Icons.attach_money_outlined,
-                keyboardType: TextInputType.number,
-              ),
-              const SizedBox(height: 30),
-              Text(
-                "Add members",
-                style: GoogleFonts.poppins(
-                  fontSize: 16,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              const SizedBox(height: 15),
-              (widget.groupMembers != null && widget.groupMembers!.isNotEmpty)
-                  ? Chip(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      backgroundColor: Colors.black,
-                      label: Text(
-                        'All members of ${widget.name}',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    )
-                  : (widget.email != null && widget.email!.isNotEmpty)
-                      ? Chip(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 50, vertical: 40),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildInputField(
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "Discription is required";
+                            }
+                            return null;
+                          },
+                          controller: descriptionController,
+                          hintText: "Enter Description",
+                          icon: Icons.description_outlined,
+                        ),
+                        const SizedBox(height: 20),
+                        _buildInputField(
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "Amount is required";
+                            }
+                            return null;
+                          },
+                          controller: amountController,
+                          hintText: "0.00",
+                          icon: Icons.attach_money_outlined,
+                          keyboardType: TextInputType.number,
+                        ),
+                        const SizedBox(height: 30),
+                        Text(
+                          "Add members",
+                          style: GoogleFonts.poppins(
+                            fontSize: 16,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w500,
                           ),
-                          backgroundColor: Colors.black,
-                          label: Text(
-                            '${getUsernameFromEmail(widget.email!)}',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        )
-                      : Wrap(
-                          spacing: 10,
-                          runSpacing: 10,
-                          children: [
-                            // +Add button
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => AddMembersScreen(),
-                                  ),
-                                );
-                              },
-                              child: Container(
-                                width: 80,
-                                height: 40,
-                                decoration: BoxDecoration(
-                                  color: Colors.grey[200],
-                                  borderRadius: BorderRadius.circular(10),
+                        ),
+                        const SizedBox(height: 15),
+                        (widget.groupMembers != null &&
+                                widget.groupMembers!.isNotEmpty)
+                            ? Chip(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
                                 ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    const Icon(Icons.add, size: 18),
-                                    const SizedBox(width: 4),
-                                    Text(
-                                      "Add",
-                                      style: GoogleFonts.poppins(),
+                                backgroundColor: Colors.black,
+                                label: Text(
+                                  'All members of ${widget.name}',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              )
+                            : (widget.email != null && widget.email!.isNotEmpty)
+                                ? Chip(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(15),
                                     ),
-                                  ],
+                                    backgroundColor: Colors.black,
+                                    label: Text(
+                                      '${getUsernameFromEmail(widget.email!)}',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  )
+                                : Wrap(
+                                    spacing: 10,
+                                    runSpacing: 10,
+                                    children: [
+                                      // +Add button
+                                      GestureDetector(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  AddMembersScreen(),
+                                            ),
+                                          );
+                                        },
+                                        child: Container(
+                                          width: 80,
+                                          height: 40,
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey[200],
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              const Icon(Icons.add, size: 18),
+                                              const SizedBox(width: 4),
+                                              Text(
+                                                "Add",
+                                                style: GoogleFonts.poppins(),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+
+                                      // Member chips
+                                      ...addMemberNotifier.members.map(
+                                        (member) {
+                                          return Chip(
+                                            label: Text(
+                                              getUsernameFromEmail(member),
+                                              style: const TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                            backgroundColor: Colors.black,
+                                            deleteIcon: const Icon(
+                                              Icons.close,
+                                              color: AppThemes.highlightGreen,
+                                            ),
+                                            onDeleted: () {
+                                              addMemberNotifier
+                                                  .toggleMember(member);
+                                            },
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                              side: const BorderSide(
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ).toList(),
+                                    ],
+                                  ),
+                        const SizedBox(height: 30),
+                        Center(
+                          child: Transform.rotate(
+                            angle: -0.04,
+                            child: Container(
+                              color: const Color(0xFFCFFF00),
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 20),
+                              child: Text(
+                                "Paid by me split equally",
+                                style: GoogleFonts.poppins(
+                                  color: Colors.black,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
-
-                            // Member chips
-                            ...addMemberNotifier.members.map((member) {
-                              return Chip(
-                                label: Text(
-                                  getUsernameFromEmail(member),
-                                  style: const TextStyle(color: Colors.white),
-                                ),
-                                backgroundColor: Colors.black,
-                                deleteIcon: const Icon(
-                                  Icons.close,
-                                  color: AppThemes.highlightGreen,
-                                ),
-                                onDeleted: () {
-                                  addMemberNotifier.toggleMember(member);
-                                },
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                  side: const BorderSide(color: Colors.white),
-                                ),
-                              );
-                            }).toList(),
-                          ],
+                          ),
                         ),
-              const SizedBox(height: 30),
-
-              // Text(
-              //   "Paid by you split equally",
-              //   style: GoogleFonts.poppins(
-              //     fontSize: 16,
-              //     color: Colors.black,
-              //   ),
-              // ),
-
-              Center(
-                child: Transform.rotate(
-                  angle: -0.04,
-                  child: Container(
-                    color: const Color(0xFFCFFF00),
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 10, horizontal: 20),
-                    child: Text(
-                      "Paid by me split equally",
-                      style: GoogleFonts.poppins(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
+                        const SizedBox(height: 40),
+                        Center(
+                          child: ElevatedLayerButton(
+                            onClick: () => BaseHelper.showSplitOptions(context),
+                            buttonHeight: 60,
+                            buttonWidth: 270,
+                            animationDuration:
+                                const Duration(milliseconds: 200),
+                            animationCurve: Curves.ease,
+                            topDecoration: BoxDecoration(
+                              color: Colors.black,
+                              border: Border.all(),
+                            ),
+                            topLayerChild: Text(
+                              "Split Option",
+                              style: GoogleFonts.poppins(
+                                fontSize: 16,
+                                color: Colors.white,
+                              ),
+                            ),
+                            baseDecoration: BoxDecoration(
+                              color: Colors.white,
+                              border: Border.all(),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 40),
+                      ],
                     ),
                   ),
                 ),
               ),
-              const SizedBox(height: 40),
-              Center(
-                child: ElevatedLayerButton(
-                  onClick: () => BaseHelper.showSplitOptions(context),
-                  buttonHeight: 60,
-                  buttonWidth: 270,
-                  animationDuration: const Duration(milliseconds: 200),
-                  animationCurve: Curves.ease,
-                  topDecoration: BoxDecoration(
-                    color: Colors.black,
-                    border: Border.all(),
-                  ),
-                  topLayerChild: Text(
-                    "Split Option",
-                    style: GoogleFonts.poppins(
-                      fontSize: 16,
-                      color: Colors.white,
-                    ),
-                  ),
-                  baseDecoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 40),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );
