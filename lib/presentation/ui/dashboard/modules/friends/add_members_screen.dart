@@ -41,13 +41,13 @@ class _AddMembersScreenState extends State<AddMembersScreen> {
       appBar: AppBar(
         title: const Text(
           "Add Members",
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: Colors.white),
         ),
         centerTitle: true,
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.black,
         elevation: 0,
         scrolledUnderElevation: 0,
-        iconTheme: const IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(color: Colors.white),
         actions: [
           Consumer<AddMemberNotifier>(
             builder: (context, addMemberNotifier, child) {
@@ -84,7 +84,7 @@ class _AddMembersScreenState extends State<AddMembersScreen> {
                       child: Text(
                         "Save",
                         style: TextStyle(
-                          color: hasNewMembers ? Colors.black : Colors.grey,
+                          color: hasNewMembers ? Colors.white : Colors.grey,
                           fontSize: 17,
                         ),
                       ),
@@ -98,7 +98,7 @@ class _AddMembersScreenState extends State<AddMembersScreen> {
                       child: Text(
                         "Add",
                         style: TextStyle(
-                          color: hasNewMembers ? Colors.black : Colors.grey,
+                          color: hasNewMembers ? Colors.white : Colors.grey,
                           fontSize: 17,
                         ),
                       ),

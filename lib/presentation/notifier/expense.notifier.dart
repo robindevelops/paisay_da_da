@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:paisay_da_da/core/constants/base_helper.dart';
 import 'package:paisay_da_da/domain/repository/expense.repository.dart';
 
 class ExpenseNotifier extends ChangeNotifier {
@@ -44,11 +45,11 @@ class ExpenseNotifier extends ChangeNotifier {
 
     response.fold(
       (success) {
-        // BaseHelper.showSnackBar(
-        //   context,
-        //   success.message.toString(),
-        //   Colors.green,
-        // );
+        BaseHelper.showSnackBar(
+          context,
+          success.message.toString(),
+          Colors.green,
+        );
       },
       (failture) {},
     );
