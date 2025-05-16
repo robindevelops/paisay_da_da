@@ -45,11 +45,11 @@ class ExpenseNotifier extends ChangeNotifier {
 
     response.fold(
       (success) {
-        BaseHelper.showSnackBar(
-          context,
-          success.message.toString(),
-          Colors.green,
-        );
+        // BaseHelper.showSnackBar(
+        //   context,
+        //   success.message.toString(),
+        //   Colors.green,
+        // );
       },
       (failture) {},
     );

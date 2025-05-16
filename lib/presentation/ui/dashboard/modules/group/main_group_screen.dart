@@ -51,81 +51,97 @@ class _GroupScreenState extends State<GroupScreen> {
         ],
       ),
       backgroundColor: Colors.white,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+      body: RefreshIndicator(
+        backgroundColor: AppThemes.highlightGreen,
+        color: Colors.black,
+        onRefresh: () async {
+          Future.delayed(
+            const Duration(seconds: 1),
+            () {},
+          );
+        },
+        child: ListView(
+          physics: const BouncingScrollPhysics(
+            parent: AlwaysScrollableScrollPhysics(),
+          ),
           children: [
-            groups!.isEmpty
-                ? AddGroupWidget()
-                : Expanded(
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: groups.length,
-                      itemBuilder: (context, index) {
-                        final group = groups[index];
-                        final groupId = group.sId;
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                groups!.isEmpty
+                    ? AddGroupWidget()
+                    : SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.8,
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: groups.length,
+                          itemBuilder: (context, index) {
+                            final group = groups[index];
+                            final groupId = group.sId;
 
-                        final expenseDetail = group.expenseDetail;
-                        final userEmails = group.members
-                            ?.map((member) => member.email)
-                            .toList()
-                            .cast<String>();
-                        final createdBy = group.createdBy?.email;
+                            final expenseDetail = group.expenseDetail;
+                            final userEmails = group.members
+                                ?.map((member) => member.email)
+                                .toList()
+                                .cast<String>();
+                            final createdBy = group.createdBy?.email;
 
-                        return ListTile(
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 20,
-                            vertical: 10,
-                          ),
-                          onTap: () {
-                            Log.d(
-                              "Group Name: ${group.name.toString()}\n",
-                              "Group ID: $groupId\nUsers in group: $userEmails\nCreated By: $createdBy:",
-                            );
-
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => GroupDetailScreen(
-                                  groupName: group.name.toString(),
-                                  groupMembers: userEmails,
-                                  createdBy: createdBy,
-                                  groupId: groupId,
-                                  expenseDetail: expenseDetail,
-                                ),
+                            return ListTile(
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 20,
+                                vertical: 10,
                               ),
-                            );
-                          },
-                          title: Text(
-                            group.name.toString(),
-                          ),
-                          leading: Image.asset(
-                            Constants.stickman2,
-                            height: 50,
-                          ),
-                          trailing: group.expenseDetail!.isEmpty
-                              ? const Text("no expense")
-                              : Container(
-                                  width: 70,
-                                  height: 25,
-                                  decoration: BoxDecoration(
-                                    color: AppThemes.highlightGreen,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      "${group.expenseDetail!.length} expense",
-                                      style: const TextStyle(
-                                        color: Colors.black,
-                                      ),
+                              onTap: () {
+                                Log.d(
+                                  "Group Name: ${group.name.toString()}\n",
+                                  "Group ID: $groupId\nUsers in group: $userEmails\nCreated By: $createdBy:",
+                                );
+
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => GroupDetailScreen(
+                                      groupName: group.name.toString(),
+                                      groupMembers: userEmails,
+                                      createdBy: createdBy,
+                                      groupId: groupId,
+                                      expenseDetail: expenseDetail,
                                     ),
                                   ),
-                                ),
-                        );
-                      },
-                    ),
-                  ),
+                                );
+                              },
+                              title: Text(
+                                group.name.toString(),
+                              ),
+                              leading: Image.asset(
+                                Constants.stickman2,
+                                height: 50,
+                              ),
+                              trailing: group.expenseDetail!.isEmpty
+                                  ? const Text("no expense")
+                                  : Container(
+                                      width: 70,
+                                      height: 25,
+                                      decoration: BoxDecoration(
+                                        color: AppThemes.highlightGreen,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          "${group.expenseDetail!.length} expense",
+                                          style: const TextStyle(
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                            );
+                          },
+                        ),
+                      ),
+              ],
+            ),
           ],
         ),
       ),
