@@ -7,6 +7,7 @@ import 'package:paisay_da_da/data/local/hive.dart';
 import 'package:paisay_da_da/presentation/notifier/addMember.notifier.dart';
 import 'package:paisay_da_da/presentation/notifier/auth.notifier.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/modules/profile/about.dart';
+import 'package:paisay_da_da/presentation/ui/dashboard/modules/profile/edit_profile_screen.dart';
 import 'package:paisay_da_da/presentation/ui/welcome/welcome_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -57,7 +58,14 @@ class ProfileScreen extends StatelessWidget {
                 ProfileListTile(
                   icon: "assets/icons/profile.svg",
                   title: "Edit Profile",
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => EditProfileScreen(),
+                      ),
+                    );
+                  },
                 ),
                 _sectionTitle(
                   "Notifications",

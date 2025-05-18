@@ -108,12 +108,14 @@ class _AddMembersScreenState extends State<AddMembersScreen> {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 30),
         child: ListView(
+          physics: const BouncingScrollPhysics(
+            parent: AlwaysScrollableScrollPhysics(),
+          ),
           children: [
-            const SizedBox(height: 20),
             CustomTextField(
-              hintText: "Search Members or Groups",
+              hintText: "Search members",
               icon: Icons.search,
               controller: _searchController,
               onChanged: (value) {
