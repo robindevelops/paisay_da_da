@@ -145,7 +145,7 @@ class _TotalBillState extends State<TotalBill> {
                             name!,
                           ),
                           subtitle: Text(
-                            "Rs ${price}",
+                            "Rs,${price}",
                           ),
                           leading: Icon(Icons.person_2_outlined),
                         );

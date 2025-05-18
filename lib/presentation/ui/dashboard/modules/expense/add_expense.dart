@@ -134,7 +134,7 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
                             return null;
                           },
                           controller: descriptionController,
-                          hintText: "Enter Description",
+                          hintText: "Expense Title",
                           icon: Icons.description_outlined,
                         ),
                         const SizedBox(height: 20),
@@ -272,32 +272,32 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
                           ),
                         ),
                         const SizedBox(height: 40),
-                        Center(
-                          child: ElevatedLayerButton(
-                            onClick: () => BaseHelper.showSplitOptions(context),
-                            buttonHeight: 60,
-                            buttonWidth: 270,
-                            animationDuration:
-                                const Duration(milliseconds: 200),
-                            animationCurve: Curves.ease,
-                            topDecoration: BoxDecoration(
-                              color: Colors.black,
-                              border: Border.all(),
-                            ),
-                            topLayerChild: Text(
-                              "Split Option",
-                              style: GoogleFonts.poppins(
-                                fontSize: 16,
-                                color: Colors.white,
-                              ),
-                            ),
-                            baseDecoration: BoxDecoration(
-                              color: Colors.white,
-                              border: Border.all(),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 40),
+                        // Center(
+                        //   child: ElevatedLayerButton(
+                        //     onClick: () => BaseHelper.showSplitOptions(context),
+                        //     buttonHeight: 60,
+                        //     buttonWidth: 270,
+                        //     animationDuration:
+                        //         const Duration(milliseconds: 200),
+                        //     animationCurve: Curves.ease,
+                        //     topDecoration: BoxDecoration(
+                        //       color: Colors.black,
+                        //       border: Border.all(),
+                        //     ),
+                        //     topLayerChild: Text(
+                        //       "Split Option",
+                        //       style: GoogleFonts.poppins(
+                        //         fontSize: 16,
+                        //         color: Colors.white,
+                        //       ),
+                        //     ),
+                        //     baseDecoration: BoxDecoration(
+                        //       color: Colors.white,
+                        //       border: Border.all(),
+                        //     ),
+                        //   ),
+                        // ),
+                        // const SizedBox(height: 40),
                       ],
                     ),
                   ),

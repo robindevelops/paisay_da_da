@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:circular_reveal_animation/circular_reveal_animation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:paisay_da_da/core/constants/constants.dart';
 import 'package:paisay_da_da/core/themes/themes.dart';
 import 'package:paisay_da_da/data/local/hive.dart';
@@ -165,8 +166,10 @@ class _HomeScreenState extends State<HomeScreen>
                                   ),
                                 );
                               },
-                              leading: CircleAvatar(
-                                child: Image.asset(Constants.stickman1),
+                              leading: Image.asset(
+                                Constants.account,
+                                scale: 13,
+                                fit: BoxFit.cover,
                               ),
                               title: Text(name.toString()),
                               trailing: personalExpenses!.isEmpty

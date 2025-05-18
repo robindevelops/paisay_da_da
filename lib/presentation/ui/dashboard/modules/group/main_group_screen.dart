@@ -25,6 +25,7 @@ class _GroupScreenState extends State<GroupScreen> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
+        scrolledUnderElevation: 0,
         backgroundColor: Colors.white,
         actions: [
           TextButton(
@@ -115,8 +116,9 @@ class _GroupScreenState extends State<GroupScreen> {
                                 group.name.toString(),
                               ),
                               leading: Image.asset(
-                                Constants.stickman2,
-                                height: 50,
+                                scale: 13,
+                                fit: BoxFit.cover,
+                                Constants.account,
                               ),
                               trailing: group.expenseDetail!.isEmpty
                                   ? const Text("no expense")
