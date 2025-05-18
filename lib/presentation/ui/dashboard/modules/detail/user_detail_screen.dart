@@ -62,7 +62,13 @@ class _DetailScreenState extends State<DetailScreen> {
         title: Row(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            CircleAvatar(maxRadius: 25, backgroundColor: Colors.white),
+            CircleAvatar(
+              maxRadius: 25,
+              backgroundColor: Colors.white,
+              child: Image.asset(
+                Constants.account,
+              ),
+            ),
             SizedBox(width: 10),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,

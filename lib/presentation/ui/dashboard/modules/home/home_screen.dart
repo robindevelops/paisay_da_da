@@ -92,7 +92,12 @@ class _HomeScreenState extends State<HomeScreen>
             ),
             children: [
               friendNotifier.friends.isEmpty
-                  ? NoFriendsWidget()
+                  ? Padding(
+                      padding: EdgeInsets.symmetric(
+                        vertical: MediaQuery.of(context).size.height / 4,
+                      ),
+                      child: NoFriendsWidget(),
+                    )
                   // : Row(
                   //     mainAxisSize: MainAxisSize.min,
                   //     mainAxisAlignment: MainAxisAlignment.center,
@@ -282,16 +287,17 @@ class NoFriendsWidget extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 40.0),
         child: Column(
           children: [
-            const Icon(Icons.person_2_rounded, size: 50, color: Colors.black),
-            const SizedBox(height: 20),
+            // const Icon(Icons.person_2_rounded, size: 50, color: Colors.black),
+            // const SizedBox(height: 20),
             Text(
-              "Add karo, warna app ki feeling off ho jayegi!",
-              style: GoogleFonts.patrickHand(
+              "Add karo, warna app ki\nfeeling off ho jayegi!",
+              style: TextStyle(
                 fontSize: 16,
+                color: Colors.black,
               ),
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 30),
             AppElevatedButton(
               text: "Add Friend",
               onPressed: () {

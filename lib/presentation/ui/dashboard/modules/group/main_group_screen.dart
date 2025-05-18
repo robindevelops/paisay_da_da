@@ -70,7 +70,12 @@ class _GroupScreenState extends State<GroupScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 groups!.isEmpty
-                    ? AddGroupWidget()
+                    ? Padding(
+                        padding: EdgeInsets.symmetric(
+                          vertical: MediaQuery.of(context).size.height / 4,
+                        ),
+                        child: AddGroupWidget(),
+                      )
                     : SizedBox(
                         height: MediaQuery.of(context).size.height * 0.8,
                         child: ListView.builder(
