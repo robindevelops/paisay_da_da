@@ -40,21 +40,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Name",
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                color: Colors.black,
-              ),
-            ),
-            const SizedBox(height: 10),
-            CustomTextField(
-              hintText: userName.toLowerCase(),
-              icon: Icons.person,
-              controller: controller,
-            ),
-            const SizedBox(height: 20),
-            Text(
               "Email",
               style: TextStyle(
                 fontSize: 16,
@@ -66,6 +51,21 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             CustomTextField(
               hintText: userEmail,
               icon: Icons.email,
+              controller: controller,
+            ),
+            const SizedBox(height: 20),
+            Text(
+              "Name",
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                color: Colors.black,
+              ),
+            ),
+            const SizedBox(height: 10),
+            CustomTextField(
+              hintText: userName.toLowerCase(),
+              icon: Icons.person,
               controller: controller,
             )
           ],

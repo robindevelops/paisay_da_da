@@ -119,7 +119,48 @@ class _GroupSettingScreenState extends State<GroupSettingScreen> {
                         ? const AdminWidget()
                         : isGroupCreator
                             ? IconButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (_) {
+                                        return AlertDialog(
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          backgroundColor: Colors.white,
+                                          title: const Text("Remove Member"),
+                                          content: const Text(
+                                            "Are you sure you want to remove this member?",
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                            ),
+                                          ),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () async {
+                                                Navigator.pop(context);
+                                              },
+                                              child: const Text("Yes",
+                                                  style: TextStyle(
+                                                    color: Colors.red,
+                                                  )),
+                                            ),
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: const Text(
+                                                "No",
+                                                style: TextStyle(
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        );
+                                      });
+                                },
                                 icon: Icon(Icons.more_horiz),
                               )
                             : friends.contains(memberEmail) ||
