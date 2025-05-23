@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:paisay_da_da/core/themes/themes.dart';
 
 class UserSettingsScreen extends StatefulWidget {
   const UserSettingsScreen({super.key});
@@ -57,7 +58,26 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
             ),
             title: const Text(
               "Remove Friend",
-              style: TextStyle(color: Colors.red),
+              style: TextStyle(
+                color: Colors.red,
+                fontSize: 15,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+          ListTile(
+            onTap: () {},
+            leading: const Icon(
+              Icons.send,
+              color: Colors.black,
+            ),
+            title: Text(
+              "Send Reminder",
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 15,
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ),
         ],

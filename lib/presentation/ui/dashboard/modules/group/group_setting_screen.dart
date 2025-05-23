@@ -45,12 +45,13 @@ class _GroupSettingScreenState extends State<GroupSettingScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        iconTheme: const IconThemeData(color: Colors.white),
         centerTitle: true,
         scrolledUnderElevation: 0,
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.black,
         title: const Text(
           "Group Settings",
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: Colors.white),
         ),
         actions: [
           TextButton(
@@ -60,7 +61,7 @@ class _GroupSettingScreenState extends State<GroupSettingScreen> {
             child: Text(
               "Edit",
               style: GoogleFonts.aBeeZee(
-                color: Colors.black,
+                color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),
             ),
