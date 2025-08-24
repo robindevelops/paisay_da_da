@@ -1,11 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:paisay_da_da/core/locator/locator.dart';
-import 'package:paisay_da_da/presentation/notifier/addMember.notifier.dart';
-import 'package:paisay_da_da/presentation/notifier/auth.notifier.dart';
 import 'package:paisay_da_da/presentation/notifier/connection.notifier.dart';
-import 'package:paisay_da_da/presentation/notifier/expense.notifier.dart';
-import 'package:paisay_da_da/presentation/notifier/friend.notifier.dart';
-import 'package:paisay_da_da/presentation/notifier/group.notifier.dart';
 import 'package:paisay_da_da/presentation/notifier/loader.notifier.dart';
 import 'package:paisay_da_da/presentation/notifier/rootVm.notifier.dart';
 import 'package:provider/provider.dart';
@@ -26,19 +20,7 @@ class MultiProviders extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) {
-            return AuthenticationNotifier(
-              authRepository: ServiceLocator.getIt(),
-            );
-          },
-        ),
-        ChangeNotifierProvider(
-          create: (context) {
             return ConnectionNotifier();
-          },
-        ),
-        ChangeNotifierProvider(
-          create: (context) {
-            return GroupNotifier(groupRepository: ServiceLocator.getIt());
           },
         ),
         ChangeNotifierProvider(
@@ -49,25 +31,6 @@ class MultiProviders extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) {
             return ConnectionNotifier();
-          },
-        ),
-        ChangeNotifierProvider(
-          create: (context) {
-            return FriendNotifier(
-              friendsRepository: ServiceLocator.getIt(),
-            );
-          },
-        ),
-        ChangeNotifierProvider(
-          create: (context) {
-            return AddMemberNotifier();
-          },
-        ),
-        ChangeNotifierProvider(
-          create: (context) {
-            return ExpenseNotifier(
-              expenseRepository: ServiceLocator.getIt(),
-            );
           },
         ),
       ],

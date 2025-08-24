@@ -1,26 +1,9 @@
 // ignore_for_file: must_be_immutable
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:paisay_da_da/core/constants/base_helper.dart';
-import 'package:paisay_da_da/data/local/hive.dart';
-import 'package:paisay_da_da/presentation/notifier/addMember.notifier.dart';
-import 'package:paisay_da_da/presentation/notifier/friend.notifier.dart';
-import 'package:paisay_da_da/presentation/notifier/group.notifier.dart';
-import 'package:paisay_da_da/presentation/ui/dashboard/dashboard_screen.dart';
-import 'package:paisay_da_da/presentation/widgets/admin_widget.dart';
-import 'package:provider/provider.dart';
 
 class GroupSettingScreen extends StatefulWidget {
-  final List<String>? groupMembers;
-  final String? createdBy;
-  final String? groupId;
-
-  GroupSettingScreen({
-    super.key,
-    required this.groupMembers,
-    required this.createdBy,
-    required this.groupId,
-  });
+  const GroupSettingScreen({super.key});
 
   @override
   State<GroupSettingScreen> createState() => _GroupSettingScreenState();
@@ -29,19 +12,6 @@ class GroupSettingScreen extends StatefulWidget {
 class _GroupSettingScreenState extends State<GroupSettingScreen> {
   @override
   Widget build(BuildContext context) {
-    final userEmail = HiveDatabase.getValue(HiveDatabase.userKey);
-    final isGroupCreator = userEmail == widget.createdBy;
-    final groupProvider = Provider.of<GroupNotifier>(context);
-    final friendNotifier = Provider.of<FriendNotifier>(context);
-
-    var friends = friendNotifier.friends.map(
-      (friend) {
-        return friend.email;
-      },
-    ).toList();
-
-    final addMemberNotifier = Provider.of<AddMemberNotifier>(context);
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -55,9 +25,7 @@ class _GroupSettingScreenState extends State<GroupSettingScreen> {
         ),
         actions: [
           TextButton(
-            onPressed: () {
-              print(friends);
-            },
+            onPressed: () {},
             child: Text(
               "Edit",
               style: GoogleFonts.aBeeZee(
@@ -77,8 +45,8 @@ class _GroupSettingScreenState extends State<GroupSettingScreen> {
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
+              children: const [
+                Text(
                   "Group Members",
                   style: TextStyle(
                     color: Colors.black,
@@ -90,153 +58,129 @@ class _GroupSettingScreenState extends State<GroupSettingScreen> {
             ),
             const SizedBox(height: 10),
             ListTile(
-              onTap: () {
-                // Add group member functionality here
-              },
+              onTap: () {},
               leading: const Icon(Icons.person_add_alt),
               title: const Text("Add Group Members"),
             ),
             const SizedBox(height: 10),
-            if (widget.groupMembers == null || widget.groupMembers!.isEmpty)
-              const ListTile(
-                title: Text("No members found"),
-              )
-            else
-              ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: widget.groupMembers?.length,
-                itemBuilder: (context, index) {
-                  final memberEmail = widget.groupMembers![index];
 
-                  return ListTile(
-                    leading: const Icon(Icons.person_2_outlined),
-                    title: Text(
-                      getUsernameFromEmail(memberEmail),
-                      style: GoogleFonts.aBeeZee(),
-                    ),
-                    subtitle: Text(memberEmail),
-                    trailing: memberEmail == widget.createdBy
-                        ? const AdminWidget()
-                        : isGroupCreator
-                            ? IconButton(
-                                onPressed: () {
-                                  showDialog(
-                                      context: context,
-                                      builder: (_) {
-                                        return AlertDialog(
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-                                          backgroundColor: Colors.white,
-                                          title: const Text("Remove Member"),
-                                          content: const Text(
-                                            "Are you sure you want to remove this member?",
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                          actions: [
-                                            TextButton(
-                                              onPressed: () async {
-                                                Navigator.pop(context);
-                                              },
-                                              child: const Text("Yes",
-                                                  style: TextStyle(
-                                                    color: Colors.red,
-                                                  )),
-                                            ),
-                                            TextButton(
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              },
-                                              child: const Text(
-                                                "No",
-                                                style: TextStyle(
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        );
-                                      });
-                                },
-                                icon: Icon(Icons.more_horiz),
-                              )
-                            : friends.contains(memberEmail) ||
-                                    memberEmail == userEmail
-                                ? null
-                                : TextButton(
-                                    onPressed: () async {
-                                      print(memberEmail);
-                                      await friendNotifier.addFriend(
-                                        senderEmail: userEmail,
-                                        receiverEmail: memberEmail,
-                                        context: context,
-                                      );
-                                    },
-                                    child: const Text(
-                                      "Add friend",
-                                      style: TextStyle(color: Colors.black),
-                                    ),
-                                  ),
-                  );
-                },
-              ),
-            const SizedBox(height: 20),
-            if (isGroupCreator)
-              ListTile(
-                onTap: () {
-                  BaseHelper.showDBottomSheet(
-                    context,
-                    message: "Delete Group",
-                    title: "Are you sure you want to delete this group?",
-                    buttoncolor: Colors.red,
-                    onPressed: () async {
-                      Navigator.pop(context);
-
-                      await groupProvider.deleteGroup(
-                        groupId: widget.groupId.toString(),
+            // Example static member list
+            ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: 2,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  leading: const Icon(Icons.person_2_outlined),
+                  title: Text(
+                    getUsernameFromEmail("member$index@example.com"),
+                    style: GoogleFonts.aBeeZee(),
+                  ),
+                  trailing: IconButton(
+                    onPressed: () {
+                      showDialog(
                         context: context,
-                      );
-
-                      addMemberNotifier.clearMemeber();
-                      await groupProvider.getGroups(email: userEmail);
-
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const DashboardScreen(),
-                        ),
-                        (Route<dynamic> route) => false,
+                        builder: (_) {
+                          return AlertDialog(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            backgroundColor: Colors.white,
+                            title: const Text("Remove Member"),
+                            content: const Text(
+                              "Are you sure you want to remove this member?",
+                              style: TextStyle(color: Colors.black),
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Text(
+                                  "Yes",
+                                  style: TextStyle(color: Colors.red),
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Text(
+                                  "No",
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                              ),
+                            ],
+                          );
+                        },
                       );
                     },
-                  );
-                },
-                title: const Text(
-                  "Delete Group",
-                  style: TextStyle(color: Colors.red),
-                ),
-                leading: const Icon(Icons.delete, color: Colors.red),
-              ),
-            ListTile(
-              onTap: () async {
-                await groupProvider.leaveGroup(
-                  groupId: widget.groupId.toString(),
-                  userEmail: userEmail,
-                  context: context,
-                );
-
-                addMemberNotifier.addleftGroup(getUsernameFromEmail(userEmail));
-                await groupProvider.getGroups(email: userEmail);
-
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const DashboardScreen(),
+                    icon: const Icon(Icons.more_horiz),
                   ),
-                  (Route<dynamic> route) => false,
+                );
+              },
+            ),
+
+            const SizedBox(height: 20),
+
+            ListTile(
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (_) => AlertDialog(
+                    title: const Text("Delete Group"),
+                    content: const Text(
+                        "Are you sure you want to delete this group?"),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text(
+                          "Yes",
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text(
+                          "No",
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+              title: const Text(
+                "Delete Group",
+                style: TextStyle(color: Colors.red),
+              ),
+              leading: const Icon(Icons.delete, color: Colors.red),
+            ),
+            ListTile(
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (_) => AlertDialog(
+                    title: const Text("Exit Group"),
+                    content:
+                        const Text("Are you sure you want to exit this group?"),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text(
+                          "Yes",
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text(
+                          "No",
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      ),
+                    ],
+                  ),
                 );
               },
               title: const Text(

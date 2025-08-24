@@ -1,21 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:paisay_da_da/domain/models/groupmodel/group.model.dart';
 
 class TotalBill extends StatefulWidget {
-  String totalBill;
-  String createdAt;
-  List<OwedUsers>? owedUsers;
-  String? payerName;
-  TotalBill({
-    super.key,
-    required this.createdAt,
-    required this.totalBill,
-    required this.owedUsers,
-    required this.payerName,
-  });
-
   @override
   State<TotalBill> createState() => _TotalBillState();
 }
@@ -75,7 +62,7 @@ class _TotalBillState extends State<TotalBill> {
                       ),
                       SizedBox(height: 5),
                       Text(
-                        '${displayJustDate(widget.createdAt)}',
+                        'shoppign',
                         style: TextStyle(
                           fontSize: 14,
                           color: Colors.black,
@@ -84,7 +71,7 @@ class _TotalBillState extends State<TotalBill> {
                     ],
                   ),
                   Text(
-                    'Rs,${widget.totalBill}',
+                    '20,000',
                     style: GoogleFonts.aBeeZee(
                       fontSize: 35,
                       fontWeight: FontWeight.w600,
@@ -109,7 +96,7 @@ class _TotalBillState extends State<TotalBill> {
                   ),
                   ListTile(
                     title: Text(
-                      "${widget.payerName}",
+                      "Alyan",
                       style: GoogleFonts.aBeeZee(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -132,21 +119,14 @@ class _TotalBillState extends State<TotalBill> {
                     height: 200,
                     child: ListView.builder(
                       physics: NeverScrollableScrollPhysics(),
-                      itemCount: widget.owedUsers!.length,
+                      itemCount: 2,
                       itemBuilder: (context, index) {
-                        var owedUsers = widget.owedUsers![index];
-                        var name = owedUsers.user!.name;
-                        var price = owedUsers.amount;
                         return ListTile(
                           subtitleTextStyle: TextStyle(
                             color: Colors.red,
                           ),
-                          title: Text(
-                            name!,
-                          ),
-                          subtitle: Text(
-                            "Rs,${price}",
-                          ),
+                          title: Text("furqan"),
+                          subtitle: Text("200"),
                           leading: Icon(Icons.person_2_outlined),
                         );
                       },

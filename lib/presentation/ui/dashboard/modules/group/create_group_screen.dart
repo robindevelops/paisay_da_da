@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:paisay_da_da/data/local/hive.dart';
-import 'package:paisay_da_da/presentation/notifier/group.notifier.dart';
 import 'package:paisay_da_da/presentation/widgets/app_elevated_button.dart';
 import 'package:paisay_da_da/presentation/widgets/app_textfield.dart';
-import 'package:provider/provider.dart';
 
 class CreategroupScreen extends StatefulWidget {
   const CreategroupScreen({super.key});
@@ -16,7 +13,7 @@ class _CreategroupScreenState extends State<CreategroupScreen> {
   TextEditingController groupName = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    final groupProvider = Provider.of<GroupNotifier>(context);
+    // final groupProvider = Provider.of<GroupNotifier>(context);
     final _formKey = GlobalKey<FormState>();
 
     return Scaffold(
@@ -76,22 +73,7 @@ class _CreategroupScreenState extends State<CreategroupScreen> {
 
               AppElevatedButton(
                 text: "Create Group",
-                onPressed: () async {
-                  var value = HiveDatabase.getValue(HiveDatabase.userKey);
-
-                  if (_formKey.currentState!.validate()) {
-                    bool success = await groupProvider.CreateGroup(
-                      createdBy: value,
-                      groupName: groupName.text,
-                      members: [],
-                      context: context,
-                    );
-                    if (success) {
-                      Navigator.pop(context);
-                      groupProvider.getGroups(email: value);
-                    }
-                  }
-                },
+                onPressed: () async {},
               ),
 
               const SizedBox(height: 20),

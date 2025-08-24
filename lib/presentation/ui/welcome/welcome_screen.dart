@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:paisay_da_da/core/constants/constants.dart';
-import 'package:paisay_da_da/presentation/ui/auth/signin_screen.dart';
 import 'package:paisay_da_da/presentation/ui/auth/signup_screen.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -17,7 +16,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
   final List<Map<String, String>> onboardingData = [
     {
-      "image": Constants.splitImg,
+      "image": Constants.welcome,
       "title": "Welcome to Paisay Da Da!",
       "subtitle": "Your ultimate playground for managing daily expenses.",
     },
@@ -149,7 +148,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 // Navigate to login screen
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (_) => const SigninScreen()),
+                  MaterialPageRoute(builder: (_) => const SignupScreen()),
                 );
               },
               child: Container(

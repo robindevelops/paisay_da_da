@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:paisay_da_da/data/local/hive.dart';
-import 'package:paisay_da_da/presentation/ui/dashboard/modules/expense/add_expense.dart';
+
 import 'package:paisay_da_da/presentation/widgets/app_textfield.dart';
 
 class EditProfileScreen extends StatefulWidget {
@@ -11,64 +10,83 @@ class EditProfileScreen extends StatefulWidget {
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
+  TextEditingController emailController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    TextEditingController controller = TextEditingController();
-    var userName = getUsernameFromEmail(
-      HiveDatabase.getValue(HiveDatabase.userKey),
-    );
-    var userEmail = HiveDatabase.getValue(HiveDatabase.userKey);
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.grey[100],
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Colors.white,
-        title: Text('Edit Profile'),
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        title: const Text(
+          'Edit Profile',
+          style: TextStyle(color: Colors.black),
+        ),
+        iconTheme: const IconThemeData(color: Colors.black),
         actions: [
-          TextButton(
-            onPressed: () {},
-            child: Text(
-              'Save',
-              style: TextStyle(color: Colors.black),
+          Padding(
+            padding: const EdgeInsets.only(right: 12),
+            child: OutlinedButton(
+              onPressed: () {
+                // Save logic here
+              },
+              style: OutlinedButton.styleFrom(
+                side: const BorderSide(color: Colors.black),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              child: const Text(
+                'Save',
+                style: TextStyle(color: Colors.black),
+              ),
             ),
           )
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 30),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              "Email",
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                color: Colors.black,
-              ),
+            CircleAvatar(
+              radius: 40,
+              backgroundColor: Colors.black,
+              child: const Icon(Icons.person, color: Colors.white, size: 40),
             ),
+            const SizedBox(height: 30),
+            _buildLabel("Email"),
             const SizedBox(height: 10),
             CustomTextField(
-              hintText: userEmail,
               icon: Icons.email,
-              controller: controller,
+              controller: emailController,
+              hintText: '',
             ),
-            const SizedBox(height: 20),
-            Text(
-              "Name",
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                color: Colors.black,
-              ),
-            ),
+            const SizedBox(height: 25),
+            _buildLabel("Name"),
             const SizedBox(height: 10),
             CustomTextField(
-              hintText: userName.toLowerCase(),
               icon: Icons.person,
-              controller: controller,
-            )
+              controller: nameController,
+              hintText: '',
+            ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLabel(String text) {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Text(
+        text,
+        style: const TextStyle(
+          fontSize: 15,
+          fontWeight: FontWeight.w600,
+          color: Colors.black87,
         ),
       ),
     );

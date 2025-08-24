@@ -3,6 +3,8 @@ class Constants {
   static const String imagePath = "$assets/images";
 
   static const String logoImg = "$imagePath/money.jpg";
+  static const String welcome = "$imagePath/welcome.png";
+
   static const String splitImg = "$imagePath/split.png";
   static const String splashImg = "$imagePath/splash.png";
   static const String invoice = "$imagePath/invoice.png";

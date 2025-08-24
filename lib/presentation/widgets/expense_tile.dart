@@ -2,53 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:paisay_da_da/core/constants/constants.dart';
-import 'package:paisay_da_da/data/local/hive.dart';
-import 'package:paisay_da_da/domain/models/groupmodel/group.model.dart';
-import 'package:paisay_da_da/presentation/notifier/expense.notifier.dart';
-import 'package:paisay_da_da/presentation/notifier/friend.notifier.dart';
-import 'package:paisay_da_da/presentation/notifier/group.notifier.dart';
-import 'package:paisay_da_da/presentation/ui/dashboard/modules/detail/total_bill_screen.dart';
-import 'package:provider/provider.dart';
+
+import 'package:paisay_da_da/presentation/ui/dashboard/modules/total/total_bill_screen.dart';
 
 class ExpenseTile extends StatelessWidget {
-  final List<ExpenseDetail>? expenseDetail; // Make it final
-
-  ExpenseTile({super.key, required this.expenseDetail});
-
   @override
   Widget build(BuildContext context) {
-    ExpenseNotifier expenseNotifier =
-        Provider.of<ExpenseNotifier>(context, listen: false);
-
-    GroupNotifier groupNotifier =
-        Provider.of<GroupNotifier>(context, listen: false);
     return ListView.builder(
       physics: const BouncingScrollPhysics(),
-      itemCount: expenseDetail!.length,
+      itemCount: 2,
       itemBuilder: (context, index) {
-        var expense = expenseDetail![index];
-        var totalBill = expense.expense!.price;
-        var expenseId = expense.sId;
-        var createdAt = expense.createdAt;
-        var expenseName = expense.expense?.title;
-        var payerName = expense.payer?.name;
-        var payerEmail = expense.payer?.email;
-        var owedUsers = expense.owedUsers?.where(
-          (user) => user.user?.email != payerEmail,
-        );
-        var oweamount = expense.amount! / expense.owedUsers!.length;
-        var currentUser = HiveDatabase.getValue(HiveDatabase.userKey);
-        bool isPaidByMe = currentUser == payerEmail;
-        double totalLent = 0.0;
-
-        if (expense.payer?.email == currentUser) {
-          expense.owedUsers?.forEach((owedUser) {
-            if (owedUser.user?.email != currentUser) {
-              totalLent += owedUser.amount ?? 0.0;
-            }
-          });
-        }
-
         return Slidable(
           key: ValueKey(index),
           startActionPane: ActionPane(
@@ -64,44 +27,26 @@ class ExpenseTile extends StatelessWidget {
               ),
             ],
           ),
-          endActionPane: isPaidByMe
-              ? ActionPane(
-                  motion: const ScrollMotion(),
-                  children: [
-                    SlidableAction(
-                      borderRadius: BorderRadius.circular(5),
-                      onPressed: (context) {
-                        expenseNotifier.clearExpenese(
-                          expenseId: expenseId.toString(),
-                          context: context,
-                        );
-
-                        groupNotifier.getGroups(
-                          email: HiveDatabase.getValue(HiveDatabase.userKey),
-                        );
-                        Navigator.pop(context);
-                      },
-                      backgroundColor: Colors.red,
-                      foregroundColor: Colors.white,
-                      icon: Icons.delete,
-                      label: 'Delete',
-                    ),
-                  ],
-                )
-              : null,
+          endActionPane: ActionPane(
+            motion: const ScrollMotion(),
+            children: [
+              SlidableAction(
+                borderRadius: BorderRadius.circular(5),
+                onPressed: (context) {},
+                backgroundColor: Colors.red,
+                foregroundColor: Colors.white,
+                icon: Icons.delete,
+                label: 'Delete',
+              ),
+            ],
+          ),
           child: ListTile(
             onTap: () {
-              print(totalBill);
               Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return TotalBill(
-                      createdAt: createdAt.toString(),
-                      totalBill: totalBill.toString(),
-                      payerName: payerName,
-                      owedUsers: owedUsers?.toList(),
-                    );
+                    return TotalBill();
                   },
                 ),
               );
@@ -114,22 +59,7 @@ class ExpenseTile extends StatelessWidget {
                   children: [
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          displayJustDate(
-                            createdAt.toString(),
-                          )['date']!,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          displayJustDate(
-                            createdAt.toString(),
-                          )['month']!, // Second Text: Month
-                          style: TextStyle(fontSize: 12),
-                        ),
-                      ],
+                      children: [Text("12 Aug")],
                     ),
                     const SizedBox(width: 10),
                     Container(
@@ -149,25 +79,23 @@ class ExpenseTile extends StatelessWidget {
                 ),
               ],
             ),
-            title: Text(expenseName!.toUpperCase()),
-            subtitle: isPaidByMe
-                ? Text(
-                    'Paid by you',
-                    style: TextStyle(
-                      fontSize: 12,
-                    ),
-                  )
-                : Text(
-                    'Paid by ${payerName}',
-                  ),
+            title: Text("Shopping"),
+            subtitle: Text(
+              'Paid by you',
+              style: TextStyle(
+                fontSize: 12,
+              ),
+            ),
+            //  Text(
+            //     'Paid by ${payerName}',
+            //   ),
             trailing: SizedBox(
               width: 80,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  isPaidByMe
-                      ? LendMoneyWidget(totalLent: totalLent)
-                      : OwedMoneyWidget(totalOwe: oweamount.toInt()),
+                  LendMoneyWidget(totalLent: 2),
+                  // OwedMoneyWidget(totalOwe: 2),
                 ],
               ),
             ),

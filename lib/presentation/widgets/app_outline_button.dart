@@ -4,29 +4,32 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:paisay_da_da/core/themes/themes.dart';
 
-class AppElevatedButton extends StatefulWidget {
+class AppOutlineButton extends StatefulWidget {
   String text;
+  Widget? icon;
   void Function()? onPressed;
-  AppElevatedButton({super.key, required this.text, required this.onPressed});
+
+  AppOutlineButton(
+      {super.key,
+      required this.text,
+      required this.onPressed,
+      required this.icon});
 
   @override
-  State<AppElevatedButton> createState() => _AppElevatedButtonState();
+  State<AppOutlineButton> createState() => _AppOutlineButtonState();
 }
 
-class _AppElevatedButtonState extends State<AppElevatedButton> {
+class _AppOutlineButtonState extends State<AppOutlineButton> {
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
-      child: ElevatedButton.icon(
-        icon: const Icon(
-          Icons.apple,
-          color: Colors.white,
-        ),
+      child: OutlinedButton.icon(
+        icon: widget.icon,
         style: ElevatedButton.styleFrom(
           minimumSize: Size(double.infinity, 50),
           // backgroundColor: Color(0xFFFF9500),
-          backgroundColor: AppThemes.primaryButton,
+
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
@@ -35,7 +38,7 @@ class _AppElevatedButtonState extends State<AppElevatedButton> {
         label: Text(
           widget.text,
           style: GoogleFonts.poppins(
-            color: Colors.white,
+            color: Colors.black,
             fontSize: 15,
             fontWeight: FontWeight.w600,
           ),

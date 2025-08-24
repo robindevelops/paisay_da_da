@@ -1,25 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:paisay_da_da/core/constants/base_helper.dart';
 import 'package:paisay_da_da/core/themes/themes.dart';
-import 'package:paisay_da_da/data/local/hive.dart';
-import 'package:paisay_da_da/presentation/notifier/addMember.notifier.dart';
-import 'package:paisay_da_da/presentation/notifier/auth.notifier.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/modules/profile/about.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/modules/profile/edit_profile_screen.dart';
-import 'package:paisay_da_da/presentation/ui/welcome/welcome_screen.dart';
-import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    AuthenticationNotifier authNotifier =
-        Provider.of<AuthenticationNotifier>(context);
-
-    String userEmail = HiveDatabase.getValue(HiveDatabase.userKey);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -36,23 +26,6 @@ class ProfileScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // const SizedBox(height: 8),
-                // CircleAvatar(
-                //   radius: 50,
-                //   backgroundColor: screenBackgroundColor,
-                //   backgroundImage: const NetworkImage(
-                //     "https://avatar.iran.liara.run/public",
-                //   ),
-                // ),
-                // const SizedBox(height: 16),
-                // Text(
-                //   userName,
-                //   style: TextStyle(
-                //     color: primaryColor,
-                //     fontWeight: FontWeight.bold,
-                //     fontSize: 18,
-                //   ),
-                // ),
                 const SizedBox(height: 10),
                 _sectionTitle("Account", Icons.account_circle),
                 ProfileListTile(
@@ -77,16 +50,10 @@ class ProfileScreen extends StatelessWidget {
                   isNotification: true,
                   onTap: () {},
                 ),
-
                 _sectionTitle(
                   "More",
                   Icons.collections_bookmark,
                 ),
-                // ProfileListTile(
-                //   icon: "assets/icons/language.svg",
-                //   title: "Theme",
-                //   onTap: () {},
-                // ),
                 ProfileListTile(
                   icon: "assets/icons/terms.svg",
                   title: "About Us",
@@ -99,61 +66,15 @@ class ProfileScreen extends StatelessWidget {
                     );
                   },
                 ),
-
                 ProfileListTile(
                   icon: "assets/icons/delete.svg",
                   title: "Delete Account",
-                  onTap: () {
-                    BaseHelper.showDBottomSheet(
-                      context,
-                      title: "Are you sure you want to delete your account?",
-                      message: "Delete Account",
-                      buttoncolor: Colors.red,
-                      onPressed: () async {
-                        await authNotifier.deleteAccount(
-                          context: context,
-                          email: userEmail,
-                        );
-                        Navigator.pop(context);
-                        HiveDatabase.storelogin(false);
-                        HiveDatabase.clearAll();
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const WelcomeScreen(),
-                          ),
-                        );
-                      },
-                    );
-                  },
+                  onTap: () {},
                 ),
                 ProfileListTile(
                   icon: "assets/icons/logout.svg",
                   title: "Logout",
-                  onTap: () {
-                    BaseHelper.showDBottomSheet(
-                      context,
-                      title: "Are you sure you want to logout?",
-                      message: "logout",
-                      buttoncolor: AppThemes.splitGreen,
-                      onPressed: () {
-                        Navigator.pop(context);
-                        HiveDatabase.storelogin(false);
-                        HiveDatabase.clearAll();
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const WelcomeScreen(),
-                          ),
-                        );
-                        // BaseHelper.showSnackBar(
-                        //   context,
-                        //   "Logout Successfully",
-                        //   Colors.green,
-                        // );
-                      },
-                    );
-                  },
+                  onTap: () {},
                 ),
                 const SizedBox(height: 24),
               ],
@@ -208,8 +129,8 @@ class ProfileListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AddMemberNotifier addMemberNotifier =
-        Provider.of<AddMemberNotifier>(context);
+    // AddMemberNotifier addMemberNotifier =
+    //     Provider.of<AddMemberNotifier>(context);
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
       title: Text(
@@ -223,9 +144,9 @@ class ProfileListTile extends StatelessWidget {
               activeTrackColor: AppThemes.splitGreen,
               inactiveThumbColor: Colors.white,
               // inactiveTrackColor: Colors.grey,
-              value: addMemberNotifier.isOn,
+              value: false, // Replace with actual value from notifier
               onChanged: (value) {
-                addMemberNotifier.toggleNotification(value);
+                // addMemberNotifier.toggleNotification(value);
               },
             )
           : const Icon(

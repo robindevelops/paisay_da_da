@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:paisay_da_da/data/local/hive.dart';
-import 'package:paisay_da_da/presentation/notifier/friend.notifier.dart';
-import 'package:paisay_da_da/presentation/notifier/group.notifier.dart';
-import 'package:paisay_da_da/presentation/notifier/loader.notifier.dart';
 import 'package:paisay_da_da/presentation/notifier/rootVm.notifier.dart';
-
 import 'package:provider/provider.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -15,26 +10,6 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  @override
-  void initState() {
-    LoaderNotifier loaderNotifier = context.read<LoaderNotifier>();
-    final groupProvider = Provider.of<GroupNotifier>(context, listen: false);
-    final friendProvider = Provider.of<FriendNotifier>(context, listen: false);
-    final userEmail = HiveDatabase.getValue(HiveDatabase.userKey);
-
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      loaderNotifier.setLoading(true);
-
-      await groupProvider.getGroups(
-        email: HiveDatabase.getValue(HiveDatabase.userKey),
-      );
-      await friendProvider.getFriends(email: userEmail, context: context);
-
-      loaderNotifier.setLoading(false);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     Rootvm rootvm = context.watch<Rootvm>();
@@ -78,11 +53,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 label: "Groups",
                 icon: Icon(Icons.group, size: 30),
               ),
-              // BottomNavigationBarItem(
-              //   backgroundColor: Colors.white,
-              //   label: "",
-              //   icon: Icon(Icons.add_box, size: 40),
-              // ),
               BottomNavigationBarItem(
                 backgroundColor: Colors.white,
                 label: "Requests",
@@ -92,10 +62,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 label: "Profile",
                 icon: Icon(Icons.account_circle, size: 30),
               ),
-              // BottomNavigationBarItem(
-              //   label: "Profile",
-              //   icon: Icon(Icons.person, size: 30),
-              // ),
             ],
           ),
         ),

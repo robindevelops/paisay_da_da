@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:paisay_da_da/presentation/ui/dashboard/modules/friends/friends_request_screen.dart';
+import 'package:paisay_da_da/presentation/ui/dashboard/modules/friend/friend_request_screen.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/modules/group/main_group_screen.dart';
-import 'package:paisay_da_da/presentation/ui/dashboard/modules/home/home_screen.dart';
+import 'package:paisay_da_da/presentation/ui/dashboard/modules/friend/friend_screen.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/modules/profile/profile_screen.dart';
 
 class Rootvm extends ChangeNotifier {
@@ -14,7 +14,7 @@ class Rootvm extends ChangeNotifier {
   }
 
   List<Widget> _screens = [
-    HomeScreen(),
+    FriendScreen(),
     GroupScreen(),
     FriendRequest(),
     ProfileScreen(),

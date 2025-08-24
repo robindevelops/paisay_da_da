@@ -1,61 +1,61 @@
-// ignore_for_file: must_be_immutable
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:paisay_da_da/core/constants/constants.dart';
 import 'package:paisay_da_da/core/themes/themes.dart';
 import 'package:paisay_da_da/presentation/animation/animation.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/modules/add/add_expense.dart';
-import 'package:paisay_da_da/presentation/ui/dashboard/modules/add/add_members_screen.dart';
-import 'package:paisay_da_da/presentation/ui/dashboard/modules/group/group_setting_screen.dart';
+import 'package:paisay_da_da/presentation/ui/dashboard/modules/friend/friend_settings_screen.dart';
 import 'package:paisay_da_da/presentation/widgets/expense_tile.dart';
 
-class GroupDetailScreen extends StatefulWidget {
+// ignore: must_be_immutable
+class FriendDetailScreen extends StatefulWidget {
   @override
-  State<GroupDetailScreen> createState() => _GroupDetailScreenState();
+  State<FriendDetailScreen> createState() => _FriendDetailScreenState();
 }
 
-class _GroupDetailScreenState extends State<GroupDetailScreen> {
+class _FriendDetailScreenState extends State<FriendDetailScreen> {
+  void _navigateToAddExpenseScreen() {
+    Navigator.of(context).push(
+      AnimationUtil.circularRevealTransition(
+        page: AddExpenseScreen(),
+        centerAlignment: Alignment.bottomCenter,
+        duration: const Duration(milliseconds: 600),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    void _navigateToAddExpenseScreen() {
-      Navigator.of(context).push(
-        AnimationUtil.circularRevealTransition(
-          page: AddExpenseScreen(),
-          centerAlignment: Alignment.bottomCenter,
-          duration: const Duration(milliseconds: 600),
-        ),
-      );
-    }
-
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 105,
+        toolbarHeight: 100,
         backgroundColor: Colors.black,
-        centerTitle: true,
+        // centerTitle: true,
         title: Row(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             CircleAvatar(
               maxRadius: 25,
               backgroundColor: Colors.white,
-              child: const Icon(
-                Icons.group,
-                color: Colors.black,
-                size: 30,
+              child: Image.asset(
+                Constants.account,
               ),
             ),
-            const SizedBox(width: 10),
+            SizedBox(width: 10),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 20),
+                SizedBox(height: 20),
                 Text(
-                  "Group Name",
+                  "Furqan",
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: 10),
+                SizedBox(height: 10),
                 Container(
                   width: 70,
                   height: 22,
@@ -94,20 +94,7 @@ class _GroupDetailScreenState extends State<GroupDetailScreen> {
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return AddMembersScreen();
-                  },
-                ),
-              );
-            },
-            icon: const Icon(Icons.person_add_alt_1, color: Colors.white),
-          ),
-          IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return GroupSettingScreen();
+                    return FriendSettingsScreen();
                   },
                 ),
               );
@@ -127,14 +114,15 @@ class _GroupDetailScreenState extends State<GroupDetailScreen> {
           ),
           padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20),
           children: [
+            // SizedBox(
+            //   height: MediaQuery.of(context).size.height * 0.7,
+            //   child: NoExpenseWidget(
+            //     message: 'No Expense yet with this friend',
+            //   ),
+            // ),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.7,
               child: Center(
-//  NoGroupMemberWidget(),
-
-                //     NoExpenseWidget(
-                //   message: 'No expemse',
-                // )
                 child: ExpenseTile(),
               ),
             ),

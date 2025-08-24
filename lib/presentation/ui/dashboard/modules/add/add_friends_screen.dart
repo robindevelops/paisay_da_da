@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:paisay_da_da/core/constants/base_helper.dart';
-import 'package:paisay_da_da/data/local/hive.dart';
-import 'package:paisay_da_da/presentation/notifier/friend.notifier.dart';
 import 'package:paisay_da_da/presentation/widgets/app_textfield.dart';
-import 'package:provider/provider.dart';
 
 class AddFriendScreen extends StatefulWidget {
   const AddFriendScreen({super.key});
@@ -23,46 +19,35 @@ class _AddFriendScreenState extends State<AddFriendScreen> {
 
   @override
   Widget build(BuildContext context) {
-    FriendNotifier friendNotifier = Provider.of<FriendNotifier>(context);
     TextEditingController _emailController = TextEditingController();
     final _formKey = GlobalKey<FormState>();
 
-    final senderEmail = HiveDatabase.getValue(HiveDatabase.userKey);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text(
           "Add Friend",
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: Colors.white),
         ),
         centerTitle: true,
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.black,
         elevation: 0,
         actions: [
           TextButton(
             onPressed: () async {
-              if (_formKey.currentState!.validate()) {
-                bool success = await friendNotifier.addFriend(
-                  senderEmail: senderEmail,
-                  receiverEmail: _emailController.text,
-                  context: context,
-                );
-                if (success) {
-                  Navigator.pop(context);
-                }
-              }
+              if (_formKey.currentState!.validate()) {}
             },
             child: const Text(
               "Send",
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                color: Colors.black,
+                color: Colors.white,
                 fontSize: 16,
               ),
             ),
           ),
         ],
-        iconTheme: const IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: Form(
         key: _formKey,

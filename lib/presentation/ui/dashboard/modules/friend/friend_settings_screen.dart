@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:paisay_da_da/core/themes/themes.dart';
 
-class UserSettingsScreen extends StatefulWidget {
-  const UserSettingsScreen({super.key});
+class FriendSettingsScreen extends StatefulWidget {
+  const FriendSettingsScreen({super.key});
 
   @override
-  State<UserSettingsScreen> createState() => _UserSettingsScreenState();
+  State<FriendSettingsScreen> createState() => _FriendSettingsScreenState();
 }
 
-class _UserSettingsScreenState extends State<UserSettingsScreen> {
+class _FriendSettingsScreenState extends State<FriendSettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,7 +67,7 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
           ListTile(
             onTap: () {},
             leading: const Icon(
-              Icons.send,
+              Icons.notifications_active,
               color: Colors.black,
             ),
             title: Text(

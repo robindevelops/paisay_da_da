@@ -1,20 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:paisay_da_da/data/local/hive.dart';
-import 'package:paisay_da_da/presentation/notifier/group.notifier.dart';
-import 'package:paisay_da_da/presentation/ui/dashboard/modules/friends/add_members_screen.dart';
-import 'package:provider/provider.dart';
+import 'package:paisay_da_da/presentation/ui/dashboard/modules/add/add_members_screen.dart';
 
 class NoGroupMemberWidget extends StatelessWidget {
-  String groupId;
-  List<String>? groupMembers;
-
-  NoGroupMemberWidget(
-      {super.key, required this.groupId, required this.groupMembers});
-
   @override
   Widget build(BuildContext context) {
-    GroupNotifier groupNotifier = Provider.of<GroupNotifier>(context);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 40.0),
       child: Column(
@@ -43,11 +33,7 @@ class NoGroupMemberWidget extends StatelessWidget {
               await Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => AddMembersScreen(
-                    groupId: groupId,
-                    groupMembers: groupMembers,
-                    isGroup: true,
-                  ),
+                  builder: (context) => AddMembersScreen(),
                 ),
               );
             },
