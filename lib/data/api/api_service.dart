@@ -17,12 +17,13 @@ enum RequestMethod {
 class ApiService {
   static late dio.CancelToken cancelToken;
 
-  static Future<Map<String, dynamic>?> request(String path,
+  static Future<Map<String, dynamic>?> request(
       {required RequestMethod method,
       data,
       queryParameters,
       Function(int sent, int total)? onProgress,
-      bool requestWithRefreshToken = false}) async {
+      bool requestWithRefreshToken = false,
+      required path}) async {
     final token = await HiveDatabase.getValue(HiveDatabase.tokenKey);
 
     Log.i(

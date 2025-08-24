@@ -2,9 +2,11 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:paisay_da_da/core/constants/constants.dart';
+import 'package:paisay_da_da/presentation/notifier/auth.notifier.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/dashboard_screen.dart';
 import 'package:paisay_da_da/presentation/widgets/app_elevated_button.dart';
 import 'package:paisay_da_da/presentation/widgets/app_outline_button.dart';
+import 'package:provider/provider.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -16,6 +18,7 @@ class SignupScreen extends StatefulWidget {
 class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
+    var authNotifier = Provider.of<AuthNotifier>(context, listen: false);
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
@@ -47,7 +50,11 @@ class _SignupScreenState extends State<SignupScreen> {
             const SizedBox(height: 20),
             AppOutlineButton(
               text: "Continue with Google",
-              onPressed: () {},
+              onPressed: () async {
+                bool response = await authNotifier.googleAuth(context);
+
+                if (response) {}
+              },
               icon: Image.asset(
                 Constants.google,
                 height: 20,

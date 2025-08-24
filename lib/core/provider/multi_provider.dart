@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:paisay_da_da/core/locator/locator.dart';
+import 'package:paisay_da_da/presentation/notifier/auth.notifier.dart';
 import 'package:paisay_da_da/presentation/notifier/connection.notifier.dart';
 import 'package:paisay_da_da/presentation/notifier/loader.notifier.dart';
 import 'package:paisay_da_da/presentation/notifier/rootVm.notifier.dart';
@@ -31,6 +33,13 @@ class MultiProviders extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) {
             return ConnectionNotifier();
+          },
+        ),
+        ChangeNotifierProvider(
+          create: (context) {
+            return AuthNotifier(
+              authRepository: ServiceLocator.getIt(),
+            );
           },
         ),
       ],
