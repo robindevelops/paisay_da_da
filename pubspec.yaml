@@ -39,9 +39,6 @@ dependencies:
   provider: ^6.1.2
   circular_reveal_animation: ^2.0.1
   flutter_slidable: ^3.1.2
-  flutter_painter: ^1.0.1
-  simple_animated_button: ^0.0.9
-  textfield_tags: ^3.0.1
   dio: ^5.8.0+1
   logger: ^2.5.0
   dartz: ^0.10.1

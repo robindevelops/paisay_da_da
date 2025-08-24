@@ -9,6 +9,7 @@ class Constants {
   static const String splashImg = "$imagePath/splash.png";
   static const String invoice = "$imagePath/invoice.png";
   static const String account = "$imagePath/account.png";
+  static const String google = "$imagePath/google.png";
 
   static const String akward = "$imagePath/akward.png";
 

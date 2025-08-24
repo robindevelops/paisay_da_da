@@ -59,9 +59,12 @@ class ExpenseTile extends StatelessWidget {
                   children: [
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [Text("12 Aug")],
+                      children: [
+                        Text("12"),
+                        Text("Aug"),
+                      ],
                     ),
-                    const SizedBox(width: 10),
+                    const SizedBox(width: 15),
                     Container(
                       height: 45,
                       width: 40,

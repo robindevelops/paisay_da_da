@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:paisay_da_da/core/themes/themes.dart';
 
 class AppOutlineButton extends StatefulWidget {
   String text;

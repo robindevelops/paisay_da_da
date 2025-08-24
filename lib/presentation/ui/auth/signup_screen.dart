@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:paisay_da_da/core/constants/constants.dart';
@@ -29,6 +30,11 @@ class _SignupScreenState extends State<SignupScreen> {
             const SizedBox(height: 20),
             AppElevatedButton(
               text: 'Continue with Apple',
+              icon: Icon(
+                Icons.apple,
+                color: Colors.white,
+                // size: 25,
+              ),
               onPressed: () {
                 Navigator.push(
                   context,
@@ -42,10 +48,9 @@ class _SignupScreenState extends State<SignupScreen> {
             AppOutlineButton(
               text: "Continue with Google",
               onPressed: () {},
-              icon: Icon(
-                Icons.golf_course_outlined,
-                color: Colors.black,
-                size: 20,
+              icon: Image.asset(
+                Constants.google,
+                height: 20,
               ),
             ),
             const SizedBox(height: 20),
@@ -55,19 +60,49 @@ class _SignupScreenState extends State<SignupScreen> {
               icon: Icon(
                 Icons.email_outlined,
                 color: Colors.black,
-                size: 20,
+                size: 25,
               ),
             ),
-            const SizedBox(height: 20),
-            Text(
-              "By continuing, you agree to our Terms of Service and Privacy Policy.",
-              style: GoogleFonts.aBeeZee(
-                fontSize: 16,
-                color: Colors.black,
+            const SizedBox(height: 25),
+            Text.rich(
+              TextSpan(
+                text: "By continuing, you agree to our ",
+                style: GoogleFonts.aBeeZee(
+                  fontSize: 16,
+                  color: Colors.black,
+                ),
+                children: [
+                  TextSpan(
+                    text: "Terms of Service",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline,
+                    ),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        print("Terms of Service clicked");
+                      },
+                  ),
+                  const TextSpan(text: " and "),
+                  TextSpan(
+                    text: "Privacy Policy",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline,
+                    ),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        print("Privacy Policy clicked");
+                      },
+                  ),
+                  const TextSpan(text: "."),
+                ],
               ),
               textAlign: TextAlign.center,
               maxLines: 2,
-            ),
+            )
           ],
         ),
       ),

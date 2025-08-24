@@ -2,12 +2,15 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:paisay_da_da/core/constants/constants.dart';
 import 'package:paisay_da_da/core/themes/themes.dart';
 
 class AppElevatedButton extends StatefulWidget {
   String text;
   void Function()? onPressed;
-  AppElevatedButton({super.key, required this.text, required this.onPressed});
+  Widget? icon;
+  AppElevatedButton(
+      {super.key, required this.text, required this.onPressed, this.icon});
 
   @override
   State<AppElevatedButton> createState() => _AppElevatedButtonState();
@@ -19,10 +22,7 @@ class _AppElevatedButtonState extends State<AppElevatedButton> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
       child: ElevatedButton.icon(
-        icon: const Icon(
-          Icons.apple,
-          color: Colors.white,
-        ),
+        icon: widget.icon,
         style: ElevatedButton.styleFrom(
           minimumSize: Size(double.infinity, 50),
           // backgroundColor: Color(0xFFFF9500),

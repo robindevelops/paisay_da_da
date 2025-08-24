@@ -371,14 +371,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
-  flutter_painter:
-    dependency: "direct main"
-    description:
-      name: flutter_painter
-      sha256: "0e9737e5d9a33449a839275ae34f038d45115333f1e817ae9a0d81467c0779b7"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.1"
   flutter_slidable:
     dependency: "direct main"
     description:
@@ -797,14 +789,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.1"
-  simple_animated_button:
-    dependency: "direct main"
-    description:
-      name: simple_animated_button
-      sha256: "128cf48cd3002c323eaf23738386674d5830eef09443291387627b2bff864a9b"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.0.9"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -882,14 +866,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.7.2"
-  textfield_tags:
-    dependency: "direct main"
-    description:
-      name: textfield_tags
-      sha256: d1f2204114157a1296bb97c20d7f8c8c7fd036212812afb2e19de7bb34acc55b
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.0.1"
   timezone:
     dependency: transitive
     description:
