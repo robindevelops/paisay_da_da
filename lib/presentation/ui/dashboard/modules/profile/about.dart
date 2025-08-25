@@ -27,57 +27,32 @@ class AboutUsScreen extends StatelessWidget {
               child: ListView(
                 children: [
                   Text(
-                    "About us",
-                    style: GoogleFonts.aBeeZee(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    "I’m Alyan. I made this app after too many dawat scenes where friends just ‘forgot’ to pay. So now, no more excuses. Add, split, and show them the total. Paisay da da, warna screenshot jayega group mein 😎",
+                    "Hey there! I’m Alyan, the guy behind this app. Ever had those 'forgot to pay' moments in your friend group? Yeah, me too. So I made this app to make sure everyone pays their share—on time! 😎\n\nAdd expenses, split bills, and show the total. No more awkward reminders. No more excuses. Just paisay da da!",
                     style: GoogleFonts.poppins(
                       fontSize: 16,
                       color: Colors.black87,
                     ),
-                    textAlign: TextAlign.center,
+                    textAlign: TextAlign.start,
                   ),
                   const SizedBox(height: 24),
                   TermPoint(
-                      "This app is for splitting bills, not friendships."),
-                  TermPoint("Mazaaq allowed — lekin limit mein."),
-                  TermPoint("Data stays safe. Trust stays safer."),
-                  TermPoint("Under 13? Jaao pehle baray ho jao."),
-                  TermPoint("Break rules? Get banned. Simple."),
+                      "💰 Split bills easily: Group dinners, trips, or chai pe charcha, all covered."),
+                  TermPoint(
+                      "😂 Fun allowed: Throw jokes, memes, or sarcastic reminders, but keep it friendly."),
+                  TermPoint(
+                      "🔒 Safe & private: Your data is safe. Your secrets stay secret."),
+                  TermPoint(
+                      "👶 Age check: Under 13? Chill, come back when you’re older."),
+                  TermPoint(
+                      "🚫 Rule breakers beware: Mess with the system, and you might get banned (kidding… maybe)."),
+                  TermPoint(
+                      "📸 Screenshot-proof: Nobody can claim ‘I paid’ without proof."),
+                  TermPoint(
+                      "⚡ Quick reminders: Gentle nudges for friends who forget. No drama."),
                   const SizedBox(height: 30),
                 ],
               ),
             ),
-            Text(
-              "Made with ❤️ for friends who forget 💰",
-              style: GoogleFonts.poppins(
-                fontSize: 12,
-                color: Colors.black,
-              ),
-            ),
-            const SizedBox(height: 10),
-            Transform.rotate(
-              angle: -0.05,
-              child: Text(
-                "Alyan\nShahid",
-                style: GoogleFonts.rockSalt(
-                  fontSize: 30,
-                  color: AppThemes.splitGreen,
-                  fontWeight: FontWeight.w900,
-                  letterSpacing: 5,
-                  height: 1.2,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            const SizedBox(height: 10),
           ],
         ),
       ),

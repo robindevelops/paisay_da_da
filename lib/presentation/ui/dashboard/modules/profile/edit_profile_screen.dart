@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:paisay_da_da/presentation/widgets/app_textfield.dart';
 
 class EditProfileScreen extends StatefulWidget {
@@ -23,25 +22,28 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         backgroundColor: Colors.transparent,
         title: const Text(
           'Edit Profile',
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
         iconTheme: const IconThemeData(color: Colors.black),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 12),
-            child: OutlinedButton(
+            child: ElevatedButton(
               onPressed: () {
                 // Save logic here
               },
-              style: OutlinedButton.styleFrom(
-                side: const BorderSide(color: Colors.black),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.black,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               ),
               child: const Text(
                 'Save',
-                style: TextStyle(color: Colors.black),
+                style:
+                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
               ),
             ),
           )
@@ -51,27 +53,50 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 30),
         child: Column(
           children: [
-            CircleAvatar(
-              radius: 40,
-              backgroundColor: Colors.black,
-              child: const Icon(Icons.person, color: Colors.white, size: 40),
+            // Avatar with shadow
+            Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black26,
+                    blurRadius: 10,
+                    offset: Offset(0, 5),
+                  ),
+                ],
+              ),
+              child: CircleAvatar(
+                radius: 45,
+                backgroundColor: Colors.white,
+                child: CircleAvatar(
+                  radius: 42,
+                  backgroundColor: Colors.black,
+                  child:
+                      const Icon(Icons.person, color: Colors.white, size: 40),
+                ),
+              ),
             ),
             const SizedBox(height: 30),
+
+            // Email field
             _buildLabel("Email"),
             const SizedBox(height: 10),
             CustomTextField(
               icon: Icons.email,
               controller: emailController,
-              hintText: '',
+              hintText: 'Enter your email',
             ),
             const SizedBox(height: 25),
+
+            // Name field
             _buildLabel("Name"),
             const SizedBox(height: 10),
             CustomTextField(
               icon: Icons.person,
               controller: nameController,
-              hintText: '',
+              hintText: 'Enter your name',
             ),
+            const SizedBox(height: 40),
           ],
         ),
       ),

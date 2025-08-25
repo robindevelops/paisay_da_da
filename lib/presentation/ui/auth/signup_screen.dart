@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:paisay_da_da/core/constants/constants.dart';
+import 'package:paisay_da_da/core/socket.io.dart';
 import 'package:paisay_da_da/presentation/notifier/auth.notifier.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/dashboard_screen.dart';
 import 'package:paisay_da_da/presentation/widgets/app_elevated_button.dart';
@@ -63,7 +66,9 @@ class _SignupScreenState extends State<SignupScreen> {
             const SizedBox(height: 20),
             AppOutlineButton(
               text: "Continue with Email",
-              onPressed: () {},
+              onPressed: () {
+                SocketService().sendMessage("email clicked");
+              },
               icon: Icon(
                 Icons.email_outlined,
                 color: Colors.black,

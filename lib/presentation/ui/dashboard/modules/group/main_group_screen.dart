@@ -33,12 +33,22 @@ class _GroupScreenState extends State<GroupScreen> {
                 ),
               );
             },
-            child: Text(
-              "Create Group",
-              style: GoogleFonts.aBeeZee(
-                fontSize: 16,
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+              decoration: BoxDecoration(
+                color: AppThemes.highlightGreen,
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(
+                  color: Colors.grey.shade700,
+                ),
+              ),
+              child: Text(
+                "Create Group",
+                style: GoogleFonts.aBeeZee(
+                  fontSize: 13,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           )

@@ -34,7 +34,12 @@ class _FriendScreenState extends State<FriendScreen>
         scrolledUnderElevation: 0,
         backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
-        // leading: CircleAvatar(),
+        // leading: Padding(
+        //   padding: const EdgeInsets.all(5.0),
+        //   child: CircleAvatar(
+        //     backgroundColor: Colors.red,
+        //   ),
+        // ),
         actions: [
           TextButton(
             onPressed: () {
@@ -50,14 +55,17 @@ class _FriendScreenState extends State<FriendScreen>
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
               decoration: BoxDecoration(
-                color: Colors.black,
+                color: AppThemes.highlightGreen,
                 borderRadius: BorderRadius.circular(10),
+                border: Border.all(
+                  color: Colors.grey.shade700,
+                ),
               ),
               child: Text(
                 "Add friend",
                 style: GoogleFonts.aBeeZee(
-                  fontSize: 15,
-                  color: Colors.white,
+                  fontSize: 13,
+                  color: Colors.black,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -97,7 +105,7 @@ class _FriendScreenState extends State<FriendScreen>
                   ListView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: 2,
+                    itemCount: 12,
                     itemBuilder: (context, index) {
                       return ListTile(
                         contentPadding: const EdgeInsets.symmetric(
@@ -116,23 +124,29 @@ class _FriendScreenState extends State<FriendScreen>
                           scale: 13,
                           fit: BoxFit.cover,
                         ),
-                        title: Text("All"),
-                        trailing: Container(
-                          width: 70,
-                          height: 25,
-                          decoration: BoxDecoration(
-                            color: AppThemes.highlightGreen,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Center(
-                            child: Text(
-                              "2 expenses",
-                              style: const TextStyle(
-                                color: Colors.black,
-                              ),
-                            ),
+                        title: Text("Furqan"),
+                        trailing: Text(
+                          "No expense",
+                          style: TextStyle(
+                            color: Colors.grey[700],
                           ),
                         ),
+                        // trailing: Container(
+                        //   width: 70,
+                        //   height: 25,
+                        //   decoration: BoxDecoration(
+                        //     color: AppThemes.highlightGreen,
+                        //     borderRadius: BorderRadius.circular(10),
+                        //   ),
+                        //   child: Center(
+                        //     child: Text(
+                        //       "2 expenses",
+                        //       style: const TextStyle(
+                        //         color: Colors.black,
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
                       );
                     },
                   ),

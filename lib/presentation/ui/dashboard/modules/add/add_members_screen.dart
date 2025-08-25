@@ -1,6 +1,9 @@
 // ignore_for_file: must_be_immutable
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:paisay_da_da/core/themes/themes.dart';
+import 'package:paisay_da_da/presentation/widgets/app_elevated_button.dart';
+import 'package:paisay_da_da/presentation/widgets/app_textfield.dart';
 
 class AddMembersScreen extends StatefulWidget {
   const AddMembersScreen({super.key});
@@ -25,16 +28,6 @@ class _AddMembersScreenState extends State<AddMembersScreen> {
   void initState() {
     super.initState();
     filteredFriends = allFriends;
-  }
-
-  void filterFriends(String query) {
-    setState(() {
-      filteredFriends = allFriends
-          .where((friend) =>
-              friend["name"]!.toLowerCase().contains(query.toLowerCase()) ||
-              friend["email"]!.toLowerCase().contains(query.toLowerCase()))
-          .toList();
-    });
   }
 
   @override
@@ -70,16 +63,10 @@ class _AddMembersScreenState extends State<AddMembersScreen> {
             parent: AlwaysScrollableScrollPhysics(),
           ),
           children: [
-            TextField(
+            CustomTextField(
+              hintText: 'Search member',
+              icon: Icons.search,
               controller: _searchController,
-              onChanged: filterFriends,
-              decoration: InputDecoration(
-                hintText: "Search members",
-                prefixIcon: const Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
             ),
             const SizedBox(height: 20),
             Text(
@@ -137,7 +124,7 @@ class _MemberTileState extends State<MemberTile> {
       contentPadding: const EdgeInsets.symmetric(vertical: 5),
       trailing: Checkbox(
         checkColor: Colors.black,
-        activeColor: Colors.green,
+        activeColor: AppThemes.highlightGreen,
         value: isSelected,
         onChanged: (value) {
           setState(() {
@@ -146,7 +133,6 @@ class _MemberTileState extends State<MemberTile> {
         },
       ),
       title: Text(widget.name.capitalizeFirst()),
-      subtitle: Text(widget.email),
     );
   }
 }
