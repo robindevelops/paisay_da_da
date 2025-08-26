@@ -1,7 +1,14 @@
 class ApiPaths {
-  static String liveBaseURL = "http://192.168.1.5:4000/api/v1/";
+  static String liveBaseURL = "http://192.168.100.5:4000/api/v1/";
   static String baseURL = liveBaseURL;
 
   // ==> Authentication ==>
   static String google = "${baseURL}auth/google";
+  static String signup = "${baseURL}auth/signup";
+
+  static String send = "${baseURL}friendrequest/send";
+  static String pending = "${baseURL}friendrequest/pending";
+  static String accepted = "${baseURL}friendrequest/accepted";
+  static String accept = "${baseURL}friendrequest/accept";
+  static String reject = "${baseURL}friendrequest/reject";
 }

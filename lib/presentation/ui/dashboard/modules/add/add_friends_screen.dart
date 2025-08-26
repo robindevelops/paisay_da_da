@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:paisay_da_da/presentation/notifier/friend.notifier.dart';
 import 'package:paisay_da_da/presentation/widgets/app_textfield.dart';
+import 'package:provider/provider.dart';
 
 class AddFriendScreen extends StatefulWidget {
   const AddFriendScreen({super.key});
@@ -19,6 +21,7 @@ class _AddFriendScreenState extends State<AddFriendScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var friendNotifier = Provider.of<FriendNotifier>(context);
     TextEditingController _emailController = TextEditingController();
     final _formKey = GlobalKey<FormState>();
 
@@ -35,7 +38,13 @@ class _AddFriendScreenState extends State<AddFriendScreen> {
         actions: [
           TextButton(
             onPressed: () async {
-              if (_formKey.currentState!.validate()) {}
+              if (_formKey.currentState!.validate()) {
+                print(_emailController.text.toString());
+                friendNotifier.sendRequest(
+                  context,
+                  recieverEmail: _emailController.text.toString(),
+                );
+              }
             },
             child: const Text(
               "Send",

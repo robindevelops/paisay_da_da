@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:paisay_da_da/core/constants/constants.dart';
-import 'package:paisay_da_da/presentation/ui/auth/signup_screen.dart';
+import 'package:paisay_da_da/presentation/ui/auth/auth_screen.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -118,7 +118,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (_) => const SignupScreen()),
+                  MaterialPageRoute(builder: (_) => const AuthScreen()),
                 );
               },
               child: Container(
@@ -148,7 +148,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 // Navigate to login screen
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (_) => const SignupScreen()),
+                  MaterialPageRoute(builder: (_) => const AuthScreen()),
                 );
               },
               child: Container(

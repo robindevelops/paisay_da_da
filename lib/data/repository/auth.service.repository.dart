@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:paisay_da_da/data/api/api_path.dart';
@@ -52,6 +51,36 @@ class AuthServiceRepository implements AuthRepository {
       return Right(FailtureModel(message: "No response from server"));
     } catch (error) {
       return Right(FailtureModel(message: "Google Sign-In failed: $error"));
+    }
+  }
+
+  @override
+  Future<Either<FailtureModel, SuccessModel>> signup(
+    BuildContext context, {
+    required firstName,
+    required lastName,
+    required email,
+    required password,
+  }) async {
+    try {
+      var response = await ApiService.request(
+          method: RequestMethod.post,
+          path: ApiPaths.signup,
+          data: {
+            "firstName": firstName,
+            "lastName": lastName,
+            "email": email,
+            "password": password,
+          });
+      if (response != null) {
+        if (response['status'] == true) {
+          return Right(SuccessModel.fromJson(response));
+        }
+        return Left(FailtureModel.fromJson(response));
+      }
+      return Left(FailtureModel(message: "No response from server"));
+    } catch (error) {
+      return Left(FailtureModel(message: "Sign-In failed: $error"));
     }
   }
 }

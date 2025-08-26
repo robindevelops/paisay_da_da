@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:paisay_da_da/core/constants/constants.dart';
-import 'package:paisay_da_da/presentation/widgets/no_friends_found.widget.dart';
+import 'package:paisay_da_da/presentation/notifier/friend.notifier.dart';
+import 'package:provider/provider.dart';
 
 class FriendRequest extends StatefulWidget {
   const FriendRequest({super.key});
@@ -12,6 +13,8 @@ class FriendRequest extends StatefulWidget {
 class _FriendRequestState extends State<FriendRequest> {
   @override
   Widget build(BuildContext context) {
+    final friendNotifier = context.watch<FriendNotifier>();
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -21,52 +24,38 @@ class _FriendRequestState extends State<FriendRequest> {
         elevation: 0,
       ),
       backgroundColor: Colors.white,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // NoFriendRequestsFound(),
-          Expanded(
-            child: ListView.builder(
-              itemCount: 2,
+      body: (friendNotifier.pendingModel.data == null ||
+              friendNotifier.pendingModel.data!.isEmpty)
+          ? Center(child: Text("No Friend Requests Found"))
+          : ListView.builder(
+              itemCount: friendNotifier.pendingModel.data!.length,
               itemBuilder: (context, index) {
+                final request = friendNotifier.pendingModel.data![index];
                 return ListTile(
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 5,
-                  ),
-                  onTap: () {},
-                  leading: Image.asset(
-                    Constants.account,
-                    scale: 13,
-                    fit: BoxFit.cover,
-                  ),
-                  title: Text("User Name"),
+                  title: Text(request.sender?.firstName ?? "Unknown"),
+                  subtitle: Text(request.sender?.email ?? ""),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       IconButton(
-                        onPressed: () async {},
-                        icon: Icon(
-                          Icons.done,
-                          color: Colors.green,
-                        ),
+                        onPressed: () async {
+                          await friendNotifier.accept(context,
+                              requestId: request.id);
+                        },
+                        icon: Icon(Icons.done, color: Colors.green),
                       ),
                       IconButton(
-                        onPressed: () async {},
-                        icon: Icon(
-                          Icons.cancel_rounded,
-                          color: Colors.red,
-                        ),
-                      )
+                        onPressed: () async {
+                          await friendNotifier.reject(context,
+                              requestId: request.id);
+                        },
+                        icon: Icon(Icons.cancel_rounded, color: Colors.red),
+                      ),
                     ],
                   ),
                 );
               },
             ),
-          ),
-        ],
-      ),
     );
   }
 }

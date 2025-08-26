@@ -27,7 +27,7 @@ class ApiService {
     final token = await HiveDatabase.getValue(HiveDatabase.tokenKey);
 
     Log.i(
-      'method: ${method.name}\nqueryParameters: $queryParameters\ndata: $data\nURL: $path\n${requestWithRefreshToken ? "Refresh Token" : "Access Token"}: $token',
+      'method: ${method.name}\nqueryParameters: $queryParameters\ndata: $data\nURL: $path\n${"token : $token"}',
     );
 
     try {
@@ -60,7 +60,7 @@ class ApiService {
                   HttpHeaders.contentTypeHeader: data is FormData
                       ? "multipart/form-data"
                       : "application/x-www-form-urlencoded",
-                  "authtoken": token,
+                  HttpHeaders.authorizationHeader: "Bearer $token", // ✅ correct
                 }),
           );
 

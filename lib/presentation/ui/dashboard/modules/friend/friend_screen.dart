@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:paisay_da_da/core/constants/constants.dart';
+import 'package:paisay_da_da/core/socket.io.dart';
 import 'package:paisay_da_da/core/themes/themes.dart';
 import 'package:paisay_da_da/presentation/animation/animation.dart';
+import 'package:paisay_da_da/presentation/notifier/friend.notifier.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/modules/add/add_expense.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/modules/add/add_friends_screen.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/modules/friend/friend_detail_screen.dart';
 import 'package:paisay_da_da/presentation/widgets/app_elevated_button.dart';
+import 'package:provider/provider.dart';
 
 class FriendScreen extends StatefulWidget {
   const FriendScreen({super.key});
@@ -27,19 +30,38 @@ class _FriendScreenState extends State<FriendScreen>
     );
   }
 
+  late SocketService socket;
+  late FriendNotifier friendNotifier;
+
+  @override
+  void initState() {
+    super.initState();
+
+    socket = SocketService();
+    // we don't have access to context.watch here, so use addPostFrameCallback
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      friendNotifier = Provider.of<FriendNotifier>(context, listen: false);
+
+      socket.socket.on("friendRequestReceived", (data) async {
+        await friendNotifier.pendingRequest(context);
+        await friendNotifier.acceptedRequest(context);
+      });
+
+      // fetch pending list initially
+      friendNotifier.pendingRequest(context);
+      friendNotifier.acceptedRequest(context);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    var friendNotifier = Provider.of<FriendNotifier>(context);
+
     return Scaffold(
       appBar: AppBar(
         scrolledUnderElevation: 0,
         backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
-        // leading: Padding(
-        //   padding: const EdgeInsets.all(5.0),
-        //   child: CircleAvatar(
-        //     backgroundColor: Colors.red,
-        //   ),
-        // ),
         actions: [
           TextButton(
             onPressed: () {
@@ -78,138 +100,71 @@ class _FriendScreenState extends State<FriendScreen>
         child: RefreshIndicator(
           backgroundColor: AppThemes.highlightGreen,
           color: Colors.black,
-          onRefresh: () async {},
+          onRefresh: () async {
+            // await friendNotifier.pendingRequest(context);
+            await friendNotifier.acceptedRequest(context);
+          },
           child: ListView(
             padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
             physics: const AlwaysScrollableScrollPhysics(
               parent: BouncingScrollPhysics(),
             ),
             children: [
-              // Padding(
-              //   padding: EdgeInsets.symmetric(
-              //     vertical: MediaQuery.of(context).size.height / 4,
-              //   ),
-              //   child: NoFriendsWidget(),
-              // ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Gareeb Dost",
-                    style: GoogleFonts.aBeeZee(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: 12,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        contentPadding: const EdgeInsets.symmetric(
-                          vertical: 10,
-                        ),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => FriendDetailScreen(),
-                            ),
-                          );
-                        },
-                        leading: Image.asset(
-                          Constants.account,
-                          scale: 13,
-                          fit: BoxFit.cover,
-                        ),
-                        title: Text("Furqan"),
-                        trailing: Text(
-                          "No expense",
-                          style: TextStyle(
-                            color: Colors.grey[700],
+              friendNotifier.acceptedModel.data == null ||
+                      friendNotifier.acceptedModel.data!.isEmpty
+                  ? Padding(
+                      padding: EdgeInsets.symmetric(
+                        vertical: MediaQuery.of(context).size.height / 4,
+                      ),
+                      child: NoFriendsWidget(),
+                    )
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Gareeb Dost",
+                          style: GoogleFonts.aBeeZee(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                        // trailing: Container(
-                        //   width: 70,
-                        //   height: 25,
-                        //   decoration: BoxDecoration(
-                        //     color: AppThemes.highlightGreen,
-                        //     borderRadius: BorderRadius.circular(10),
-                        //   ),
-                        //   child: Center(
-                        //     child: Text(
-                        //       "2 expenses",
-                        //       style: const TextStyle(
-                        //         color: Colors.black,
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
-                      );
-                    },
-                  ),
-                ],
-              ),
-              // const SizedBox(height: 20),
-              // Text(
-              //   "Pending Payment",
-              //   style: GoogleFonts.aBeeZee(
-              //     fontSize: 20,
-              //     fontWeight: FontWeight.bold,
-              //   ),
-              // ),
-              // const SizedBox(height: 20),
-              // Container(
-              //   height: 90,
-              //   padding: const EdgeInsets.symmetric(
-              //     horizontal: 16,
-              //     vertical: 12,
-              //   ),
-              //   decoration: BoxDecoration(
-              //     border: Border.all(
-              //       color: Colors.black,
-              //       width: 1,
-              //     ),
-              //     color: Colors.grey[100],
-              //     borderRadius: BorderRadius.circular(16),
-              //   ),
-              //   child: Row(
-              //     children: [
-              //       const CircleAvatar(
-              //         radius: 25,
-              //         backgroundColor: Color(0xFFD0FF4B),
-              //         child: Icon(Icons.person, color: Colors.black),
-              //       ),
-              //       const SizedBox(width: 14),
-              //       Expanded(
-              //         child: Column(
-              //           mainAxisAlignment: MainAxisAlignment.center,
-              //           crossAxisAlignment: CrossAxisAlignment.start,
-              //           children: [
-              //             Text(
-              //               "Furqan Abid",
-              //               style: TextStyle(
-              //                 fontSize: 16,
-              //                 fontWeight: FontWeight.w600,
-              //                 color: Colors.black,
-              //               ),
-              //             ),
-              //             const SizedBox(height: 6),
-              //             Text(
-              //               "\$120.00 due by Aug 25",
-              //               style: GoogleFonts.aBeeZee(
-              //                 fontSize: 14,
-              //                 color: Colors.black,
-              //               ),
-              //             ),
-              //           ],
-              //         ),
-              //       ),
-              //     ],
-              //   ),
-              // ),
+                        const SizedBox(height: 10),
+                        ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: friendNotifier.acceptedModel.data?.length,
+                          itemBuilder: (context, index) {
+                            final friend =
+                                friendNotifier.acceptedModel.data![index];
+                            return ListTile(
+                              contentPadding: const EdgeInsets.symmetric(
+                                vertical: 10,
+                              ),
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => FriendDetailScreen(),
+                                  ),
+                                );
+                              },
+                              leading: Image.asset(
+                                Constants.account,
+                                scale: 13,
+                                fit: BoxFit.cover,
+                              ),
+                              title: Text(friend.friend?.firstName ?? "Unkown"),
+                              trailing: Text(
+                                "No expense",
+                                style: TextStyle(
+                                  color: Colors.grey[700],
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
             ],
           ),
         ),

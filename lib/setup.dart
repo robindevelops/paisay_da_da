@@ -26,5 +26,5 @@ Future<void> setup() async {
 
   // await NotificationService.initializePushNotifications();
   await HiveDatabase.init();
-  ServiceLocator.setup();
+  await ServiceLocator.setup();
 }

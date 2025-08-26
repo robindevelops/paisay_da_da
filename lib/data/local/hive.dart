@@ -51,41 +51,4 @@ class HiveDatabase {
     await _instanceBox.clear();
     print('🧹 All data cleared from instanceBox');
   }
-
-  // static Future<void> storeToken(String? token) async {
-  //   await _tokenBox.put(tokenKey, token);
-  //   print('Token stored');
-  // }
-
-  // static Future<void> storeUser(dynamic user) async {
-  //   await _userBox.put(userKey, user);
-  //   print('User data stored');
-  // }
-
-  // Store token (e.g., JWT)
-  static Future<void> storelogin(bool? login) async {
-    await _loginBox.put(loginKey, login);
-    print('Login stored');
-  }
-
-  // Retrieve token
-  static Future<bool?> getlogin() async {
-    return _loginBox.get(loginKey);
-  }
-
-  // // Retrieve token
-  // static Future<String?> getToken(String tokenKey) async {
-  //   return _tokenBox.get(tokenKey);
-  // }
-
-  // // Retrieve user data
-  // static Future<Map<String, dynamic>?> getUser() async {
-  //   return _userBox.get(userKey);
-  // }
-
-  // // Clear the token (e.g., logout)
-  // static Future<void> clearToken() async {
-  //   await _tokenBox.delete(tokenKey);
-  //   print('Token cleared');
-  // }
 }

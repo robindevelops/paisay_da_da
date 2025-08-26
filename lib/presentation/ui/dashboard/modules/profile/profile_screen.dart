@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:paisay_da_da/core/themes/themes.dart';
+import 'package:paisay_da_da/data/local/hive.dart';
+import 'package:paisay_da_da/presentation/ui/auth/auth_screen.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/modules/profile/about.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/modules/profile/edit_profile_screen.dart';
 
@@ -74,7 +76,15 @@ class ProfileScreen extends StatelessWidget {
                 ProfileListTile(
                   icon: "assets/icons/logout.svg",
                   title: "Logout",
-                  onTap: () {},
+                  onTap: () {
+                    HiveDatabase.storeValue("islogin", false);
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AuthScreen(),
+                      ),
+                    );
+                  },
                 ),
                 const SizedBox(height: 24),
               ],

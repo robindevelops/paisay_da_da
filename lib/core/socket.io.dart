@@ -23,6 +23,10 @@ class SocketService {
       print("📩 Message from server: $data");
     });
 
+    socket.on("friendRequestReceived", (data) {
+      print("📩 Friend request received: $data");
+    });
+
     socket.onConnect((_) {
       print("✅ Connected to WebSocket server: $baseUrl");
     });

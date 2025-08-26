@@ -13,7 +13,7 @@ class ApiConfig {
     // dio.interceptors.add(LogInterceptor(requestHeader: true),);
     // Set default configs
     dio.options.baseUrl = ApiPaths.baseURL;
-    dio.options.connectTimeout = const Duration(seconds: 10); //10s
-    dio.options.receiveTimeout = const Duration(seconds: 10);
+    dio.options.connectTimeout = const Duration(seconds: 20); //10s
+    dio.options.receiveTimeout = const Duration(seconds: 20);
   }
 }
