@@ -14,5 +14,6 @@ abstract class AuthRepository {
     required lastName,
     required email,
     required password,
+    required fcmToken,
   });
 }

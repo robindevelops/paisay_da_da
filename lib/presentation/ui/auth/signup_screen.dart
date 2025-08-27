@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:paisay_da_da/core/themes/themes.dart';
+import 'package:paisay_da_da/data/local/hive.dart';
 import 'package:paisay_da_da/presentation/notifier/auth.notifier.dart';
 import 'package:paisay_da_da/presentation/notifier/loader.notifier.dart';
 import 'package:paisay_da_da/presentation/ui/auth/signin_screen.dart';
@@ -145,6 +146,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         lastName: lastNamecontroller.text,
                         email: emailcontroller.text,
                         password: passwordController.text,
+                        fcmToken: HiveDatabase.getValue("fcmToken"),
                       );
                       if (success) {
                         Navigator.push(

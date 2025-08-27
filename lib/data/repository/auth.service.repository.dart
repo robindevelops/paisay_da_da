@@ -63,6 +63,7 @@ class AuthServiceRepository implements AuthRepository {
     required lastName,
     required email,
     required password,
+    required fcmToken,
   }) async {
     try {
       var response = await ApiService.request(
@@ -74,6 +75,7 @@ class AuthServiceRepository implements AuthRepository {
           "lastName": lastName,
           "email": email,
           "password": password,
+          "fcmToken": fcmToken,
         },
       );
       if (response != null) {

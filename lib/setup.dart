@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -11,11 +12,17 @@ import 'package:paisay_da_da/main.dart';
 Future<void> setup() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  await HiveDatabase.init();
+
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+  await NotificationService.initializePushNotifications();
+
+  await ServiceLocator.setup();
 
   final socketService = SocketService();
+
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
   socketService.connect();
 
@@ -26,9 +33,10 @@ Future<void> setup() async {
   );
 
   final fcmToken = await FirebaseMessaging.instance.getToken();
+
   print('FCM Token: $fcmToken');
 
-  await NotificationService.initializePushNotifications();
-  await HiveDatabase.init();
-  await ServiceLocator.setup();
+  HiveDatabase.storeValue("fcmToken", fcmToken);
+
+  print('FCM Token Stored in hive: $fcmToken');
 }

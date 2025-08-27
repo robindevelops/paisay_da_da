@@ -35,13 +35,12 @@ class AuthNotifier extends ChangeNotifier {
     }
   }
 
-  Future<bool> signup(
-    BuildContext context, {
-    required firstName,
-    required lastName,
-    required email,
-    required password,
-  }) async {
+  Future<bool> signup(BuildContext context,
+      {required firstName,
+      required lastName,
+      required email,
+      required password,
+      required fcmToken}) async {
     final loaderNotifier = Provider.of<LoaderNotifier>(context, listen: false);
 
     try {
@@ -56,16 +55,17 @@ class AuthNotifier extends ChangeNotifier {
         lastName: lastName,
         email: email,
         password: password,
+        fcmToken: fcmToken,
       );
 
       return response.fold(
         (failure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              backgroundColor: Colors.red,
-              content: Text(failure.message.toString()),
-            ),
-          );
+          // ScaffoldMessenger.of(context).showSnackBar(
+          //   SnackBar(
+          //     backgroundColor: Colors.red,
+          //     content: Text(failure.message.toString()),
+          //   ),
+          // );
           return false;
         },
         (success) {
