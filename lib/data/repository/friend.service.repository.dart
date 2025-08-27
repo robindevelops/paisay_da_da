@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:flutter/material.dart';
 import 'package:paisay_da_da/data/api/api_path.dart';
 import 'package:paisay_da_da/data/api/api_service.dart';
 import 'package:paisay_da_da/domain/models/accepted.request.model.dart';
@@ -9,11 +10,13 @@ import 'package:paisay_da_da/domain/repository/friend.repository.dart';
 
 class FriendServiceRepository implements FriendRepository {
   @override
-  Future<Either<FailtureModel, SuccessModel>> sendRequest({
+  Future<Either<FailtureModel, SuccessModel>> sendRequest(
+    BuildContext context, {
     required recieverEmail,
   }) async {
     try {
       var response = await ApiService.request(
+        context: context,
         method: RequestMethod.post,
         path: ApiPaths.send,
         data: {
@@ -34,10 +37,11 @@ class FriendServiceRepository implements FriendRepository {
   }
 
   @override
-  Future<Either<FailtureModel, SuccessModel>> accept(
+  Future<Either<FailtureModel, SuccessModel>> accept(BuildContext context,
       {required requestId}) async {
     try {
       var response = await ApiService.request(
+        context: context,
         method: RequestMethod.post,
         path: "${ApiPaths.accept}/$requestId",
       );
@@ -54,10 +58,11 @@ class FriendServiceRepository implements FriendRepository {
   }
 
   @override
-  Future<Either<FailtureModel, SuccessModel>> reject(
+  Future<Either<FailtureModel, SuccessModel>> reject(BuildContext context,
       {required requestId}) async {
     try {
       var response = await ApiService.request(
+        context: context,
         method: RequestMethod.post,
         path: "${ApiPaths.reject}/$requestId",
       );
@@ -75,9 +80,12 @@ class FriendServiceRepository implements FriendRepository {
   }
 
   @override
-  Future<Either<FailtureModel, AcceptedModel>> acceptedRequest() async {
+  Future<Either<FailtureModel, AcceptedModel>> acceptedRequest(
+    BuildContext context,
+  ) async {
     try {
       var response = await ApiService.request(
+        context: context,
         method: RequestMethod.get,
         path: ApiPaths.accepted,
       );
@@ -94,9 +102,11 @@ class FriendServiceRepository implements FriendRepository {
   }
 
   @override
-  Future<Either<FailtureModel, PendingModel>> pendingRequest() async {
+  Future<Either<FailtureModel, PendingModel>> pendingRequest(
+      BuildContext context) async {
     try {
       var response = await ApiService.request(
+        context: context,
         method: RequestMethod.get,
         path: ApiPaths.pending,
       );

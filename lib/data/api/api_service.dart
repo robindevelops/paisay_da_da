@@ -1,8 +1,10 @@
 import 'dart:io';
 import 'package:dio/dio.dart' as dio;
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:paisay_da_da/core/themes/log.dart';
 import 'package:paisay_da_da/data/local/hive.dart';
+import 'package:paisay_da_da/presentation/ui/auth/auth_screen.dart';
 import 'api_config.dart';
 
 enum RequestMethod {
@@ -17,32 +19,27 @@ enum RequestMethod {
 class ApiService {
   static late dio.CancelToken cancelToken;
 
-  static Future<Map<String, dynamic>?> request(
-      {required RequestMethod method,
-      data,
-      queryParameters,
-      Function(int sent, int total)? onProgress,
-      bool requestWithRefreshToken = false,
-      required path}) async {
+  static Future<Map<String, dynamic>?> request({
+    required RequestMethod method,
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+    Function(int sent, int total)? onProgress,
+    bool requestWithRefreshToken = false,
+    required String path,
+    required BuildContext context,
+  }) async {
     final token = await HiveDatabase.getValue(HiveDatabase.tokenKey);
 
     Log.i(
-      'method: ${method.name}\nqueryParameters: $queryParameters\ndata: $data\nURL: $path\n${"token : $token"}',
+      'method: ${method.name}\nqueryParameters: $queryParameters\ndata: $data\nURL: $path\nToken: $token',
     );
 
     try {
-      // if (requestWithRefreshToken) {
-      //   ApiConfig().dio.options.headers["authtoken"] =
-      //       "${HiveDatabase.getValue(HiveDatabase.refreshToken)}";
-      // } else {
-      //   ApiConfig().dio.options.headers["authtoken"] =
-      //       "${HiveDatabase.getValue(HiveDatabase.accessToken)}";
-      // }
+      // Set HTTP method
       ApiConfig().dio.options.method = method.name;
       cancelToken = dio.CancelToken();
 
-      // dio.Response res = ApiConfig().dio.get(path)
-
+      // Make the request
       dio.Response response = await ApiConfig().dio.request(
             path,
             data: data,
@@ -51,39 +48,76 @@ class ApiService {
                 (int sent, int total) => Log.d("SENT: $sent TOTAL: $total"),
             cancelToken: cancelToken,
             options: Options(
-                followRedirects: false,
-                validateStatus: (status) {
-                  Log.d("Validate Status API SERVICE: $status");
-                  return status! < 500;
-                },
-                headers: {
-                  HttpHeaders.contentTypeHeader: data is FormData
-                      ? "multipart/form-data"
-                      : "application/x-www-form-urlencoded",
-                  HttpHeaders.authorizationHeader: "Bearer $token", // ✅ correct
-                }),
+              followRedirects: false,
+              validateStatus: (status) {
+                Log.d("Validate Status API SERVICE: $status");
+                return true; // accept all status codes
+              },
+              headers: {
+                HttpHeaders.contentTypeHeader: data is dio.FormData
+                    ? "multipart/form-data"
+                    : "application/x-www-form-urlencoded",
+                HttpHeaders.authorizationHeader: "Bearer $token",
+              },
+            ),
           );
 
       Log.w(
-          "Path : $path From the api service class: ${response.data} and the status code: ${response.statusCode}");
-      if (response.statusCode == 200) {
-        return response.data;
-      } else {
-        return response.data;
-      }
-    } on dio.DioException catch (e) {
-      Log.e("Exception Type: ${e.type}");
-      Log.e("DioException $path: $e");
-      Log.e("Status Code: ${e.response?.statusCode}");
+          "Path: $path | Response: ${response.data} | Status Code: ${response.statusCode}");
 
-      // If the status code of new access token is 401, then redirect the user to the login screen
-      if (e.response?.statusCode == 401) {
+      // Handle unauthorized
+      if (response.statusCode == 401) {
         Log.d('User is not authenticated, redirecting to login screen');
+
+        // Clear login info
+        await HiveDatabase.storeValue("islogin", false);
+        // Show an alert dialog using global navigator key
+        showDialog(
+          context: context,
+          barrierDismissible: false, // user must tap button
+          builder: (context) {
+            return AlertDialog(
+              title: Text("Access Denied"),
+              content: Text("You are Banned"),
+              backgroundColor: Colors.white,
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(); // close dialog
+                    // Navigate to AuthScreen
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return AuthScreen();
+                        },
+                      ),
+                    );
+                  },
+                  child: Text(
+                    "OK",
+                    style: TextStyle(color: Colors.red),
+                  ),
+                ),
+              ],
+            );
+          },
+        );
+        return null;
       }
+
+      // Return API data
+      return response.data;
+    } on dio.DioException catch (e) {
+      Log.e("DioException $path: $e");
+      Log.e("Exception Type: ${e.type}");
+      Log.e("Status Code: ${e.response?.statusCode}");
 
       if (e.response?.statusCode != 500) {
         return e.response?.data;
       }
+    } catch (e) {
+      Log.e("Unexpected error: $e");
     }
 
     return null;

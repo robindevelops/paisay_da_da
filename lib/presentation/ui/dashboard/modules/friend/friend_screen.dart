@@ -169,15 +169,18 @@ class _FriendScreenState extends State<FriendScreen>
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: _navigateToAddExpenseScreen,
-        backgroundColor: AppThemes.highlightGreen,
-        icon: const Icon(Icons.add, color: Colors.black),
-        label: const Text(
-          "Split Money",
-          style: TextStyle(color: Colors.black),
-        ),
-      ),
+      floatingActionButton: friendNotifier.acceptedModel.data == null ||
+              friendNotifier.acceptedModel.data!.isEmpty
+          ? SizedBox.shrink()
+          : FloatingActionButton.extended(
+              onPressed: _navigateToAddExpenseScreen,
+              backgroundColor: AppThemes.highlightGreen,
+              icon: const Icon(Icons.add, color: Colors.black),
+              label: const Text(
+                "Split Money",
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
     );
   }
 }

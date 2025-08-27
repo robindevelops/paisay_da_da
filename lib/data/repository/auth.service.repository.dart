@@ -36,11 +36,13 @@ class AuthServiceRepository implements AuthRepository {
       print("Starting API request with ID Token: $idToken");
 
       var response = await ApiService.request(
-          path: ApiPaths.google,
-          method: RequestMethod.post,
-          data: {
-            "id_token": idToken,
-          });
+        context: context,
+        path: ApiPaths.google,
+        method: RequestMethod.post,
+        data: {
+          "id_token": idToken,
+        },
+      );
 
       if (response != null) {
         if (response['success'] == true) {
@@ -64,14 +66,16 @@ class AuthServiceRepository implements AuthRepository {
   }) async {
     try {
       var response = await ApiService.request(
-          method: RequestMethod.post,
-          path: ApiPaths.signup,
-          data: {
-            "firstName": firstName,
-            "lastName": lastName,
-            "email": email,
-            "password": password,
-          });
+        context: context,
+        method: RequestMethod.post,
+        path: ApiPaths.signup,
+        data: {
+          "firstName": firstName,
+          "lastName": lastName,
+          "email": email,
+          "password": password,
+        },
+      );
       if (response != null) {
         if (response['status'] == true) {
           return Right(SuccessModel.fromJson(response));

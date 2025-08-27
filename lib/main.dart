@@ -1,13 +1,14 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:paisay_da_da/app.dart';
+import 'package:paisay_da_da/core/notifications/notification.dart';
 import 'package:paisay_da_da/setup.dart';
 
-// /// Background message handler
-// @pragma('vm:entry-point')
-// Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-//   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-//   NotificationService.showLocalNotification(message, 'payload_from_background');
-// }
+/// Background message handler
+@pragma('vm:entry-point')
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  NotificationService.showLocalNotification(message, 'payload_from_background');
+}
 
 // /// Handle background tap on local notification
 // @pragma('vm:entry-point')

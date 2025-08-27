@@ -20,6 +20,7 @@ class FriendNotifier extends ChangeNotifier {
     required recieverEmail,
   }) async {
     var response = await friendRepository.sendRequest(
+      context,
       recieverEmail: recieverEmail,
     );
     response.fold(
@@ -45,7 +46,7 @@ class FriendNotifier extends ChangeNotifier {
   Future<void> pendingRequest(
     BuildContext context,
   ) async {
-    var response = await friendRepository.pendingRequest();
+    var response = await friendRepository.pendingRequest(context);
     response.fold(
       (failure) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -63,7 +64,7 @@ class FriendNotifier extends ChangeNotifier {
   }
 
   Future<void> accept(BuildContext context, {required requestId}) async {
-    var response = await friendRepository.accept(requestId: requestId);
+    var response = await friendRepository.accept(context, requestId: requestId);
     response.fold(
       (failure) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -86,7 +87,7 @@ class FriendNotifier extends ChangeNotifier {
   }
 
   Future<void> reject(BuildContext context, {required requestId}) async {
-    var response = await friendRepository.reject(requestId: requestId);
+    var response = await friendRepository.reject(context, requestId: requestId);
     response.fold(
       (failure) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -108,7 +109,7 @@ class FriendNotifier extends ChangeNotifier {
   }
 
   Future<void> acceptedRequest(BuildContext context) async {
-    var response = await friendRepository.acceptedRequest();
+    var response = await friendRepository.acceptedRequest(context);
     response.fold(
       (failure) {
         print(failure);
