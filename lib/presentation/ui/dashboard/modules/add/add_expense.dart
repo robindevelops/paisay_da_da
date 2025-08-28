@@ -3,8 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:paisay_da_da/core/themes/themes.dart';
+import 'package:paisay_da_da/presentation/notifier/expense.notifier.dart';
+import 'package:paisay_da_da/presentation/notifier/selection.notifier.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/modules/add/add_categorie.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/modules/add/add_members_screen.dart';
+import 'package:provider/provider.dart';
 
 class AddExpenseScreen extends StatefulWidget {
   List<String>? groupMembers;
@@ -26,13 +29,18 @@ class AddExpenseScreen extends StatefulWidget {
 
 class _AddExpenseScreenState extends State<AddExpenseScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   final TextEditingController descriptionController = TextEditingController();
   final TextEditingController amountController = TextEditingController();
 
-  List<String> selectedMembers = [];
-
   @override
   Widget build(BuildContext context) {
+    var selectionNotifier = Provider.of<SelectionNotifier>(context);
+    var expenseNotifier = Provider.of<ExpenseNotifier>(context);
+
+    var memberEmail = selectionNotifier.members.map((c) => c).toList();
+    var category = selectionNotifier.categories.map((c) => c).toList();
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -47,18 +55,30 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
           icon: const Icon(Icons.close),
           onPressed: () {
             Navigator.pop(context);
+            selectionNotifier.clear();
           },
         ),
         actions: [
           TextButton(
-            onPressed: () {
+            onPressed: () async {
               if (_formKey.currentState!.validate()) {
-                // For now just debug print
-                print("Expense Title: ${descriptionController.text}");
-                print("Amount: ${amountController.text}");
-                print("Members: $selectedMembers");
+                // // For now just debug print
+                // print("Expense Title: ${descriptionController.text}");
+                // print("Amount: ${amountController.text}");
+                // print(memberEmail);
 
-                Navigator.pop(context); // back to prev screen
+                // print(category);
+                await expenseNotifier.createExpense(
+                  context,
+                  title: descriptionController.text,
+                  amount: amountController.text,
+                  category: category,
+                  memberEmail: memberEmail,
+                );
+
+                Navigator.pop(context);
+
+                selectionNotifier.clear();
               }
             },
             child: const Text(
@@ -108,89 +128,68 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
                           keyboardType: TextInputType.number,
                         ),
                         const SizedBox(height: 30),
-
-                        // Add Members Section
                         Text(
-                          "Add members",
+                          "Members",
                           style: GoogleFonts.poppins(
                             fontSize: 16,
                             color: Colors.black,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
-                        const SizedBox(height: 15),
-                        Wrap(
-                          spacing: 10,
-                          runSpacing: 10,
-                          children: [
-                            // +Add button
-                            GestureDetector(
-                              onTap: () async {
-                                // Navigate to AddMembersScreen
-                                final result = await Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => AddMembersScreen(),
-                                  ),
-                                );
-
-                                if (result != null && result is List<String>) {
-                                  setState(() {
-                                    selectedMembers.addAll(result);
-                                  });
-                                }
-                              },
-                              child: Container(
-                                width: 80,
-                                height: 40,
-                                decoration: BoxDecoration(
-                                  color: Colors.grey[200],
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    const Icon(Icons.add, size: 18),
-                                    const SizedBox(width: 4),
-                                    Text(
-                                      "Add",
-                                      style: GoogleFonts.poppins(),
+                        const SizedBox(height: 10),
+                        selectionNotifier.members.isEmpty
+                            ? GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return AddMembersScreen();
+                                      },
                                     ),
-                                  ],
+                                  );
+                                },
+                                child: Container(
+                                  width: 80,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey[200],
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const Icon(Icons.add, size: 18),
+                                      const SizedBox(width: 4),
+                                      Text(
+                                        "Add",
+                                        style: GoogleFonts.poppins(),
+                                      ),
+                                    ],
+                                  ),
                                 ),
+                              )
+                            : Wrap(
+                                spacing: 8,
+                                children: selectionNotifier.members.map((c) {
+                                  return Chip(
+                                    label: Text(
+                                      getUsernameFromEmail(c),
+                                      style:
+                                          const TextStyle(color: Colors.white),
+                                    ),
+                                    backgroundColor: Colors.black,
+                                    deleteIcon: const Icon(
+                                      Icons.close,
+                                      color: AppThemes.highlightGreen,
+                                    ),
+                                    onDeleted: () {
+                                      selectionNotifier.removeMember(c);
+                                    },
+                                  );
+                                }).toList(),
                               ),
-                            ),
-
-                            // Member chips
-                            ...selectedMembers.map(
-                              (member) {
-                                return Chip(
-                                  label: Text(
-                                    getUsernameFromEmail(member),
-                                    style: const TextStyle(color: Colors.white),
-                                  ),
-                                  backgroundColor: Colors.black,
-                                  deleteIcon: const Icon(
-                                    Icons.close,
-                                    color: AppThemes.highlightGreen,
-                                  ),
-                                  onDeleted: () {
-                                    setState(() {
-                                      selectedMembers.remove(member);
-                                    });
-                                  },
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                    side: const BorderSide(
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                );
-                              },
-                            ).toList(),
-                          ],
-                        ),
                         const SizedBox(height: 15),
                         Text(
                           "Categorie",
@@ -201,39 +200,59 @@ class _AddExpenseScreenState extends State<AddExpenseScreen> {
                           ),
                         ),
                         const SizedBox(height: 15),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return AddCategorieScreen();
+                        selectionNotifier.categories.isEmpty
+                            ? GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return AddCategorieScreen();
+                                      },
+                                    ),
+                                  );
                                 },
-                              ),
-                            );
-                          },
-                          child: Container(
-                            width: 80,
-                            height: 40,
-                            decoration: BoxDecoration(
-                              color: Colors.grey[200],
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const Icon(Icons.add, size: 18),
-                                const SizedBox(width: 4),
-                                Text(
-                                  "Add",
-                                  style: GoogleFonts.poppins(),
+                                child: Container(
+                                  width: 80,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey[200],
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const Icon(Icons.add, size: 18),
+                                      const SizedBox(width: 4),
+                                      Text(
+                                        "Add",
+                                        style: GoogleFonts.poppins(),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ],
-                            ),
-                          ),
-                        ),
-
+                              )
+                            : Wrap(
+                                spacing: 8,
+                                children: selectionNotifier.categories.map((c) {
+                                  return Chip(
+                                    label: Text(
+                                      c,
+                                      style:
+                                          const TextStyle(color: Colors.white),
+                                    ),
+                                    backgroundColor: Colors.black,
+                                    deleteIcon: const Icon(
+                                      Icons.close,
+                                      color: AppThemes.highlightGreen,
+                                    ),
+                                    onDeleted: () {
+                                      selectionNotifier.removeCategory(c);
+                                    },
+                                  );
+                                }).toList(),
+                              ),
                         const SizedBox(height: 30),
                         Center(
                           child: Transform.rotate(

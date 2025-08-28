@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:paisay_da_da/presentation/notifier/friend.notifier.dart';
 import 'package:paisay_da_da/presentation/notifier/rootVm.notifier.dart';
 import 'package:provider/provider.dart';
 
@@ -13,6 +14,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     Rootvm rootvm = context.watch<Rootvm>();
+    final friendNotifier = context.watch<FriendNotifier>();
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -54,9 +56,36 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 icon: Icon(Icons.group, size: 30),
               ),
               BottomNavigationBarItem(
-                backgroundColor: Colors.white,
                 label: "Requests",
-                icon: Icon(Icons.add_reaction_rounded, size: 30),
+                icon: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    Icon(Icons.face_5_sharp, size: 30),
+
+                    // Badge
+                    if (friendNotifier.pendingModel.data != null &&
+                        friendNotifier.pendingModel.data!.isNotEmpty)
+                      Positioned(
+                        right: -6,
+                        top: -6,
+                        child: Container(
+                          padding: EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                            color: Colors.red,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Text(
+                            "${friendNotifier.pendingModel.data!.length}",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
               ),
               BottomNavigationBarItem(
                 label: "Profile",

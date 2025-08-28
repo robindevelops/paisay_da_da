@@ -6,20 +6,20 @@ class AcceptedModel {
   AcceptedModel({this.status, this.count, this.data});
 
   AcceptedModel.fromJson(Map<String, dynamic> json) {
-    status = json['success'];
+    status = json['status'];
     count = json['count'];
     if (json['data'] != null) {
       data = <Data>[];
       json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
+        data!.add(Data.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['count'] = this.count;
+    final Map<String, dynamic> data = {};
+    data['status'] = status;
+    data['count'] = count;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
@@ -37,16 +37,15 @@ class Data {
   Data.fromJson(Map<String, dynamic> json) {
     requestId = json['requestId'];
     status = json['status'];
-    friend =
-        json['friend'] != null ? new Friend.fromJson(json['friend']) : null;
+    friend = json['friend'] != null ? Friend.fromJson(json['friend']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['requestId'] = this.requestId;
-    data['status'] = this.status;
-    if (this.friend != null) {
-      data['friend'] = this.friend!.toJson();
+    final Map<String, dynamic> data = {};
+    data['requestId'] = requestId;
+    data['status'] = status;
+    if (friend != null) {
+      data['friend'] = friend!.toJson();
     }
     return data;
   }
@@ -57,8 +56,8 @@ class Friend {
   String? firstName;
   String? lastName;
   String? email;
-  List<Null>? expensesPaid;
-  List<Null>? expensesOwed;
+  List<ExpensesPaid>? expensesPaid;
+  List<ExpensesOwed>? expensesOwed;
 
   Friend(
       {this.id,
@@ -74,31 +73,81 @@ class Friend {
     lastName = json['lastName'];
     email = json['email'];
     if (json['expensesPaid'] != null) {
-      expensesPaid = <Null>[];
+      expensesPaid = <ExpensesPaid>[];
       json['expensesPaid'].forEach((v) {
-        expensesPaid!.add(v);
+        expensesPaid!.add(ExpensesPaid.fromJson(v));
       });
     }
     if (json['expensesOwed'] != null) {
-      expensesOwed = <Null>[];
+      expensesOwed = <ExpensesOwed>[];
       json['expensesOwed'].forEach((v) {
-        expensesOwed!.add(v);
+        expensesOwed!.add(ExpensesOwed.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['firstName'] = this.firstName;
-    data['lastName'] = this.lastName;
-    data['email'] = this.email;
-    if (this.expensesPaid != null) {
-      data['expensesPaid'] = this.expensesPaid!.map((v) => v).toList();
+    final Map<String, dynamic> data = {};
+    data['id'] = id;
+    data['firstName'] = firstName;
+    data['lastName'] = lastName;
+    data['email'] = email;
+    if (expensesPaid != null) {
+      data['expensesPaid'] = expensesPaid!.map((v) => v.toJson()).toList();
     }
-    if (this.expensesOwed != null) {
-      data['expensesOwed'] = this.expensesOwed!.map((v) => v).toList();
+    if (expensesOwed != null) {
+      data['expensesOwed'] = expensesOwed!.map((v) => v.toJson()).toList();
     }
+    return data;
+  }
+}
+
+class ExpensesPaid {
+  int? id;
+  String? title;
+  int? amount;
+  String? category;
+
+  ExpensesPaid({this.id, this.title, this.amount, this.category});
+
+  ExpensesPaid.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    title = json['title'];
+    amount = json['amount'];
+    category = json['category'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = {};
+    data['id'] = id;
+    data['title'] = title;
+    data['amount'] = amount;
+    data['category'] = category;
+    return data;
+  }
+}
+
+class ExpensesOwed {
+  int? id;
+  String? title;
+  int? amount;
+  String? category;
+
+  ExpensesOwed({this.id, this.title, this.amount, this.category});
+
+  ExpensesOwed.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    title = json['title'];
+    amount = json['amount'];
+    category = json['category'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = {};
+    data['id'] = id;
+    data['title'] = title;
+    data['amount'] = amount;
+    data['category'] = category;
     return data;
   }
 }

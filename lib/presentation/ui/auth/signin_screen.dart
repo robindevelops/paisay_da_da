@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:paisay_da_da/core/themes/themes.dart';
+import 'package:paisay_da_da/data/local/hive.dart';
 import 'package:paisay_da_da/presentation/notifier/auth.notifier.dart';
 import 'package:paisay_da_da/presentation/notifier/loader.notifier.dart';
+import 'package:paisay_da_da/presentation/ui/dashboard/dashboard_screen.dart';
 import 'package:paisay_da_da/presentation/widgets/app_elevated_button.dart';
 import 'package:provider/provider.dart';
 
@@ -89,27 +91,23 @@ class _SigninScreenState extends State<SigninScreen> {
                 ),
                 const SizedBox(height: 15),
                 AppElevatedButton(
-                  // icon: Icon(
-                  //   Icons.email_outlined,
-                  //   color: Colors.white,
-                  // ),
                   text: "Sign in Now",
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      // bool success = await authNotifier.signup(
-                      //   context,
-                      //   email: emailcontroller.text,
-                      //   password: passwordController.text,
-                      // );
-                      // if (success) {
-                      //   Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //       builder: (context) => DashboardScreen(),
-                      //     ),
-                      //   );
-                      // }
-                      // clear();
+                      bool success = await authNotifier.signin(
+                        context,
+                        email: emailcontroller.text,
+                        password: passwordController.text,
+                        fcmToken: HiveDatabase.getValue("fcmToken"),
+                      );
+                      if (success) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DashboardScreen(),
+                          ),
+                        );
+                      }
                     }
                   },
                 ),

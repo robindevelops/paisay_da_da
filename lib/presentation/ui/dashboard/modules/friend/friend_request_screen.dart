@@ -32,6 +32,7 @@ class _FriendRequestState extends State<FriendRequest> {
               itemBuilder: (context, index) {
                 final request = friendNotifier.pendingModel.data![index];
                 return ListTile(
+                  contentPadding: EdgeInsets.symmetric(horizontal: 30),
                   title: Text(request.sender?.firstName ?? "Unknown"),
                   subtitle: Text(request.sender?.email ?? ""),
                   trailing: Row(

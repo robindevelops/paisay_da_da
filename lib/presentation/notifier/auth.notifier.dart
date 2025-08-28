@@ -84,4 +84,52 @@ class AuthNotifier extends ChangeNotifier {
       loaderNotifier.setLoading(false);
     }
   }
+
+  Future<bool> signin(
+    BuildContext context, {
+    required email,
+    required password,
+    required fcmToken,
+  }) async {
+    final loaderNotifier = Provider.of<LoaderNotifier>(context, listen: false);
+
+    try {
+      // Optional delay for testing loader
+      loaderNotifier.setLoading(true);
+
+      await Future.delayed(Duration(seconds: 2));
+
+      var response = await authRepository.signin(
+        context,
+        email: email,
+        password: password,
+        fcmToken: fcmToken,
+      );
+
+      return response.fold(
+        (failure) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.red,
+              content: Text(failure.message.toString()),
+            ),
+          );
+          return false;
+        },
+        (success) {
+          HiveDatabase.storeValue("token", success.token);
+          HiveDatabase.storeValue("islogin", true);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.green,
+              content: Text(success.message.toString()),
+            ),
+          );
+          return true;
+        },
+      );
+    } finally {
+      loaderNotifier.setLoading(false);
+    }
+  }
 }

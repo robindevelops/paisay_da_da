@@ -1,6 +1,10 @@
+// AddCategorieScreen.dart
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:paisay_da_da/core/themes/themes.dart';
+import 'package:paisay_da_da/presentation/notifier/selection.notifier.dart';
+import 'package:provider/provider.dart';
 
 class AddCategorieScreen extends StatefulWidget {
   const AddCategorieScreen({super.key});
@@ -10,29 +14,13 @@ class AddCategorieScreen extends StatefulWidget {
 }
 
 class _AddCategorieScreenState extends State<AddCategorieScreen> {
-  // Categories grouped by sections
-  final Map<String, List<Map<String, dynamic>>> categorySections = {
-    "Expenses": [
-      {"icon": Icons.fastfood, "title": "Food"},
-      {"icon": Icons.shopping_bag, "title": "Shopping"},
-      {"icon": Icons.directions_car, "title": "Transport"},
-      {"icon": Icons.home, "title": "Rent"},
-      {"icon": Icons.movie, "title": "Entertainment"},
-      {"icon": Icons.local_hospital, "title": "Health"},
-      {"icon": Icons.school, "title": "Education"},
-      {"icon": Icons.sports_soccer, "title": "Sports"},
-      {"icon": Icons.flight, "title": "Travel"},
-      {"icon": Icons.miscellaneous_services, "title": "Other"},
-    ],
-    "Income": [
-      {"icon": Icons.work, "title": "Salary"},
-      {"icon": Icons.card_giftcard, "title": "Gifts"},
-      {"icon": Icons.trending_up, "title": "Investments"},
-    ]
-  };
-
   @override
   Widget build(BuildContext context) {
+    var selectionNotifier =
+        Provider.of<SelectionNotifier>(context, listen: false);
+
+    final categorySections = selectionNotifier.categorySections;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Category"),
@@ -70,6 +58,7 @@ class _AddCategorieScreenState extends State<AddCategorieScreen> {
                     width: 45,
                     decoration: BoxDecoration(
                       color: AppThemes.highlightGreen.withOpacity(0.9),
+                      borderRadius: BorderRadius.circular(8),
                     ),
                     child: Icon(
                       category["icon"],
@@ -80,14 +69,12 @@ class _AddCategorieScreenState extends State<AddCategorieScreen> {
                     category["title"],
                     style: GoogleFonts.aBeeZee(
                       fontSize: 17,
-                      // fontWeight: FontWeight.bold,
                       color: Colors.black87,
                     ),
                   ),
                   onTap: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text("Selected: ${category["title"]}")),
-                    );
+                    selectionNotifier.addCategory(category["title"]);
+                    Navigator.pop(context);
                   },
                 );
               }).toList(),

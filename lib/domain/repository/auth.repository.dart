@@ -16,4 +16,11 @@ abstract class AuthRepository {
     required password,
     required fcmToken,
   });
+
+  Future<Either<FailtureModel, SuccessModel>> signin(
+    BuildContext context, {
+    required email,
+    required password,
+    required fcmToken,
+  });
 }

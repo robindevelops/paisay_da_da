@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:paisay_da_da/core/locator/locator.dart';
 import 'package:paisay_da_da/presentation/notifier/auth.notifier.dart';
 import 'package:paisay_da_da/presentation/notifier/connection.notifier.dart';
+import 'package:paisay_da_da/presentation/notifier/expense.notifier.dart';
 import 'package:paisay_da_da/presentation/notifier/friend.notifier.dart';
 import 'package:paisay_da_da/presentation/notifier/loader.notifier.dart';
 import 'package:paisay_da_da/presentation/notifier/rootVm.notifier.dart';
+import 'package:paisay_da_da/presentation/notifier/selection.notifier.dart';
 import 'package:provider/provider.dart';
 
 class MultiProviders extends StatelessWidget {
@@ -47,6 +49,18 @@ class MultiProviders extends StatelessWidget {
           create: (context) {
             return FriendNotifier(
               friendRepository: ServiceLocator.getIt(),
+            );
+          },
+        ),
+        ChangeNotifierProvider(
+          create: (context) {
+            return SelectionNotifier();
+          },
+        ),
+        ChangeNotifierProvider(
+          create: (context) {
+            return ExpenseNotifier(
+              expenseRepository: ServiceLocator.getIt(),
             );
           },
         ),

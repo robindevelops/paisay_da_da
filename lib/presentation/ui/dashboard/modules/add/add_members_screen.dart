@@ -2,8 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:paisay_da_da/core/themes/themes.dart';
-import 'package:paisay_da_da/presentation/widgets/app_elevated_button.dart';
+import 'package:paisay_da_da/presentation/notifier/friend.notifier.dart';
+import 'package:paisay_da_da/presentation/notifier/selection.notifier.dart';
 import 'package:paisay_da_da/presentation/widgets/app_textfield.dart';
+import 'package:provider/provider.dart';
 
 class AddMembersScreen extends StatefulWidget {
   const AddMembersScreen({super.key});
@@ -15,23 +17,12 @@ class AddMembersScreen extends StatefulWidget {
 class _AddMembersScreenState extends State<AddMembersScreen> {
   final TextEditingController _searchController = TextEditingController();
 
-  // Dummy friend list
-  List<Map<String, String>> allFriends = [
-    {"name": "Ali Khan", "email": "ali@example.com"},
-    {"name": "Sara Ahmed", "email": "sara@example.com"},
-    {"name": "John Doe", "email": "john@example.com"},
-  ];
-
-  List<Map<String, String>> filteredFriends = [];
-
-  @override
-  void initState() {
-    super.initState();
-    filteredFriends = allFriends;
-  }
-
   @override
   Widget build(BuildContext context) {
+    final friendNotifier = context.watch<FriendNotifier>();
+    final selectionNotifier = context.watch<SelectionNotifier>();
+    final isSelected = selectionNotifier.members.isNotEmpty;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -46,12 +37,17 @@ class _AddMembersScreenState extends State<AddMembersScreen> {
         iconTheme: const IconThemeData(color: Colors.white),
         actions: [
           TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: const Text(
+            onPressed: isSelected
+                ? () {
+                    Navigator.pop(context);
+                  }
+                : null,
+            child: Text(
               "Save",
-              style: TextStyle(color: Colors.white, fontSize: 17),
+              style: TextStyle(
+                color: isSelected ? Colors.white : Colors.grey,
+                fontSize: 17,
+              ),
             ),
           ),
         ],
@@ -77,19 +73,20 @@ class _AddMembersScreenState extends State<AddMembersScreen> {
               ),
             ),
             const SizedBox(height: 10),
-            filteredFriends.isEmpty
+            (friendNotifier.acceptedModel.data == null ||
+                    friendNotifier.acceptedModel.data!.isEmpty)
                 ? const ListTile(
                     title: Text("No Member Found"),
                   )
                 : ListView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: filteredFriends.length,
+                    itemCount: friendNotifier.acceptedModel.data?.length,
                     itemBuilder: (context, index) {
-                      var friend = filteredFriends[index];
+                      final friend = friendNotifier.acceptedModel.data![index];
                       return MemberTile(
-                        name: friend["name"]!,
-                        email: friend["email"]!,
+                        name: friend.friend!.firstName ?? "unknown",
+                        email: friend.friend!.email ?? "unknown",
                       );
                     },
                   ),
@@ -100,7 +97,7 @@ class _AddMembersScreenState extends State<AddMembersScreen> {
   }
 }
 
-class MemberTile extends StatefulWidget {
+class MemberTile extends StatelessWidget {
   final String name;
   final String email;
 
@@ -111,14 +108,10 @@ class MemberTile extends StatefulWidget {
   });
 
   @override
-  State<MemberTile> createState() => _MemberTileState();
-}
-
-class _MemberTileState extends State<MemberTile> {
-  bool isSelected = false;
-
-  @override
   Widget build(BuildContext context) {
+    final selectionNotifier = context.watch<SelectionNotifier>();
+    final isSelected = selectionNotifier.members.contains(email);
+
     return ListTile(
       leading: const Icon(Icons.person_3_outlined),
       contentPadding: const EdgeInsets.symmetric(vertical: 5),
@@ -127,12 +120,14 @@ class _MemberTileState extends State<MemberTile> {
         activeColor: AppThemes.highlightGreen,
         value: isSelected,
         onChanged: (value) {
-          setState(() {
-            isSelected = value ?? false;
-          });
+          if (value == true) {
+            selectionNotifier.addMember(email);
+          } else {
+            selectionNotifier.removeMember(email);
+          }
         },
       ),
-      title: Text(widget.name.capitalizeFirst()),
+      title: Text(name.capitalizeFirst()),
     );
   }
 }

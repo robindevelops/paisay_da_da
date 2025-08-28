@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:paisay_da_da/core/socket.io.dart';
 import 'package:paisay_da_da/domain/models/accepted.request.model.dart';
 import 'package:paisay_da_da/domain/models/pending.request.model.dart';
 import 'package:paisay_da_da/domain/repository/friend.repository.dart';
 
 class FriendNotifier extends ChangeNotifier {
-  SocketService socketService = SocketService();
   FriendRepository friendRepository;
+
   FriendNotifier({required this.friendRepository});
 
   AcceptedModel _acceptedModel = AcceptedModel();
+
   AcceptedModel get acceptedModel => _acceptedModel;
 
   PendingModel _pendingModel = PendingModel();
@@ -77,7 +77,7 @@ class FriendNotifier extends ChangeNotifier {
       (success) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            backgroundColor: Colors.red,
+            backgroundColor: Colors.green,
             content: Text(success.message.toString()),
           ),
         );
@@ -88,8 +88,10 @@ class FriendNotifier extends ChangeNotifier {
 
   Future<void> reject(BuildContext context, {required requestId}) async {
     var response = await friendRepository.reject(context, requestId: requestId);
+    print(response);
     response.fold(
       (failure) {
+        print("1 called");
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             backgroundColor: Colors.red,
@@ -98,9 +100,10 @@ class FriendNotifier extends ChangeNotifier {
         );
       },
       (success) {
+        print("2 called");
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            backgroundColor: Colors.red,
+            backgroundColor: Colors.green,
             content: Text(success.message.toString()),
           ),
         );
@@ -112,7 +115,6 @@ class FriendNotifier extends ChangeNotifier {
     var response = await friendRepository.acceptedRequest(context);
     response.fold(
       (failure) {
-        print(failure);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             backgroundColor: Colors.red,
@@ -121,7 +123,6 @@ class FriendNotifier extends ChangeNotifier {
         );
       },
       (success) {
-        print(success);
         _acceptedModel = success;
         notifyListeners();
       },

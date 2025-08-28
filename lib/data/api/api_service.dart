@@ -69,40 +69,40 @@ class ApiService {
       if (response.statusCode == 401) {
         Log.d('User is not authenticated, redirecting to login screen');
 
-        // Clear login info
-        await HiveDatabase.storeValue("islogin", false);
-        // Show an alert dialog using global navigator key
-        showDialog(
-          context: context,
-          barrierDismissible: false, // user must tap button
-          builder: (context) {
-            return AlertDialog(
-              title: Text("Access Denied"),
-              content: Text("You are Banned"),
-              backgroundColor: Colors.white,
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop(); // close dialog
-                    // Navigate to AuthScreen
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return AuthScreen();
-                        },
-                      ),
-                    );
-                  },
-                  child: Text(
-                    "OK",
-                    style: TextStyle(color: Colors.red),
-                  ),
-                ),
-              ],
-            );
-          },
-        );
+        // // // Clear login info
+        // // await HiveDatabase.storeValue("islogin", false);
+        // // // Show an alert dialog using global navigator key
+        // // showDialog(
+        // //   context: context,
+        // //   barrierDismissible: false, // user must tap button
+        // //   builder: (context) {
+        // //     return AlertDialog(
+        // //       title: Text("Access Denied"),
+        // //       content: Text("You are Banned"),
+        // //       backgroundColor: Colors.white,
+        // //       actions: [
+        // //         TextButton(
+        // //           onPressed: () {
+        // //             Navigator.of(context).pop(); // close dialog
+        // //             // Navigate to AuthScreen
+        // //             Navigator.push(
+        // //               context,
+        // //               MaterialPageRoute(
+        // //                 builder: (context) {
+        // //                   return AuthScreen();
+        // //                 },
+        // //               ),
+        // //             );
+        // //           },
+        // //           child: Text(
+        // //             "OK",
+        // //             style: TextStyle(color: Colors.red),
+        // //           ),
+        // //         ),
+        // //       ],
+        // //     );
+        //   },
+        // );
         return null;
       }
 
