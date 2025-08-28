@@ -132,11 +132,11 @@ class _GroupDetailScreenState extends State<GroupDetailScreen> {
               child: Center(
 //  NoGroupMemberWidget(),
 
-                //     NoExpenseWidget(
-                //   message: 'No expemse',
-                // )
-                child: ExpenseTile(),
-              ),
+                  //     NoExpenseWidget(
+                  //   message: 'No expemse',
+                  // )
+                  // child: ExpenseTile(),
+                  ),
             ),
           ],
         ),

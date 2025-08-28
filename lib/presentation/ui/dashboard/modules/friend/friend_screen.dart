@@ -47,6 +47,10 @@ class _FriendScreenState extends State<FriendScreen>
         await friendNotifier.acceptedRequest(context);
       });
 
+      socket.socket.on("expenseAdded", (data) async {
+        await friendNotifier.acceptedRequest(context);
+      });
+
       // fetch pending list initially
       friendNotifier.pendingRequest(context);
       friendNotifier.acceptedRequest(context);
@@ -136,6 +140,11 @@ class _FriendScreenState extends State<FriendScreen>
                           itemBuilder: (context, index) {
                             final friend =
                                 friendNotifier.acceptedModel.data![index];
+
+                            var total =
+                                (friend.friend?.expensesOwed?.length ?? 0) +
+                                    (friend.friend?.expensesPaid?.length ?? 0);
+
                             return ListTile(
                               contentPadding: const EdgeInsets.symmetric(
                                 vertical: 10,
@@ -144,7 +153,13 @@ class _FriendScreenState extends State<FriendScreen>
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (_) => FriendDetailScreen(),
+                                    builder: (_) => FriendDetailScreen(
+                                      firstName: friend.friend?.firstName,
+                                      expensesPaid:
+                                          friend.friend?.expensesPaid ?? [],
+                                      expensesOwed:
+                                          friend.friend?.expensesOwed ?? [],
+                                    ),
                                   ),
                                 );
                               },
@@ -154,12 +169,29 @@ class _FriendScreenState extends State<FriendScreen>
                                 fit: BoxFit.cover,
                               ),
                               title: Text(friend.friend?.firstName ?? "Unkown"),
-                              trailing: Text(
-                                "No expense",
-                                style: TextStyle(
-                                  color: Colors.grey[700],
-                                ),
-                              ),
+                              trailing: total != 0
+                                  ? Container(
+                                      width: 70,
+                                      height: 25,
+                                      decoration: BoxDecoration(
+                                        color: AppThemes.highlightGreen,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          '$total expenses',
+                                          style: const TextStyle(
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  : Text(
+                                      "No expense",
+                                      style: TextStyle(
+                                        color: Colors.grey[700],
+                                      ),
+                                    ),
                             );
                           },
                         ),

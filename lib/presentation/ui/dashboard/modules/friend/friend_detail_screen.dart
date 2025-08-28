@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:paisay_da_da/core/constants/constants.dart';
 import 'package:paisay_da_da/core/themes/themes.dart';
+import 'package:paisay_da_da/domain/models/accepted.request.model.dart';
 import 'package:paisay_da_da/presentation/animation/animation.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/modules/add/add_expense.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/modules/friend/friend_settings_screen.dart';
@@ -10,6 +9,16 @@ import 'package:paisay_da_da/presentation/widgets/expense_tile.dart';
 
 // ignore: must_be_immutable
 class FriendDetailScreen extends StatefulWidget {
+  List<ExpensesPaid> expensesPaid;
+  List<ExpensesOwed> expensesOwed;
+  String? firstName;
+
+  FriendDetailScreen({
+    required this.expensesPaid,
+    required this.expensesOwed,
+    required this.firstName,
+  });
+
   @override
   State<FriendDetailScreen> createState() => _FriendDetailScreenState();
 }
@@ -48,7 +57,7 @@ class _FriendDetailScreenState extends State<FriendDetailScreen> {
               children: [
                 SizedBox(height: 20),
                 Text(
-                  "Furqan",
+                  widget.firstName ?? "Unknown",
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 20,
@@ -65,7 +74,9 @@ class _FriendDetailScreenState extends State<FriendDetailScreen> {
                   ),
                   child: Center(
                     child: Text(
-                      "2 expenses",
+                      (widget.expensesPaid.length + widget.expensesOwed.length)
+                              .toString() +
+                          ' expenses',
                       style: const TextStyle(
                         color: Colors.black,
                         fontSize: 12,
@@ -123,7 +134,10 @@ class _FriendDetailScreenState extends State<FriendDetailScreen> {
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.7,
               child: Center(
-                child: ExpenseTile(),
+                child: ExpenseTile(
+                  expensesPaid: widget.expensesPaid,
+                  expensesOwed: widget.expensesOwed,
+                ),
               ),
             ),
           ],
