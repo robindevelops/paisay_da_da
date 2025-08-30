@@ -24,7 +24,8 @@ class _AddCategorieScreenState extends State<AddCategorieScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Category"),
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.black,
+        foregroundColor: Colors.white,
         centerTitle: true,
         scrolledUnderElevation: 0,
       ),

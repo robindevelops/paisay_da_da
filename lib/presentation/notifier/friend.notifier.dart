@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:paisay_da_da/core/constants/base_helper.dart';
+import 'package:paisay_da_da/core/themes/themes.dart';
 import 'package:paisay_da_da/domain/models/accepted.request.model.dart';
 import 'package:paisay_da_da/domain/models/pending.request.model.dart';
 import 'package:paisay_da_da/domain/repository/friend.repository.dart';
@@ -33,11 +34,10 @@ class FriendNotifier extends ChangeNotifier {
         );
       },
       (success) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: Colors.green,
-            content: Text(success.message.toString()),
-          ),
+        BaseHelper.showSnackBar(
+          context,
+          success.message.toString(),
+          AppThemes.highlightGreen,
         );
       },
     );
@@ -49,11 +49,10 @@ class FriendNotifier extends ChangeNotifier {
     var response = await friendRepository.pendingRequest(context);
     response.fold(
       (failure) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: Colors.red,
-            content: Text(failure.message.toString()),
-          ),
+        BaseHelper.showSnackBar(
+          context,
+          failure.message.toString(),
+          Colors.red,
         );
       },
       (success) {
@@ -67,19 +66,17 @@ class FriendNotifier extends ChangeNotifier {
     var response = await friendRepository.accept(context, requestId: requestId);
     response.fold(
       (failure) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: Colors.red,
-            content: Text(failure.message.toString()),
-          ),
+        BaseHelper.showSnackBar(
+          context,
+          failure.message.toString(),
+          Colors.red,
         );
       },
       (success) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: Colors.green,
-            content: Text(success.message.toString()),
-          ),
+        BaseHelper.showSnackBar(
+          context,
+          success.message.toString(),
+          AppThemes.highlightGreen,
         );
         notifyListeners(); // 👈 update UI
       },
@@ -91,21 +88,17 @@ class FriendNotifier extends ChangeNotifier {
     print(response);
     response.fold(
       (failure) {
-        print("1 called");
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: Colors.red,
-            content: Text(failure.message.toString()),
-          ),
+        BaseHelper.showSnackBar(
+          context,
+          failure.message.toString(),
+          Colors.red,
         );
       },
       (success) {
-        print("2 called");
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: Colors.green,
-            content: Text(success.message.toString()),
-          ),
+        BaseHelper.showSnackBar(
+          context,
+          success.message.toString(),
+          AppThemes.highlightGreen,
         );
       },
     );
@@ -115,15 +108,40 @@ class FriendNotifier extends ChangeNotifier {
     var response = await friendRepository.acceptedRequest(context);
     response.fold(
       (failure) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: Colors.red,
-            content: Text(failure.message.toString()),
-          ),
+        BaseHelper.showSnackBar(
+          context,
+          failure.message.toString(),
+          Colors.red,
         );
       },
       (success) {
         _acceptedModel = success;
+        notifyListeners();
+      },
+    );
+  }
+
+  Future<void> sendReminder(BuildContext context,
+      {required recieverEmail, required messsage}) async {
+    var response = await friendRepository.sendReminder(
+      context,
+      recieverEmail: recieverEmail,
+      messsage: messsage,
+    );
+    response.fold(
+      (failure) {
+        BaseHelper.showSnackBar(
+          context,
+          failure.message.toString(),
+          Colors.red,
+        );
+      },
+      (success) {
+        BaseHelper.showSnackBar(
+          context,
+          success.message.toString(),
+          AppThemes.highlightGreen,
+        );
         notifyListeners();
       },
     );

@@ -14,10 +14,13 @@ class FriendDetailScreen extends StatefulWidget {
   List<ExpensesOwed> expensesOwed;
   String? firstName;
 
+  String? email;
+
   FriendDetailScreen({
     required this.expensesPaid,
     required this.expensesOwed,
     required this.firstName,
+    required this.email,
   });
 
   @override
@@ -109,7 +112,7 @@ class _FriendDetailScreenState extends State<FriendDetailScreen> {
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return FriendSettingsScreen();
+                    return FriendSettingsScreen(email: widget.email.toString());
                   },
                 ),
               );

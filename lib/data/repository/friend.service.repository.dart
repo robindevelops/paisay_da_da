@@ -121,4 +121,29 @@ class FriendServiceRepository implements FriendRepository {
       return Left(FailtureModel(message: "Sign-In failed: $error"));
     }
   }
+
+  @override
+  Future<Either<FailtureModel, SuccessModel>> sendReminder(BuildContext context,
+      {required recieverEmail, required messsage}) async {
+    try {
+      var response = await ApiService.request(
+        context: context,
+        method: RequestMethod.post,
+        path: ApiPaths.sendReminder,
+        data: {
+          "recieverEmail": recieverEmail,
+          "message": messsage,
+        },
+      );
+      if (response != null) {
+        if (response['status'] == true) {
+          return Right(SuccessModel.fromJson(response));
+        }
+        return Left(FailtureModel.fromJson(response));
+      }
+      return Left(FailtureModel(message: "No response from server"));
+    } catch (error) {
+      return Left(FailtureModel(message: "Sign-In failed: $error"));
+    }
+  }
 }

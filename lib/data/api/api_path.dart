@@ -12,6 +12,7 @@ class ApiPaths {
   static String accepted = "${baseURL}friendrequest/accepted";
   static String accept = "${baseURL}friendrequest/accept";
   static String reject = "${baseURL}friendrequest/reject";
+  static String sendReminder = "${baseURL}friendrequest/reminder";
 
   static String createExpense = "${baseURL}expense";
 }

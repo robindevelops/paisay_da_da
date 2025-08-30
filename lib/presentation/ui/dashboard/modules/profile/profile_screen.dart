@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:paisay_da_da/core/constants/base_helper.dart';
 import 'package:paisay_da_da/core/themes/themes.dart';
 import 'package:paisay_da_da/data/local/hive.dart';
 import 'package:paisay_da_da/presentation/ui/auth/auth_screen.dart';
@@ -71,18 +72,34 @@ class ProfileScreen extends StatelessWidget {
                 ProfileListTile(
                   icon: "assets/icons/delete.svg",
                   title: "Delete Account",
-                  onTap: () {},
+                  onTap: () {
+                    BaseHelper.showDBottomSheet(
+                      context,
+                      title: "Are you sure you want to Delete",
+                      message: "Yes",
+                      buttoncolor: Colors.red,
+                      onPressed: () {},
+                    );
+                  },
                 ),
                 ProfileListTile(
                   icon: "assets/icons/logout.svg",
                   title: "Logout",
                   onTap: () {
-                    HiveDatabase.storeValue("islogin", false);
-                    Navigator.pushReplacement(
+                    BaseHelper.showDBottomSheet(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => AuthScreen(),
-                      ),
+                      title: "Are you sure you want to logout",
+                      message: "Yes",
+                      buttoncolor: Colors.red,
+                      onPressed: () {
+                        HiveDatabase.storeValue("islogin", false);
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AuthScreen(),
+                          ),
+                        );
+                      },
                     );
                   },
                 ),

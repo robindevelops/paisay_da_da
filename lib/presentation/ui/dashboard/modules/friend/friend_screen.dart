@@ -155,6 +155,7 @@ class _FriendScreenState extends State<FriendScreen>
                                   context,
                                   MaterialPageRoute(
                                     builder: (_) => FriendDetailScreen(
+                                      email: friend.friend?.email,
                                       firstName: friend.friend?.firstName,
                                       expensesPaid:
                                           friend.friend?.expensesPaid ?? [],

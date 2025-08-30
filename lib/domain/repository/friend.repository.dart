@@ -22,4 +22,7 @@ abstract class FriendRepository {
   Future<Either<FailtureModel, AcceptedModel>> acceptedRequest(
     BuildContext context,
   );
+
+  Future<Either<FailtureModel, SuccessModel>> sendReminder(BuildContext context,
+      {required recieverEmail, required messsage});
 }
