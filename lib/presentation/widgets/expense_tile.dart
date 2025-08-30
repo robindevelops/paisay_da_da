@@ -19,10 +19,8 @@ class ExpenseTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final combinedExpenses = [
-      ...expensesPaid
-          .map((e) => {"type": "lend", "data": e}), // You paid → You Lend
-      ...expensesOwed
-          .map((e) => {"type": "owe", "data": e}), // Friend paid → You Owe
+      ...expensesPaid.map((e) => {"type": "lend", "data": e}),
+      ...expensesOwed.map((e) => {"type": "owe", "data": e}),
     ];
 
     return combinedExpenses.isEmpty
@@ -33,18 +31,22 @@ class ExpenseTile extends StatelessWidget {
             itemBuilder: (context, index) {
               final item = combinedExpenses[index];
               final type = item["type"] as String;
-
-              // Common fields
-              String title = "Expense";
+              String title;
+              String created;
+              String totalbill;
+              String payerName;
+              String oweduser;
               int amount = 0;
 
               if (type == "lend") {
                 final expense = item["data"] as ExpensesPaid;
                 title = expense.title ?? "Expense";
+                created = expense.createdAt ?? "";
                 amount = ((expense.amount ?? 0) / 2).round();
               } else {
                 final expense = item["data"] as ExpensesOwed;
                 title = expense.title ?? "Expense";
+                created = expense.createdAt ?? "";
                 amount = ((expense.amount ?? 0) / 2).round();
               }
 
@@ -80,12 +82,21 @@ class ExpenseTile extends StatelessWidget {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (_) => TotalBill()),
+                      MaterialPageRoute(
+                        builder: (_) => TotalBill(),
+                      ),
                     );
                   },
                   leading: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(displayJustDate(created)['date'] ?? ""),
+                          Text(displayJustDate(created)['month'] ?? ""),
+                        ],
+                      ),
                       const SizedBox(width: 15),
                       Container(
                         height: 45,

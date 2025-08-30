@@ -84,7 +84,8 @@ class _FriendScreenState extends State<FriendScreen>
                 color: AppThemes.highlightGreen,
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(
-                  color: Colors.grey.shade700,
+                  color: Colors.black,
+                  width: 1,
                 ),
               ),
               child: Text(
@@ -229,26 +230,63 @@ class NoFriendsWidget extends StatelessWidget {
           children: [
             // const Icon(Icons.person_2_rounded, size: 50, color: Colors.black),
             // const SizedBox(height: 20),
+            // Image.network(
+            //   "https://img.freepik.com/premium-vector/graffiti-spray-paint-quotes-keep-smiling-isolated-vector_804425-1521.jpg",
+            //   height: 240,
+            // ),
             Text(
-              "Add karo, warna app ki\nfeeling off ho jayegi!",
-              style: TextStyle(
-                fontSize: 16,
+              "Add your Gareeb Friends now",
+              style: GoogleFonts.aBeeZee(
+                fontSize: 17,
                 color: Colors.black,
               ),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 30),
-            AppElevatedButton(
-              text: "Add Friend",
-              onPressed: () {
+
+            GestureDetector(
+              onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => AddFriendScreen(),
+                    builder: (context) {
+                      return AddFriendScreen();
+                    },
                   ),
                 );
               },
+              child: Container(
+                width: 230,
+                height: 50,
+                // padding: EdgeInssets.symmetric(horizontal: 10, vertical: 2),
+                decoration: BoxDecoration(
+                  color: AppThemes.highlightGreen,
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(
+                    color: Colors.grey.shade700,
+                    width: 1.4,
+                  ),
+                ),
+                child: Center(
+                  child: Text(
+                    "Add friend",
+                    style: GoogleFonts.aBeeZee(
+                      fontSize: 17,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
             ),
+            // AppElevatedButton(
+            //   icon: Icon(
+            //     Icons.person_2,
+            //     color: Colors.white,
+            //   ),
+            //   text: "Add Friend",
+            //   onPressed: () {},
+            // ),
           ],
         ),
       ),

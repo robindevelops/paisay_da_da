@@ -74,14 +74,14 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: 20),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 40),
                         child: Text(
                           item['subtitle']!,
                           textAlign: TextAlign.center,
                           style: GoogleFonts.poppins(
-                            fontSize: 14,
+                            fontSize: 15,
                           ),
                         ),
                       ),

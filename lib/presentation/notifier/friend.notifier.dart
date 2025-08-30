@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:paisay_da_da/core/constants/base_helper.dart';
 import 'package:paisay_da_da/domain/models/accepted.request.model.dart';
 import 'package:paisay_da_da/domain/models/pending.request.model.dart';
 import 'package:paisay_da_da/domain/repository/friend.repository.dart';
@@ -25,17 +26,16 @@ class FriendNotifier extends ChangeNotifier {
     );
     response.fold(
       (failure) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: Colors.red,
-            content: Text(failure.message.toString()),
-          ),
+        BaseHelper.showSnackBar(
+          context,
+          failure.message.toString(),
+          Colors.red,
         );
       },
       (success) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            backgroundColor: Colors.red,
+            backgroundColor: Colors.green,
             content: Text(success.message.toString()),
           ),
         );

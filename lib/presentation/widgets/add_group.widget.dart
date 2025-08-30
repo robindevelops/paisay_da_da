@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/modules/group/create_group_screen.dart';
 import 'package:paisay_da_da/presentation/widgets/app_elevated_button.dart';
 
@@ -15,7 +16,7 @@ class AddGroupWidget extends StatelessWidget {
         children: [
           Text(
             "Jitne marzi dost add kar lo…\npaisay wapas nahi milnay waalay!",
-            style: TextStyle(
+            style: GoogleFonts.aBeeZee(
               fontSize: 16,
               color: Colors.black,
             ),

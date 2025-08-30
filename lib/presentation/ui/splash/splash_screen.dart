@@ -4,6 +4,7 @@ import 'package:paisay_da_da/data/local/hive.dart';
 import 'dart:async';
 import 'package:paisay_da_da/presentation/ui/auth/auth_screen.dart';
 import 'package:paisay_da_da/presentation/ui/dashboard/dashboard_screen.dart';
+import 'package:paisay_da_da/presentation/ui/welcome/welcome_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -38,7 +39,7 @@ class _SplashScreenState extends State<SplashScreen> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => AuthScreen(),
+          builder: (context) => WelcomeScreen(),
         ),
       );
     }

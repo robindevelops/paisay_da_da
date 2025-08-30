@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:paisay_da_da/core/constants/constants.dart';
+import 'package:paisay_da_da/core/themes/themes.dart';
 import 'package:paisay_da_da/presentation/notifier/friend.notifier.dart';
 import 'package:provider/provider.dart';
 
@@ -32,9 +34,21 @@ class _FriendRequestState extends State<FriendRequest> {
               itemBuilder: (context, index) {
                 final request = friendNotifier.pendingModel.data![index];
                 return ListTile(
-                  contentPadding: EdgeInsets.symmetric(horizontal: 30),
-                  title: Text(request.sender?.firstName ?? "Unknown"),
-                  subtitle: Text(request.sender?.email ?? ""),
+                  // tileColor: AppThemes.highlightGreen,
+                  contentPadding: EdgeInsets.symmetric(horizontal: 40),
+                  title: Text(
+                    request.sender?.firstName ?? "Unknown",
+                    style: GoogleFonts.aBeeZee(
+                      fontSize: 17,
+                    ),
+                  ),
+                  subtitle: Text(
+                    request.sender?.email ?? "",
+                    style: GoogleFonts.aBeeZee(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                    ),
+                  ),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [

@@ -1,9 +1,5 @@
-import 'package:awesome_top_snackbar/awesome_top_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:paisay_da_da/core/themes/themes.dart';
-import 'package:paisay_da_da/data/local/hive.dart';
-import 'package:paisay_da_da/presentation/ui/welcome/welcome_screen.dart';
 import 'package:paisay_da_da/presentation/widgets/app_elevated_button.dart';
 import 'package:paisay_da_da/presentation/widgets/app_textfield.dart';
 
@@ -163,19 +159,51 @@ class BaseHelper {
 
   /// Function to show a snackbar with a message
 
-  static void showSnackBar(BuildContext context, String message, Color color) {
-    awesomeTopSnackbar(
-      backgroundColor: color,
-      context,
-      message,
-      iconWithDecoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(),
-        color: Colors.white,
-      ),
-      icon: Icon(
-        Icons.done,
-        color: Colors.black,
+  static void showSnackBar(BuildContext context, String message, Color? color) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        content: Container(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 14,
+          ),
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: BorderRadius.circular(12),
+            border:
+                Border.all(color: Colors.black.withOpacity(0.2), width: 1.5),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.08),
+                blurRadius: 6,
+                offset: const Offset(0, 3),
+              ),
+            ],
+          ),
+          child: Row(
+            children: [
+              const Icon(Icons.check_circle, color: Colors.black, size: 20),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  message,
+                  style: const TextStyle(
+                    fontSize: 15,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        behavior: SnackBarBehavior.floating,
+        margin: const EdgeInsets.symmetric(
+          horizontal: 12,
+          vertical: 6,
+        ),
       ),
     );
   }

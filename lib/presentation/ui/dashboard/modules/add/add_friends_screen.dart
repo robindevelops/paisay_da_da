@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:paisay_da_da/presentation/notifier/friend.notifier.dart';
 import 'package:paisay_da_da/presentation/widgets/app_textfield.dart';
 import 'package:provider/provider.dart';
@@ -65,24 +66,24 @@ class _AddFriendScreenState extends State<AddFriendScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                "Email",
-                style: TextStyle(
+              Text(
+                "Friend Email",
+                style: GoogleFonts.aBeeZee(
                   fontWeight: FontWeight.w600,
-                  fontSize: 16,
+                  fontSize: 17,
                 ),
               ),
               const SizedBox(height: 12),
-              CustomTextField(
+              _buildInputField(
+                controller: _emailController,
+                hintText: 'Enter email address',
+                icon: Icons.email,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return "Email is required";
                   }
                   return null;
                 },
-                hintText: 'Enter email address',
-                icon: Icons.email,
-                controller: _emailController,
               ),
               const SizedBox(height: 20),
             ],
@@ -91,4 +92,38 @@ class _AddFriendScreenState extends State<AddFriendScreen> {
       ),
     );
   }
+}
+
+Widget _buildInputField({
+  required TextEditingController controller,
+  required String hintText,
+  required IconData icon,
+  String? Function(String?)? validator,
+  TextInputType keyboardType = TextInputType.text,
+}) {
+  return TextFormField(
+    validator: validator,
+    controller: controller,
+    keyboardType: keyboardType,
+    style: GoogleFonts.poppins(fontSize: 16),
+    decoration: InputDecoration(
+      hintText: hintText,
+      prefixIcon: Icon(icon),
+      filled: true,
+      fillColor: Colors.grey[100],
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+      border: OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.grey.shade300),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.grey.shade300),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderSide: const BorderSide(color: Colors.black),
+        borderRadius: BorderRadius.circular(12),
+      ),
+    ),
+  );
 }

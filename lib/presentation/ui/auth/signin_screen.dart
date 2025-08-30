@@ -89,6 +89,20 @@ class _SigninScreenState extends State<SigninScreen> {
                     return null;
                   },
                 ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    onPressed: () {},
+                    child: Text(
+                      "Forgot Password!!",
+                      style: GoogleFonts.poppins(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                ),
                 const SizedBox(height: 15),
                 AppElevatedButton(
                   text: "Sign in Now",

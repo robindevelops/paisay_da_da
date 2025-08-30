@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:paisay_da_da/core/constants/base_helper.dart';
+import 'package:paisay_da_da/core/themes/themes.dart';
 import 'package:paisay_da_da/data/local/hive.dart';
 import 'package:paisay_da_da/domain/repository/auth.repository.dart';
 import 'package:paisay_da_da/presentation/notifier/loader.notifier.dart';
@@ -60,22 +62,20 @@ class AuthNotifier extends ChangeNotifier {
 
       return response.fold(
         (failure) {
-          // ScaffoldMessenger.of(context).showSnackBar(
-          //   SnackBar(
-          //     backgroundColor: Colors.red,
-          //     content: Text(failure.message.toString()),
-          //   ),
-          // );
+          BaseHelper.showSnackBar(
+            context,
+            failure.message.toString(),
+            Colors.red,
+          );
           return false;
         },
         (success) {
           HiveDatabase.storeValue("token", success.token);
           HiveDatabase.storeValue("islogin", true);
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              backgroundColor: Colors.green,
-              content: Text(success.message.toString()),
-            ),
+          BaseHelper.showSnackBar(
+            context,
+            success.message.toString(),
+            AppThemes.highlightGreen,
           );
           return true;
         },
@@ -108,22 +108,20 @@ class AuthNotifier extends ChangeNotifier {
 
       return response.fold(
         (failure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              backgroundColor: Colors.red,
-              content: Text(failure.message.toString()),
-            ),
+          BaseHelper.showSnackBar(
+            context,
+            failure.message.toString(),
+            Colors.red,
           );
           return false;
         },
         (success) {
           HiveDatabase.storeValue("token", success.token);
           HiveDatabase.storeValue("islogin", true);
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              backgroundColor: Colors.green,
-              content: Text(success.message.toString()),
-            ),
+          BaseHelper.showSnackBar(
+            context,
+            success.message.toString(),
+            AppThemes.highlightGreen,
           );
           return true;
         },

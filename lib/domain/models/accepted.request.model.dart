@@ -107,6 +107,7 @@ class ExpensesPaid {
   String? title;
   int? amount;
   String? category;
+  String? createdAt;
 
   ExpensesPaid({this.id, this.title, this.amount, this.category});
 
@@ -115,6 +116,7 @@ class ExpensesPaid {
     title = json['title'];
     amount = json['amount'];
     category = json['category'];
+    createdAt = json['createdAt'];
   }
 
   Map<String, dynamic> toJson() {
@@ -123,6 +125,7 @@ class ExpensesPaid {
     data['title'] = title;
     data['amount'] = amount;
     data['category'] = category;
+    data['createdAt'] = this.createdAt;
     return data;
   }
 }
@@ -132,6 +135,7 @@ class ExpensesOwed {
   String? title;
   int? amount;
   String? category;
+  String? createdAt;
 
   ExpensesOwed({this.id, this.title, this.amount, this.category});
 
@@ -140,6 +144,7 @@ class ExpensesOwed {
     title = json['title'];
     amount = json['amount'];
     category = json['category'];
+    createdAt = json['createdAt'];
   }
 
   Map<String, dynamic> toJson() {
@@ -148,6 +153,7 @@ class ExpensesOwed {
     data['title'] = title;
     data['amount'] = amount;
     data['category'] = category;
+    data['createdAt'] = this.createdAt;
     return data;
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:paisay_da_da/core/constants/constants.dart';
 import 'package:paisay_da_da/core/themes/themes.dart';
 import 'package:paisay_da_da/domain/models/accepted.request.model.dart';
@@ -36,6 +37,10 @@ class _FriendDetailScreenState extends State<FriendDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var total =
+        (widget.expensesPaid.length + widget.expensesOwed.length).toString();
+
+    print(total);
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 100,
@@ -65,34 +70,33 @@ class _FriendDetailScreenState extends State<FriendDetailScreen> {
                   ),
                 ),
                 SizedBox(height: 10),
-                Container(
-                  width: 70,
-                  height: 22,
-                  decoration: BoxDecoration(
-                    color: AppThemes.highlightGreen,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Center(
-                    child: Text(
-                      (widget.expensesPaid.length + widget.expensesOwed.length)
-                              .toString() +
-                          ' expenses',
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
+                int.parse(total) > 0
+                    ? Container(
+                        width: 70,
+                        height: 22,
+                        decoration: BoxDecoration(
+                          color: AppThemes.highlightGreen,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Center(
+                          child: Text(
+                            total + ' expenses',
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      )
+                    : Text(
+                        "No expense here yet",
+                        style: GoogleFonts.aBeeZee(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                  ),
-                ),
-                // Text(
-                //   "No expense here yet",
-                //   style: GoogleFonts.aBeeZee(
-                //     color: Colors.white,
-                //     fontSize: 12,
-                //     fontWeight: FontWeight.bold,
-                //   ),
-                // ),
               ],
             )
           ],
@@ -125,12 +129,6 @@ class _FriendDetailScreenState extends State<FriendDetailScreen> {
           ),
           padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 20),
           children: [
-            // SizedBox(
-            //   height: MediaQuery.of(context).size.height * 0.7,
-            //   child: NoExpenseWidget(
-            //     message: 'No Expense yet with this friend',
-            //   ),
-            // ),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.7,
               child: Center(

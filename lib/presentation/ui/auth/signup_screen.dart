@@ -163,7 +163,10 @@ class _SignupScreenState extends State<SignupScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Already have an account"),
+                    Text(
+                      "Already have an account?",
+                      style: GoogleFonts.aBeeZee(),
+                    ),
                     TextButton(
                       onPressed: () {
                         Navigator.push(
@@ -176,8 +179,9 @@ class _SignupScreenState extends State<SignupScreen> {
                       child: Text(
                         "Signin",
                         style: TextStyle(
-                          color: Colors.black,
+                          color: AppThemes.splitGreen,
                           fontWeight: FontWeight.bold,
+                          letterSpacing: 1,
                         ),
                       ),
                     )
