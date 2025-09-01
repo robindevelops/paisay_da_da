@@ -28,6 +28,7 @@ class _SigninScreenState extends State<SigninScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        scrolledUnderElevation: 0,
         backgroundColor: Colors.white,
       ),
       backgroundColor: Colors.white,

@@ -59,7 +59,7 @@ class _AddMembersScreenState extends State<AddMembersScreen> {
             parent: AlwaysScrollableScrollPhysics(),
           ),
           children: [
-            CustomTextField(
+            _buildInputField(
               hintText: 'Search member',
               icon: Icons.search,
               controller: _searchController,
@@ -137,4 +137,39 @@ extension StringCasingExtension on String {
     if (isEmpty) return this;
     return '${this[0].toUpperCase()}${substring(1)}';
   }
+}
+
+Widget _buildInputField({
+  required TextEditingController controller,
+  required String hintText,
+  required IconData icon,
+  String? Function(String?)? validator,
+  TextInputType keyboardType = TextInputType.text,
+}) {
+  return TextFormField(
+    validator: validator,
+    controller: controller,
+    keyboardType: keyboardType,
+    style: GoogleFonts.poppins(fontSize: 16),
+    obscureText: hintText.toLowerCase().contains("password"),
+    decoration: InputDecoration(
+      hintText: hintText,
+      prefixIcon: Icon(icon),
+      filled: true,
+      fillColor: Colors.grey[100],
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+      border: OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.grey.shade300),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.grey.shade300),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderSide: const BorderSide(color: Colors.black),
+        borderRadius: BorderRadius.circular(12),
+      ),
+    ),
+  );
 }

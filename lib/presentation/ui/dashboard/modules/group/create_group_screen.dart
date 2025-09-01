@@ -69,6 +69,19 @@ class _CreategroupScreenState extends State<CreategroupScreen> {
                 controller: groupName,
               ),
               // Group Name Field
+              // const SizedBox(height: 20),
+              // Container(
+              //   alignment: Alignment.center,
+              //   width: double.infinity,
+              //   height: 50,
+              //   decoration: BoxDecoration(
+              //     borderRadius: BorderRadius.circular(10),
+              //     border: Border.all(color: Colors.grey.shade500),
+              //   ),
+              //   child: Text(
+              //     "Upload Group Photo",
+              //   ),
+              // ),
 
               const SizedBox(height: 20),
 

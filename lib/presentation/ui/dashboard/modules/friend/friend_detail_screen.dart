@@ -46,7 +46,7 @@ class _FriendDetailScreenState extends State<FriendDetailScreen> {
     print(total);
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 100,
+        toolbarHeight: 110,
         backgroundColor: Colors.black,
         // centerTitle: true,
         title: Row(
