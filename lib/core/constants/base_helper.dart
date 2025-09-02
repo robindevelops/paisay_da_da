@@ -6,95 +6,6 @@ import 'package:paisay_da_da/presentation/widgets/app_textfield.dart';
 class BaseHelper {
   /// Function to show a bottom sheet for logout confirmation
 
-  static void showDeleteAccountBottomSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.white,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(25),
-          topRight: Radius.circular(25),
-        ),
-      ),
-      builder: (context) => Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // Humorous Title
-            Text(
-              "Are you sure to delete your account?",
-              style: GoogleFonts.aBeeZee(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-              ),
-              textAlign: TextAlign.center,
-            ),
-
-            const SizedBox(height: 10),
-            Text(
-              "Mat jao... chai bhi nahi pi abhi tak! ☕😭",
-              style: GoogleFonts.aBeeZee(
-                fontSize: 16,
-                color: Colors.black.withOpacity(0.7),
-              ),
-              textAlign: TextAlign.center,
-            ),
-
-            const SizedBox(height: 20),
-
-            // Confirmation Button
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black,
-                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context); // Close the bottom sheet
-                  },
-                  child: Text(
-                    "Nah, I’m Staying!",
-                    style: GoogleFonts.aBeeZee(
-                      fontSize: 16,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.redAccent,
-                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  onPressed: () {
-                    // Perform deletion action here
-                    Navigator.pop(context);
-                    // Show a message or proceed with account deletion
-                  },
-                  child: Text(
-                    "Yes, Delete It",
-                    style:
-                        GoogleFonts.aBeeZee(fontSize: 16, color: Colors.white),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   static void showDBottomSheet(
     BuildContext context, {
     required String title,
@@ -107,7 +18,7 @@ class BaseHelper {
     showModalBottomSheet(
       context: context,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
       ),
       backgroundColor: Colors.white,
       builder: (BuildContext context) {

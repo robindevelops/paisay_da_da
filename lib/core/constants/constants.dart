@@ -12,6 +12,7 @@ class Constants {
   static const String google = "$imagePath/google.png";
 
   static const String akward = "$imagePath/akward.png";
+  static const String noRequest = "$imagePath/norequest.png";
 
   static const String stickman1 = "$imagePath/1.jpeg";
   static const String stickman2 = "$imagePath/2.jpeg";

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:paisay_da_da/presentation/widgets/app_textfield.dart';
 
 class EditProfileScreen extends StatefulWidget {
@@ -15,35 +16,24 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
+      backgroundColor: Colors.white,
       appBar: AppBar(
         centerTitle: true,
         elevation: 0,
         backgroundColor: Colors.transparent,
         title: const Text(
           'Edit Profile',
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
         iconTheme: const IconThemeData(color: Colors.black),
         actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 12),
-            child: ElevatedButton(
-              onPressed: () {
-                // Save logic here
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.black,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              ),
-              child: const Text(
-                'Save',
-                style:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          TextButton(
+            onPressed: () {},
+            child: Text(
+              "Save",
+              style: GoogleFonts.poppins(
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+                color: Colors.black,
               ),
             ),
           )
@@ -51,69 +41,54 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 30),
-        child: Column(
-          children: [
-            // Avatar with shadow
-            Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black26,
-                    blurRadius: 10,
-                    offset: Offset(0, 5),
-                  ),
-                ],
-              ),
-              child: CircleAvatar(
-                radius: 45,
-                backgroundColor: Colors.white,
-                child: CircleAvatar(
-                  radius: 42,
-                  backgroundColor: Colors.black,
-                  child:
-                      const Icon(Icons.person, color: Colors.white, size: 40),
-                ),
-              ),
-            ),
-            const SizedBox(height: 30),
-
-            // Email field
-            _buildLabel("Email"),
-            const SizedBox(height: 10),
-            CustomTextField(
-              icon: Icons.email,
-              controller: emailController,
-              hintText: 'Enter your email',
-            ),
-            const SizedBox(height: 25),
-
-            // Name field
-            _buildLabel("Name"),
-            const SizedBox(height: 10),
-            CustomTextField(
-              icon: Icons.person,
-              controller: nameController,
-              hintText: 'Enter your name',
-            ),
-            const SizedBox(height: 40),
-          ],
-        ),
+        child: Column(children: [
+          _buildInputField(
+            controller: emailController,
+            hintText: 'Email',
+            icon: Icons.email,
+          ),
+          SizedBox(height: 20),
+          _buildInputField(
+            controller: nameController,
+            hintText: 'Password',
+            icon: Icons.email,
+          ),
+        ]),
       ),
     );
   }
+}
 
-  Widget _buildLabel(String text) {
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: Text(
-        text,
-        style: const TextStyle(
-          fontSize: 15,
-          fontWeight: FontWeight.w600,
-          color: Colors.black87,
-        ),
+Widget _buildInputField({
+  required TextEditingController controller,
+  required String hintText,
+  required IconData icon,
+  String? Function(String?)? validator,
+  TextInputType keyboardType = TextInputType.text,
+}) {
+  return TextFormField(
+    validator: validator,
+    controller: controller,
+    keyboardType: keyboardType,
+    style: GoogleFonts.poppins(fontSize: 16),
+    decoration: InputDecoration(
+      hintText: hintText,
+      prefixIcon: Icon(icon),
+      filled: true,
+      fillColor: Colors.grey[100],
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+      border: OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.grey.shade300),
+        borderRadius: BorderRadius.circular(12),
       ),
-    );
-  }
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.grey.shade300),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderSide: const BorderSide(color: Colors.black),
+        borderRadius: BorderRadius.circular(12),
+      ),
+    ),
+  );
 }

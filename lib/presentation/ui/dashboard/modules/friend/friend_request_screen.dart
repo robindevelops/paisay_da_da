@@ -28,7 +28,14 @@ class _FriendRequestState extends State<FriendRequest> {
       backgroundColor: Colors.white,
       body: (friendNotifier.pendingModel.data == null ||
               friendNotifier.pendingModel.data!.isEmpty)
-          ? Center(child: Text("No Friend Requests Found"))
+          ? Center(
+              child: SizedBox(
+                height: 25,
+                child: Image.asset(
+                  Constants.noRequest,
+                ),
+              ),
+            )
           : ListView.builder(
               itemCount: friendNotifier.pendingModel.data!.length,
               itemBuilder: (context, index) {

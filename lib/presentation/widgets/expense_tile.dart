@@ -93,8 +93,16 @@ class ExpenseTile extends StatelessWidget {
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(displayJustDate(created)['date'] ?? ""),
-                          Text(displayJustDate(created)['month'] ?? ""),
+                          Text(
+                            displayJustDate(created)['date'] ?? "",
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            displayJustDate(created)['month'] ?? "",
+                          ),
                         ],
                       ),
                       const SizedBox(width: 15),

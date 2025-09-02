@@ -90,7 +90,7 @@ class ProfileScreen extends StatelessWidget {
                       context,
                       title: "Are you sure you want to logout",
                       message: "Yes",
-                      buttoncolor: Colors.red,
+                      buttoncolor: AppThemes.highlightGreen,
                       onPressed: () {
                         HiveDatabase.storeValue("islogin", false);
                         Navigator.pushReplacement(
